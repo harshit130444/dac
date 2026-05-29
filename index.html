@@ -114,10 +114,14 @@ nav{
 
 @media(max-width:768px){
     .floating-social{
-        display:none;
+        right:12px;
+        padding:12px 8px;
+        gap:12px;
     }
-    .nav-cta{
-        display:none;
+
+    .floating-social a{
+        width:36px;
+        height:36px;
     }
 }
 
@@ -366,6 +370,56 @@ section{padding:7rem 5rem}
   transform:scale(0.9);
   opacity:0.35;
 }
+
+/* ── OFFERINGS MOBILE FIX ── */
+@media(max-width:768px){
+  .offerings{
+    padding:5rem 0;
+  }
+  .offerings-header{
+    padding:0 1.5rem;
+    margin-bottom:2.5rem;
+  }
+  /* hide desktop edge fades on mobile */
+  .offerings-track-wrap::before,
+  .offerings-track-wrap::after{
+    width:40px;
+  }
+  .offerings-track{
+    /* each card = 85vw so only one is visible at a time */
+    gap:1rem;
+    padding:1.5rem 0;
+    align-items:stretch;
+  }
+  .offering-card{
+    /* single-card view: 85% viewport width, centered */
+    flex:0 0 85vw;
+    min-width:85vw;
+    max-width:85vw;
+    padding:1.8rem 1.4rem 1.6rem;
+  }
+  /* remove scale transforms on mobile — they cause overflow/overlap */
+  .offering-card.is-center,
+  .offering-card.is-side,
+  .offering-card.is-far{
+    transform:none !important;
+    opacity:1 !important;
+  }
+  .offering-card.is-center{
+    border-top-color:var(--purple);
+    border-color:rgba(124,58,237,0.3);
+    box-shadow:0 0 24px rgba(124,58,237,0.15);
+  }
+  .offering-card.is-side{
+    opacity:0.55 !important;
+  }
+  .offering-card.is-far{
+    opacity:0.2 !important;
+  }
+  .offerings-arrows{
+    margin-top:1rem;
+  }
+}
 .offering-icon{
   width:32px;height:32px;
   display:flex;align-items:center;justify-content:center;
@@ -542,19 +596,10 @@ footer a{color:#A78BFA;text-decoration:none}
   </div>
   <ul class="drawer-nav">
    <li><a href="#about" onclick="closeDrawer()">About</a></li>
- <li>
-      <a href="career.html" onclick="closeDrawer()">
-         Career
-      </a>
 <li><a href="#offerings" onclick="closeDrawer()">Offerings</a></li>
 <li><a href="#initiatives" onclick="closeDrawer()">Initiatives</a></li>
 <li><a href="#events" onclick="closeDrawer()">Events</a></li>
 <li><a href="#team" onclick="closeDrawer()">Team</a></li>
-<li>
-   <a href="book-meeting.html" onclick="closeDrawer()">
-      Book a Meeting
-   </a>
-</li>
 <li>
     <a href="campus-ambassador.html" onclick="closeDrawer()">
       Campus Ambassador Programme
@@ -692,47 +737,55 @@ footer a{color:#A78BFA;text-decoration:none}
   <div class="offerings-track-wrap fade-in">
     <div class="offerings-track" id="offeringsTrack">
       <div class="offering-card" data-index="0">
-        
+        <div class="offering-num">01</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg></div>
         <div class="offering-title">R&D Platform</div>
         <div class="offering-desc">Access a structured research environment to ideate, prototype, and publish AI-driven projects alongside faculty and industry mentors.</div>
       </div>
       <div class="offering-card" data-index="1">
+        <div class="offering-num">02</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
         <div class="offering-title">Cross Border Marketing</div>
         <div class="offering-desc">Learn to position and promote AI initiatives across global markets through collaborative campaigns with international student bodies.</div>
       </div>
       <div class="offering-card" data-index="2">
+        <div class="offering-num">03</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
         <div class="offering-title">Industry Relations</div>
         <div class="offering-desc">Build lasting ties with AI companies, startups, and enterprises through structured engagement, visits, and partnership programmes.</div>
       </div>
       <div class="offering-card" data-index="3">
+        <div class="offering-num">04</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
         <div class="offering-title">CXO Networks</div>
         <div class="offering-desc">Gain direct access to C-suite executives and senior leaders through curated networking sessions, panels, and mentorship calls.</div>
       </div>
       <div class="offering-card" data-index="4">
+        <div class="offering-num">05</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
         <div class="offering-title">Event Management Opportunities</div>
         <div class="offering-desc">Lead and organise real-scale AI events, competitions, and summits — developing hands-on project and people management skills.</div>
       </div>
       <div class="offering-card" data-index="5">
+        <div class="offering-num">06</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.45 2 2 0 0 1 3.58 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.92-1.61a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 14.92z"/></svg></div>
         <div class="offering-title">Live Industry Project Experience</div>
         <div class="offering-desc">Work on active, real-world briefs from partner companies — gaining portfolio-ready deliverables and professional exposure.</div>
       </div>
       <div class="offering-card" data-index="6">
+        <div class="offering-num">07</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
         <div class="offering-title">Operations Management Platform</div>
         <div class="offering-desc">Use DAC's internal systems to manage club workflows, track projects, and develop operational thinking applied to AI organisations.</div>
       </div>
       <div class="offering-card" data-index="7">
+        <div class="offering-num">08</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <div class="offering-title">AI Tools Hands-on Experience</div>
         <div class="offering-desc">Get structured exposure to leading AI platforms, APIs, and frameworks through guided labs, tool sprints, and peer-led sessions.</div>
       </div>
       <div class="offering-card" data-index="8">
+        <div class="offering-num">09</div>
         <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div class="offering-title">Inter-Campus Events &amp; Workshop Management</div>
         <div class="offering-desc">Collaborate across universities to co-host workshops, competitions, and knowledge-exchange programmes at a national scale.</div>
@@ -848,31 +901,29 @@ footer a{color:#A78BFA;text-decoration:none}
   </div>
   <div class="team-grid fade-in">
     <div class="team-card">
-      <div class="team-avatar"><img src="rishab.jpeg" alt="President"></div>
+      <div class="team-avatar"><img src="4366918-200 (1).png" alt="President"></div>
+      <h3>President (To be Decided)</h3>
+      <span></span>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><img src="4366918-200 (1).png" alt="Vice President"></div>
+      <h3>Vice President (To be Decided)</h3>
+      <span></span>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><img src="4366918-200 (1).png" alt="Treasurer"></div>
+      <h3>Treasurer (To be Decided)</h3>
+      <span></span>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><img src="cd.jpeg" alt="Pujita G."></div>
       <h3>Secretary-Industry Relations</h3>
-<span>Rishab Verma</span
-      <span></span>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar"><img src="anirudh.jpeg" alt="Vice President"></div>
-      <h3>Secretary Research & Devlopment</h3>
-<span>Aniruddh Jakotia</span
-      <span></span>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar"><img src="cd.jpeg" alt="Treasurer"></div>
-      <h3>Joint Secreatry</h3>
       <span>Pujita G.</span>
     </div>
     <div class="team-card">
-      <div class="team-avatar"><img src="dhurv.jpeg" alt="Pujita G."></div>
-      <h3>Coordinator</h3>
-      <span>Dhruv Goswami</span>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar"><img src="anoushka.jpeg" alt="Aniruddh"></div>
-      <h3>Coordinator</h3>
-      <span>Anoushka</span>
+      <div class="team-avatar"><img src="ab.jpg" alt="Aniruddh"></div>
+      <h3>Secretary-Research & Development</h3>
+      <span>Aniruddh Jakotia</span>
     </div>
   </div>
 </section>
@@ -1021,13 +1072,11 @@ counters.forEach(counter => {
   if(!track) return;
 
   const cards      = Array.from(track.querySelectorAll('.offering-card'));
-  const total      = cards.length;          // 10
-  const VISIBLE    = 5;                     // cards visible at once
-  const CENTER_IDX = 2;                     // index 2 = middle of 5
-  let   current    = 0;                     // which card is in center
+  const total      = cards.length;
+  let   current    = 0;
   let   isAnimating = false;
 
-  /* build dots — one per card */
+  /* build dots */
   cards.forEach((_,i)=>{
     const d = document.createElement('span');
     d.className = 'offerings-dot' + (i===0?' active':'');
@@ -1036,20 +1085,21 @@ counters.forEach(counter => {
   });
   const dots = Array.from(dotsWrap.querySelectorAll('.offerings-dot'));
 
+  function isMobile(){ return window.innerWidth <= 768; }
+
   function getCardWidth(){
-    /* card width + gap */
     const style = getComputedStyle(track);
-    const gap   = parseFloat(style.gap)||20;
+    const gap   = parseFloat(style.gap)||16;
     return cards[0].getBoundingClientRect().width + gap;
   }
 
   function applyClasses(){
     cards.forEach((c,i)=>{
-      const rel = i - current;              // position relative to center
+      const rel = i - current;
       c.classList.remove('is-center','is-side','is-far');
-      if(rel === 0)        c.classList.add('is-center');
+      if(rel === 0)             c.classList.add('is-center');
       else if(Math.abs(rel)===1) c.classList.add('is-side');
-      else                 c.classList.add('is-far');
+      else                       c.classList.add('is-far');
     });
   }
 
@@ -1063,19 +1113,24 @@ counters.forEach(counter => {
 
     current = ((idx % total) + total) % total;
 
-    /* offset so `current` card sits at center position of the 5-card window */
-    const cw        = getCardWidth();
-    const trackPad  = track.parentElement.offsetWidth * 0.05; // 5% padding
-    const centerPos = track.parentElement.offsetWidth * 0.5;  // px to visual center
-    /* position of current card's center if track starts at 0 */
-    const cardCenter = current * cw + cards[0].getBoundingClientRect().width / 2;
-    const offset    = centerPos - cardCenter - trackPad;
+    const cw         = getCardWidth();
+    const wrapWidth  = track.parentElement.offsetWidth;
+    const cardW      = cards[0].getBoundingClientRect().width;
+    const centerPos  = wrapWidth * 0.5;
+    const cardCenter = current * cw + cardW / 2;
+    let   offset;
 
-    if(!animate){
-      track.style.transition = 'none';
+    if(isMobile()){
+      /* on mobile: no 5% padding offset — just center the active card */
+      offset = centerPos - cardCenter;
     } else {
-      track.style.transition = 'transform 0.4s cubic-bezier(0.77,0,0.18,1)';
+      const trackPad = wrapWidth * 0.05;
+      offset = centerPos - cardCenter - trackPad;
     }
+
+    track.style.transition = animate
+      ? 'transform 0.4s cubic-bezier(0.77,0,0.18,1)'
+      : 'none';
     track.style.transform = `translateX(${offset}px)`;
 
     applyClasses();
@@ -1095,7 +1150,17 @@ counters.forEach(counter => {
     if(e.key==='ArrowLeft')  goTo(current-1);
   });
 
-  /* auto-advance every 3s */
+  /* touch / swipe support */
+  let touchStartX = 0;
+  track.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend',   e=>{
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if(Math.abs(diff) > 40){
+      diff > 0 ? goTo(current+1) : goTo(current-1);
+    }
+  }, {passive:true});
+
+  /* auto-advance */
   let autoTimer = setInterval(()=>goTo(current+1), 2000);
   [btnPrev,btnNext,...dots].forEach(el=>{
     el.addEventListener('click',()=>{
@@ -1104,10 +1169,9 @@ counters.forEach(counter => {
     });
   });
 
-  /* init after layout */
+  /* init */
   requestAnimationFrame(()=>{
     slideTo(0, false);
-    /* re-compute on resize */
     window.addEventListener('resize',()=> slideTo(current, false));
   });
 })();
