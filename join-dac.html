@@ -372,6 +372,42 @@ footer a{color:#A78BFA;text-decoration:none}
 .footer-logo{display:flex;align-items:center;gap:.85rem}
 .footer-logo img{height:28px}
 
+/* ── CONSENT CHECKBOX ───────────────────────────────────── */
+.consent-box{
+  display:flex;align-items:flex-start;gap:.9rem;
+  background:rgba(124,58,237,.06);
+  border:1px solid var(--purple-border);
+  border-radius:2px;
+  padding:1.1rem 1.2rem;
+  cursor:pointer;
+  transition:all .22s;
+  margin-bottom:1.4rem;
+  user-select:none;
+}
+.consent-box:hover{background:var(--purple-dim)}
+.consent-box input[type="checkbox"]{display:none}
+.consent-cb{
+  width:20px;height:20px;min-width:20px;
+  border:1px solid var(--purple-border);
+  border-radius:2px;
+  background:rgba(255,255,255,.03);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;color:var(--white);
+  transition:all .2s;margin-top:1px;
+}
+.consent-cb.checked{background:var(--purple);border-color:var(--purple)}
+.consent-text{
+  font-size:.82rem;color:var(--muted);
+  line-height:1.65;font-weight:300;
+}
+.consent-text strong{color:#C4B5FD;font-weight:500}
+.consent-error{
+  font-size:.72rem;color:#FCA5A5;
+  margin-top:-.8rem;margin-bottom:1rem;
+  display:none;letter-spacing:.03em;
+}
+.consent-error.show{display:block}
+
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media(max-width:860px){
   nav{padding:1rem 1.5rem}
@@ -461,9 +497,9 @@ footer a{color:#A78BFA;text-decoration:none}
       </div>
 
       <div class="field" id="f-email">
-        <label>Email Address <span class="req">*</span></label>
-        <input type="email" id="email" autocomplete="email"/>
-        <div class="field-error">Please enter a valid email address</div>
+        <label>College Email Address <span class="req">*</span></label>
+        <input type="email" id="email" autocomplete="email" placeholder="yourname@dgu.ac.in"/>
+        <div class="field-error">Please enter your college email address (e.g. yourname@dgu.ac.in)</div>
       </div>
 
       <div class="field" id="f-phone">
@@ -587,6 +623,17 @@ footer a{color:#A78BFA;text-decoration:none}
         <label>Anything else you'd like us to know?</label>
         <textarea id="extra" placeholder="Optional — share links, previous work, questions, or anything else..." maxlength="300" style="min-height:80px"></textarea>
       </div>
+
+      <!-- CONSENT CHECKBOX -->
+      <label class="consent-box" id="consentLabel" onclick="toggleConsent()">
+        <input type="checkbox" id="consentCheck"/>
+        <div class="consent-cb" id="consentCb"></div>
+        <div class="consent-text">
+          I give my consent for <strong>₹500 per semester</strong> to be deducted as membership fees for the <strong>AI Club (DAC — DGU AI Cell)</strong>. I understand this amount will be collected each semester as long as I remain an active member.
+        </div>
+      </label>
+      <div class="consent-error" id="consentError">You must agree to the membership fee to submit your application.</div>
+
     </div>
 
     <!-- SUCCESS -->
@@ -628,6 +675,17 @@ footer a{color:#A78BFA;text-decoration:none}
 </footer>
 
 <script>
+/* ── CONSENT ─────────────────────────────────────────────── */
+function toggleConsent() {
+  const cb = document.getElementById('consentCheck');
+  const box = document.getElementById('consentCb');
+  cb.checked = !cb.checked;
+  box.classList.toggle('checked', cb.checked);
+  box.textContent = cb.checked ? '✓' : '';
+  if (cb.checked) document.getElementById('consentError').classList.remove('show');
+}
+
+/* ── FORM LOGIC ──────────────────────────────────────────── */
 let currentStep = 1;
 const totalSteps = 3;
 
@@ -671,8 +729,9 @@ function validateStep(step){
     const ph=document.getElementById('phone').value.trim();
     if(!fn){setError('fname');valid=false;}else clearError('fname');
     if(!ln){setError('lname');valid=false;}else clearError('lname');
-    if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){setError('email');valid=false;}else clearError('email');
+    if(!em||!/^[^\s@]+@dgu\.ac\.in$/i.test(em)){setError('email');valid=false;}else clearError('email');
     if(!ph||ph.replace(/\D/g,'').length<10){setError('phone');valid=false;}else clearError('phone');
+
   }
   if(step===2){
     const yr=document.getElementById('year').value;
@@ -687,6 +746,13 @@ function validateStep(step){
     const vl=document.getElementById('value').value.trim();
     if(wy.length<50){setError('why');valid=false;}else clearError('why');
     if(vl.length<50){setError('value');valid=false;}else clearError('value');
+    // Consent must be checked
+    if(!document.getElementById('consentCheck').checked){
+      document.getElementById('consentError').classList.add('show');
+      valid=false;
+    } else {
+      document.getElementById('consentError').classList.remove('show');
+    }
   }
   return valid;
 }
@@ -782,3 +848,5 @@ window.addEventListener('scroll',()=>{
 </script>
 </body>
 </html>
+
+
