@@ -555,6 +555,7 @@ let _timerInterval = null;
 
 function sendOTP() {
   const email = document.getElementById('email').value.trim();
+
   // Validate college email first
   if (!email || !/^[^\s@]+@dgu\.ac\.in$/i.test(email)) {
     document.getElementById('f-email').classList.add('has-error');
@@ -570,21 +571,24 @@ function sendOTP() {
   // Generate 6-digit OTP
   _otp = Math.floor(100000 + Math.random() * 900000).toString();
 
+  console.log('Sending OTP to:', email, '| OTP:', _otp);
+
   emailjs.send('service_txncq5g', 'template_391v8pl', {
-    to_email: email,
+    email: email,
     otp_code: _otp,
     user_name: document.getElementById('fname').value.trim() || 'Applicant'
   })
-  .then(() => {
+  .then(function(response) {
+    console.log('EmailJS success:', response.status, response.text);
     btn.textContent = 'Resend OTP';
     btn.disabled = false;
     openOTP(email);
   })
-  .catch(err => {
+  .catch(function(err) {
+    console.error('EmailJS error:', JSON.stringify(err));
     btn.textContent = 'Send OTP';
     btn.disabled = false;
-    alert('Failed to send OTP. Please check your internet connection and try again.');
-    console.error('EmailJS:', err);
+    alert('Error: ' + (err.text || err.message || JSON.stringify(err)));
   });
 }
 
@@ -648,11 +652,11 @@ function resendOTP() {
   _otp = Math.floor(100000 + Math.random() * 900000).toString();
   const email = document.getElementById('email').value.trim();
   emailjs.send('service_txncq5g', 'template_391v8pl', {
-    to_email: email,
+    email: email,
     otp_code: _otp,
     user_name: document.getElementById('fname').value.trim() || 'Applicant'
   }).then(() => startTimer())
-    .catch(() => alert('Could not resend. Please try again.'));
+    .catch(err => { console.error('Resend error:', err); alert('Could not resend. Please try again.'); });
 }
 
 function verifyOTP() {
