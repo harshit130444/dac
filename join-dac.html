@@ -887,14 +887,13 @@ function showOTPErr(msg) {
         <label>Why do you want to join DAC? <span class="req">*</span></label>
         <textarea id="why" placeholder="Tell us what excites you about AI, and what made you want to join the DGU AI Cell..." maxlength="500"></textarea>
         <div class="char-count" id="whyCount">0 / 500</div>
-        <div class="field-error">Please tell us why you want to join (min. 50 characters)</div>
-      </div>
+<div class="field-error">Please tell us why you want to join</div>      </div>
 
       <div class="field" id="f-value">
         <label>What value can you bring to DAC? <span class="req">*</span></label>
         <textarea id="value" placeholder="Mention any skills, projects, experience, or ideas you'd like to contribute — technical or otherwise..." maxlength="500"></textarea>
         <div class="char-count" id="valueCount">0 / 500</div>
-        <div class="field-error">Please describe what value you can bring (min. 50 characters)</div>
+<div class="field-error">Please describe what value you can bring</div>
       </div>
 
       <div class="field">
@@ -1028,8 +1027,8 @@ function validateStep(step){
   if(step===3){
     const wy=document.getElementById('why').value.trim();
     const vl=document.getElementById('value').value.trim();
-    if(wy.length<50){setError('why');valid=false;}else clearError('why');
-    if(vl.length<50){setError('value');valid=false;}else clearError('value');
+    if(!wy){setError('why');valid=false;}else clearError('why');
+if(!vl){setError('value');valid=false;}else clearError('value');
     // Consent must be checked
     if(!document.getElementById('consentCheck').checked){
       document.getElementById('consentError').classList.add('show');
@@ -1101,7 +1100,7 @@ function charCount(id,countId,max){
     const len=this.value.length;
     cnt.textContent=len+' / '+max;
     cnt.className='char-count'+(len>max*.9?' warn':'');
-    if(len>=50)clearError(id);
+if(len>0)clearError(id);
   });
 }
 charCount('why','whyCount',500);
@@ -1152,5 +1151,6 @@ window.addEventListener('scroll',()=>{
 </div>
 </body>
 </html>
+
 
 
