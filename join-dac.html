@@ -418,7 +418,275 @@ footer a{color:#A78BFA;text-decoration:none}
   .step-line{width:40px}
   footer{padding:2rem 1.5rem;flex-direction:column;text-align:center}
 }
+
+/* ── OTP MODAL ──────────────────────────────────── */
+.otp-overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(8,8,16,0.88);
+  backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;
+}
+.otp-overlay.show{display:flex;animation:stepIn .3s ease}
+.otp-modal{
+  background:var(--black-mid);
+  border:1px solid var(--purple-border);
+  border-radius:2px;
+  padding:2.8rem 2.4rem;
+  max-width:400px;width:90%;
+  position:relative;
+  box-shadow:0 0 60px rgba(124,58,237,.2);
+}
+.otp-modal::before{
+  content:'';position:absolute;
+  top:0;left:15%;width:35%;height:1px;
+  background:var(--purple);
+}
+.otp-modal h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem;font-weight:300;
+  margin-bottom:.4rem;color:var(--white);
+}
+.otp-modal p{
+  color:var(--muted);font-size:.82rem;
+  line-height:1.7;margin-bottom:1.8rem;
+}
+.otp-modal p strong{color:#C4B5FD}
+.otp-inputs{
+  display:flex;gap:.65rem;justify-content:center;
+  margin-bottom:1.2rem;
+}
+.otp-inputs input{
+  width:48px;height:54px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:2px;
+  color:var(--white);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.7rem;font-weight:600;
+  text-align:center;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  caret-color:transparent;
+}
+.otp-inputs input:focus{
+  border-color:rgba(124,58,237,.55);
+  box-shadow:0 0 0 3px rgba(124,58,237,.08);
+}
+.otp-inputs input.filled{
+  border-color:var(--purple-border);
+  background:var(--purple-dim);
+}
+.otp-timer{
+  font-size:.74rem;color:var(--muted);
+  text-align:center;margin-bottom:1.1rem;
+  letter-spacing:.05em;
+}
+.otp-timer span{color:#A78BFA}
+.otp-resend-btn{
+  background:none;border:none;
+  color:#A78BFA;font-size:.74rem;
+  cursor:pointer;font-family:'Outfit',sans-serif;
+  letter-spacing:.06em;text-decoration:underline;
+  padding:0;
+}
+.otp-resend-btn:disabled{color:var(--muted);cursor:not-allowed;text-decoration:none}
+.otp-verify-btn{
+  width:100%;
+  background:var(--purple);color:var(--white);
+  border:1px solid var(--purple);
+  padding:.72rem 0;border-radius:2px;
+  font-family:'Outfit',sans-serif;
+  font-size:.78rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;transition:all .25s;
+  margin-bottom:.85rem;
+}
+.otp-verify-btn:hover{background:var(--purple-mid)}
+.otp-cancel-btn{
+  display:block;width:100%;text-align:center;
+  color:var(--muted);font-size:.72rem;
+  cursor:pointer;letter-spacing:.06em;
+  background:none;border:none;
+  font-family:'Outfit',sans-serif;
+}
+.otp-cancel-btn:hover{color:#C4B5FD}
+.otp-err{
+  font-size:.73rem;color:#FCA5A5;
+  text-align:center;margin-bottom:.8rem;
+  display:none;
+}
+.otp-err.show{display:block}
+.verified-badge{
+  display:none;
+  align-items:center;gap:.4rem;
+  font-size:.7rem;color:#6EE7B7;
+  letter-spacing:.06em;
+  background:rgba(110,231,183,.08);
+  border:1px solid rgba(110,231,183,.22);
+  border-radius:2px;padding:.28rem .7rem;
+  margin-left:.55rem;vertical-align:middle;
+}
+.verified-badge.show{display:inline-flex}
+/* send otp button next to email input */
+.email-row{display:flex;gap:.55rem;align-items:flex-start}
+.email-row input{flex:1}
+.send-otp-btn{
+  background:var(--purple-dim);
+  border:1px solid var(--purple-border);
+  color:#C4B5FD;
+  padding:.76rem .95rem;
+  border-radius:2px;
+  font-family:'Outfit',sans-serif;
+  font-size:.7rem;font-weight:500;
+  letter-spacing:.08em;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:all .22s;
+}
+.send-otp-btn:hover{background:var(--purple);color:var(--white)}
+.send-otp-btn:disabled{opacity:.4;cursor:not-allowed}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+/* ── EMAIL OTP ─────────────────────────────────── */
+emailjs.init('3yIGjZbjJfOR7EhuL');
+
+let _otp = '';
+let _emailVerified = false;
+let _timerInterval = null;
+
+function sendOTP() {
+  const email = document.getElementById('email').value.trim();
+  // Validate college email first
+  if (!email || !/^[^\s@]+@dgu\.ac\.in$/i.test(email)) {
+    document.getElementById('f-email').classList.add('has-error');
+    document.getElementById('emailError').textContent = 'Please enter a valid @dgu.ac.in email address';
+    return;
+  }
+  document.getElementById('f-email').classList.remove('has-error');
+
+  const btn = document.getElementById('sendOtpBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  // Generate 6-digit OTP
+  _otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  emailjs.send('service_txncq5g', 'template_391v8pl', {
+    to_email: email,
+    otp_code: _otp,
+    user_name: document.getElementById('fname').value.trim() || 'Applicant'
+  })
+  .then(() => {
+    btn.textContent = 'Resend OTP';
+    btn.disabled = false;
+    openOTP(email);
+  })
+  .catch(err => {
+    btn.textContent = 'Send OTP';
+    btn.disabled = false;
+    alert('Failed to send OTP. Please check your internet connection and try again.');
+    console.error('EmailJS:', err);
+  });
+}
+
+function openOTP(email) {
+  document.getElementById('otpEmailShow').textContent = email;
+  document.getElementById('otpErr').classList.remove('show');
+  // Clear inputs
+  for (let i = 0; i < 6; i++) {
+    const d = document.getElementById('d' + i);
+    d.value = ''; d.classList.remove('filled');
+  }
+  document.getElementById('otpOverlay').classList.add('show');
+  startTimer();
+  setTimeout(() => document.getElementById('d0').focus(), 120);
+  // Wire up input behaviour
+  for (let i = 0; i < 6; i++) {
+    const d = document.getElementById('d' + i);
+    d.oninput = function() {
+      this.value = this.value.replace(/\D/g,'').slice(-1);
+      this.classList.toggle('filled', !!this.value);
+      if (this.value && i < 5) document.getElementById('d' + (i+1)).focus();
+    };
+    d.onkeydown = function(e) {
+      if (e.key === 'Backspace' && !this.value && i > 0)
+        document.getElementById('d' + (i-1)).focus();
+    };
+    d.onpaste = function(e) {
+      e.preventDefault();
+      const p = (e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+      for (let j = 0; j < p.length; j++) {
+        const el = document.getElementById('d'+j);
+        el.value = p[j]; el.classList.add('filled');
+      }
+      document.getElementById('d' + Math.min(p.length, 5)).focus();
+    };
+  }
+}
+
+function closeOTP() {
+  document.getElementById('otpOverlay').classList.remove('show');
+  clearInterval(_timerInterval);
+}
+
+function startTimer() {
+  clearInterval(_timerInterval);
+  let s = 60;
+  document.getElementById('otpTimerDiv').innerHTML = 'Resend in <span id="otpCount">60</span>s';
+  _timerInterval = setInterval(() => {
+    s--;
+    const el = document.getElementById('otpCount');
+    if (el) el.textContent = s;
+    if (s <= 0) {
+      clearInterval(_timerInterval);
+      document.getElementById('otpTimerDiv').innerHTML =
+        '<button class="otp-resend-btn" onclick="resendOTP()">Resend code</button>';
+    }
+  }, 1000);
+}
+
+function resendOTP() {
+  _otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const email = document.getElementById('email').value.trim();
+  emailjs.send('service_txncq5g', 'template_391v8pl', {
+    to_email: email,
+    otp_code: _otp,
+    user_name: document.getElementById('fname').value.trim() || 'Applicant'
+  }).then(() => startTimer())
+    .catch(() => alert('Could not resend. Please try again.'));
+}
+
+function verifyOTP() {
+  let entered = '';
+  for (let i = 0; i < 6; i++) entered += document.getElementById('d'+i).value;
+  if (entered.length < 6) {
+    showOTPErr('Please enter all 6 digits.');
+    return;
+  }
+  if (entered === _otp) {
+    _emailVerified = true;
+    closeOTP();
+    document.getElementById('verifiedBadge').classList.add('show');
+    const btn = document.getElementById('sendOtpBtn');
+    btn.textContent = '✓ Verified';
+    btn.style.color = '#6EE7B7';
+    btn.style.borderColor = 'rgba(110,231,183,.35)';
+    btn.disabled = true;
+    document.getElementById('email').readOnly = true;
+  } else {
+    showOTPErr('Incorrect code. Please try again.');
+    const inp = document.getElementById('otpInputs');
+    inp.style.animation = 'none';
+    setTimeout(() => { inp.style.animation = 'shake .35s ease'; }, 10);
+  }
+}
+
+function showOTPErr(msg) {
+  const el = document.getElementById('otpErr');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+</script>
 </head>
 <body>
 
@@ -497,9 +765,14 @@ footer a{color:#A78BFA;text-decoration:none}
       </div>
 
       <div class="field" id="f-email">
-        <label>College Email Address <span class="req">*</span></label>
-        <input type="email" id="email" autocomplete="email" placeholder="yourname@dgu.ac.in"/>
-        <div class="field-error">Please enter your college email address (e.g. yourname@dgu.ac.in)</div>
+        <label>College Email Address <span class="req">*</span>
+          <span class="verified-badge" id="verifiedBadge">✓ Verified</span>
+        </label>
+        <div class="email-row">
+          <input type="email" id="email" autocomplete="email" placeholder="yourname@dgu.ac.in"/>
+          <button type="button" class="send-otp-btn" id="sendOtpBtn" onclick="sendOTP()">Send OTP</button>
+        </div>
+        <div class="field-error" id="emailError">Please enter your college email address (e.g. yourname@dgu.ac.in)</div>
       </div>
 
       <div class="field" id="f-phone">
@@ -729,7 +1002,13 @@ function validateStep(step){
     const ph=document.getElementById('phone').value.trim();
     if(!fn){setError('fname');valid=false;}else clearError('fname');
     if(!ln){setError('lname');valid=false;}else clearError('lname');
-    if(!em||!/^[^\s@]+@dgu\.ac\.in$/i.test(em)){setError('email');valid=false;}else clearError('email');
+    if(!em||!/^[^\s@]+@dgu\.ac\.in$/i.test(em)){
+      document.getElementById('emailError').textContent='Please enter a valid @dgu.ac.in email address';
+      setError('email');valid=false;
+    } else if(!_emailVerified){
+      document.getElementById('emailError').textContent='Please verify your email with the OTP sent to your inbox';
+      setError('email');valid=false;
+    } else clearError('email');
     if(!ph||ph.replace(/\D/g,'').length<10){setError('phone');valid=false;}else clearError('phone');
 
   }
@@ -846,6 +1125,26 @@ window.addEventListener('scroll',()=>{
     window.scrollY>60?'rgba(8,8,16,0.97)':'rgba(8,8,16,0.88)';
 });
 </script>
+
+<!-- OTP MODAL -->
+<div class="otp-overlay" id="otpOverlay">
+  <div class="otp-modal">
+    <h3>Verify Your Email</h3>
+    <p id="otpDesc">We've sent a 6-digit code to <strong id="otpEmailShow"></strong>. Enter it below.</p>
+    <div class="otp-inputs" id="otpInputs">
+      <input type="text" maxlength="1" inputmode="numeric" id="d0"/>
+      <input type="text" maxlength="1" inputmode="numeric" id="d1"/>
+      <input type="text" maxlength="1" inputmode="numeric" id="d2"/>
+      <input type="text" maxlength="1" inputmode="numeric" id="d3"/>
+      <input type="text" maxlength="1" inputmode="numeric" id="d4"/>
+      <input type="text" maxlength="1" inputmode="numeric" id="d5"/>
+    </div>
+    <div class="otp-err" id="otpErr"></div>
+    <div class="otp-timer" id="otpTimerDiv">Resend in <span id="otpCount">60</span>s</div>
+    <button class="otp-verify-btn" onclick="verifyOTP()">Verify &amp; Continue</button>
+    <button class="otp-cancel-btn" onclick="closeOTP()">Cancel — change email</button>
+  </div>
+</div>
 </body>
 </html>
 
