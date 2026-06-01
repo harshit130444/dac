@@ -4,7 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Join DAC — DGU AI Cell</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -13,41 +14,53 @@
   --black-soft:#161625;
   --purple:#7C3AED;
   --purple-mid:#6D28D9;
-  --purple-dim:rgba(124,58,237,0.15);
-  --purple-border:rgba(124,58,237,0.28);
+  --purple-dim:rgba(124,58,237,0.14);
+  --purple-border:rgba(124,58,237,0.30);
+  --lilac:#C4B5FD;
+  --lilac-soft:#A78BFA;
   --white:#F8F8FF;
-  --muted:#7A7A9A;
-  --border:rgba(124,58,237,0.2);
+  --muted:#85859E;
+  --border:rgba(124,58,237,0.18);
 }
 html{scroll-behavior:smooth}
 body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden}
 
 /* ── NAVBAR ─────────────────────────────────────────────── */
-nav{
-  position:fixed;top:0;left:0;width:100%;z-index:100;
-  padding:1.25rem 5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  backdrop-filter:blur(24px);
-  background:rgba(8,8,16,0.88);
-  border-bottom:1px solid var(--border);
-  transition:all .4s;
-}
-.nav-logo{display:flex;align-items:center;gap:.85rem;text-decoration:none}
-.nav-logo img{height:38px}
-.nav-logo span{
-  font-family:'Cormorant Garamond',serif;
-  font-weight:600;font-size:1.15rem;
-  letter-spacing:.07em;color:var(--white);
-}
-.back-btn{
-  display:flex;align-items:center;gap:.5rem;
-  color:var(--muted);text-decoration:none;
-  font-size:.75rem;font-weight:400;
-  letter-spacing:.12em;text-transform:uppercase;
-  transition:color .2s;
-}
-.back-btn:hover{color:#C4B5FD}
-.back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
+nav{position:fixed;top:0;left:0;width:100%;z-index:120;padding:1.5rem 0;border-bottom:1px solid transparent;transition:background .4s,padding .4s,border-color .4s}
+nav.scrolled{background:rgba(8,8,16,0.92);backdrop-filter:blur(20px);border-bottom-color:var(--border);padding:1rem 0}
+.nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:100%;max-width:1180px;margin:0 auto;padding:0 2.5rem}
+.menu-toggle{justify-self:start;display:flex;align-items:center;gap:.75rem;background:transparent;border:none;color:var(--white);cursor:pointer;font-family:'Outfit',sans-serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;padding:0}
+.menu-toggle .bars{display:flex;flex-direction:column;gap:5px;width:26px}
+.menu-toggle .bars span{height:1.6px;width:100%;background:var(--white);border-radius:2px;transition:transform .35s,opacity .35s}
+.menu-toggle.open .bars span:nth-child(1){transform:translateY(6.6px) rotate(45deg)}
+.menu-toggle.open .bars span:nth-child(2){opacity:0}
+.menu-toggle.open .bars span:nth-child(3){transform:translateY(-6.6px) rotate(-45deg)}
+.menu-toggle .label-close{display:none}
+.menu-toggle.open .label-open{display:none}
+.menu-toggle.open .label-close{display:inline}
+.brand{justify-self:center;display:flex;align-items:center;gap:.8rem;text-decoration:none}
+.brand img{height:36px}
+.brand span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.18rem;letter-spacing:.05em;color:var(--white)}
+.nav-spacer{justify-self:end}
+
+/* ── FULLSCREEN OVERLAY MENU ── */
+.menu{position:fixed;inset:0;z-index:115;background:rgba(8,8,16,0.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s}
+.menu.open{opacity:1;pointer-events:all}
+.menu-links{list-style:none;text-align:center;display:flex;flex-direction:column;gap:.15rem}
+.menu-links a{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.6vw,2.3rem);font-weight:300;color:var(--muted);text-decoration:none;padding:.3rem 1rem;letter-spacing:.01em;transition:color .25s,letter-spacing .25s;display:inline-block}
+.menu-links a:hover{color:var(--white);letter-spacing:.05em}
+.menu-social{display:flex;gap:1.5rem;margin-top:2.8rem}
+.menu-social a{color:var(--muted);font-size:1.15rem;transition:color .25s,transform .25s}
+.menu-social a:hover{color:var(--lilac);transform:translateY(-3px)}
+
+/* ── FIXED SIDE SOCIAL ── */
+.side-social{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.side-social::after{content:'';width:1px;height:64px;background:linear-gradient(var(--lilac-soft),transparent);margin-top:.4rem}
+.side-social a{color:var(--muted);font-size:1.05rem;transition:color .25s,transform .25s}
+.side-social a:hover{color:var(--lilac);transform:translateY(-3px)}
+@media(max-width:960px){.side-social{display:none}}
+@media(max-width:820px){.nav-inner{padding:0 1.5rem}}
+@media(max-width:560px){.menu-toggle .label-open,.menu-toggle .label-close,.menu-toggle.open .label-open,.menu-toggle.open .label-close{display:none}.brand img{height:30px}.brand span{font-size:.98rem;letter-spacing:.03em}}
 
 /* ── PAGE TOP ───────────────────────────────────────────── */
 .page-top{
@@ -355,22 +368,26 @@ nav{
 .field.has-error .field-error{display:block}
 
 /* ── FOOTER ─────────────────────────────────────────────── */
-footer{
-  background:var(--black-mid);
-  border-top:1px solid var(--border);
-  padding:2.2rem 5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:1rem;
-}
-.footer-brand{
-  font-family:'Cormorant Garamond',serif;
-  font-weight:600;font-size:.92rem;
-  color:var(--white);letter-spacing:.06em;
-}
-footer p{color:var(--muted);font-size:.74rem;letter-spacing:.04em}
-footer a{color:#A78BFA;text-decoration:none}
-.footer-logo{display:flex;align-items:center;gap:.85rem}
-.footer-logo img{height:28px}
+footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.5rem 0 2rem}
+.footer-inner{width:100%;max-width:1180px;margin:0 auto;padding:0 2.5rem}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1.5fr;gap:3rem}
+.footer-brand{display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem}
+.footer-brand img{height:34px}
+.footer-brand span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;color:#fff;letter-spacing:.04em}
+.footer-about{color:var(--muted);font-size:.86rem;line-height:1.85;font-weight:300;max-width:320px}
+.footer-tagline{display:flex;gap:1.4rem;margin-top:1.3rem;color:var(--lilac-soft);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase}
+.footer-col h4{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac-soft);margin-bottom:1.2rem;font-weight:600}
+.footer-links{display:flex;flex-direction:column;gap:.55rem}
+.footer-links a{color:var(--muted);font-size:.86rem;text-decoration:none;font-weight:300;transition:color .22s;width:fit-content}
+.footer-links a:hover{color:var(--lilac)}
+.footer-col p{color:var(--muted);font-size:.86rem;line-height:1.8;font-weight:300;margin-bottom:.4rem}
+.newsletter{display:flex;gap:.5rem;margin-top:1rem}
+.newsletter input{flex:1;min-width:0;background:var(--black-soft);border:1px solid var(--border);color:#fff;padding:.7rem .9rem;border-radius:3px;font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;transition:border-color .22s}
+.newsletter input:focus{border-color:var(--purple-border)}
+.newsletter button{background:var(--purple);color:#fff;border:none;padding:.7rem 1.2rem;border-radius:3px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .25s;white-space:nowrap}
+.newsletter button:hover{background:var(--purple-mid)}
+.footer-bottom{border-top:1px solid var(--border);margin-top:3rem;padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.76rem;letter-spacing:.03em}
+.footer-bottom a{color:var(--lilac-soft);text-decoration:none}
 
 /* ── CONSENT CHECKBOX ───────────────────────────────────── */
 .consent-box{
@@ -410,13 +427,15 @@ footer a{color:#A78BFA;text-decoration:none}
 
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media(max-width:860px){
-  nav{padding:1rem 1.5rem}
+  nav{padding:1rem 0}
   .page-top{padding:7rem 1.5rem 3rem}
   .form-wrap{padding:0 1.2rem 5rem}
   .form-card{padding:2rem 1.4rem}
   .field-group{grid-template-columns:1fr}
   .step-line{width:40px}
-  footer{padding:2rem 1.5rem;flex-direction:column;text-align:center}
+  .footer-inner{padding:0 1.5rem}
+  .footer-grid{grid-template-columns:1fr;gap:2.5rem}
+  .footer-bottom{justify-content:center;text-align:center}
 }
 
 /* ── OTP MODAL ──────────────────────────────────── */
@@ -697,15 +716,48 @@ function showOTPErr(msg) {
 
 <!-- NAVBAR -->
 <nav id="navbar">
-  <a class="nav-logo" href="index.html">
-    <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC Logo" onerror="this.style.display='none'"/>
-    <span>DAC — DGU AI Cell</span>
-  </a>
-  <a href="index.html" class="back-btn">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    Back to Website
-  </a>
+  <div class="nav-inner">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span class="label-open">Menu</span><span class="label-close">Close</span>
+    </button>
+    <a href="index.html" class="brand">
+      <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC Logo" onerror="this.style.display='none'"/>
+      <span>DAC — DGU AI Cell</span>
+    </a>
+    <span class="nav-spacer"></span>
+  </div>
 </nav>
+
+<!-- FULLSCREEN OVERLAY MENU -->
+<div class="menu" id="menu">
+  <ul class="menu-links">
+    <li><a href="index.html#home" onclick="closeMenu()">Home</a></li>
+    <li><a href="index.html#about" onclick="closeMenu()">About</a></li>
+    <li><a href="index.html#offerings" onclick="closeMenu()">Offerings</a></li>
+    <li><a href="index.html#events" onclick="closeMenu()">Events</a></li>
+    <li><a href="index.html#gallery" onclick="closeMenu()">Gallery</a></li>
+    <li><a href="index.html#team" onclick="closeMenu()">Team</a></li>
+    <li><a href="campus-ambassador.html" onclick="closeMenu()">Campus Ambassador</a></li>
+    <li><a href="book-meeting.html" onclick="closeMenu()">Book a Meeting</a></li>
+    <li><a href="join-dac.html" onclick="closeMenu()">Join Us</a></li>
+  </ul>
+  <div class="menu-social">
+    <a href="https://instagram.com/dac.dgu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="https://youtube.com/@DACXDGU" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    <a href="https://twitter.com/dac_dgu" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://wa.me/send?phone=919205072074" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- FIXED SIDE SOCIAL -->
+<div class="side-social">
+  <a href="https://instagram.com/dac.dgu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+  <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  <a href="https://youtube.com/@DACXDGU" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+  <a href="https://twitter.com/dac_dgu" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+</div>
 
 <!-- PAGE TOP -->
 <div class="page-top">
@@ -941,14 +993,40 @@ function showOTPErr(msg) {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">
-    <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
-    <div>
-      <div class="footer-brand">DAC — DGU AI Cell</div>
-      <div style="color:var(--muted);font-size:.7rem;letter-spacing:.06em;margin-top:.15rem">DBS Global University, Dehradun</div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
+          <span>DAC — DGU AI Cell</span>
+        </div>
+        <p class="footer-about">The official AI Cell of DBS Global University, Dehradun — a student-driven community exploring, learning, and building with artificial intelligence.</p>
+        <div class="footer-tagline"><span>Learn</span><span>Build</span><span>Innovate</span></div>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank">LinkedIn</a>
+          <a href="https://instagram.com/dac.dgu" target="_blank">Instagram</a>
+          <a href="https://twitter.com/dac_dgu" target="_blank">X (Twitter)</a>
+          <a href="https://youtube.com/@DACXDGU" target="_blank">YouTube</a>
+          <a href="https://linktr.ee/dgu.dac" target="_blank">Linktree</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Get Notified</h4>
+        <p>Be the first to know about DAC's events and activities.</p>
+        <form class="newsletter" onsubmit="return subscribe(event)">
+          <input id="nl-email" type="email" placeholder="Your email" required/>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DAC · DGU AI Cell · <a href="https://dgu.ac.in" target="_blank">dgu.ac.in</a></span>
+      <span>DBS Global University, Dehradun</span>
     </div>
   </div>
-  <p>© 2026 DAC · DGU AI Cell · <a href="https://dgu.ac.in">dgu.ac.in</a></p>
 </footer>
 
 <script>
@@ -1125,9 +1203,33 @@ document.querySelectorAll('.checkbox-item').forEach(item=>{
 });
 
 window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').style.background=
-    window.scrollY>60?'rgba(8,8,16,0.97)':'rgba(8,8,16,0.88)';
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>40);
 });
+
+/* ── Fullscreen overlay menu ── */
+function toggleMenu(){
+  const menu=document.getElementById('menu');
+  const t=document.getElementById('menuToggle');
+  const open=menu.classList.toggle('open');
+  t.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+  t.setAttribute('aria-expanded',open);
+}
+function closeMenu(){
+  document.getElementById('menu').classList.remove('open');
+  document.getElementById('menuToggle').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('menuToggle').setAttribute('aria-expanded',false);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+
+/* ── Newsletter (opens mail client — placeholder) ── */
+function subscribe(e){
+  e.preventDefault();
+  const v=document.getElementById('nl-email').value;
+  window.location.href='mailto:dac@dgu.ac.in?subject=Newsletter%20Subscription&body='+encodeURIComponent('Please subscribe this email to DAC updates: '+v);
+  return false;
+}
 </script>
 
 <!-- OTP MODAL -->
