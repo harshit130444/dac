@@ -48,9 +48,11 @@ nav.scrolled{background:rgba(8,8,16,0.92);backdrop-filter:blur(20px);border-bott
 .brand img{height:36px}
 .brand span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.18rem;letter-spacing:.05em;color:var(--white)}
 .nav-spacer{justify-self:end}
+.brand{transition:opacity .25s}
+.menu.open ~ nav .brand,.menu-toggle.open ~ .brand{opacity:0;pointer-events:none}
 
 /* ── FULLSCREEN OVERLAY MENU ── */
-.menu{position:fixed;inset:0;z-index:115;background:rgba(8,8,16,0.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s}
+.menu{position:fixed;inset:0;z-index:115;background:rgba(8,8,16,0.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:safe center;padding:1.5rem 1rem;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .45s}
 .menu.open{opacity:1;pointer-events:all}
 .menu-links{list-style:none;text-align:center;display:flex;flex-direction:column;gap:.15rem}
 .menu-links a{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.6vw,2.3rem);font-weight:300;color:var(--muted);text-decoration:none;padding:.3rem 1rem;letter-spacing:.01em;transition:color .25s,letter-spacing .25s;display:inline-block}
@@ -716,4 +718,5 @@ document.getElementById('inp-phone').addEventListener('input',function(){
 </script>
 </body>
 </html>
+
 
