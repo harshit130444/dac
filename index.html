@@ -3,727 +3,354 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>DAC – DGU AI Cell</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+<title>DAC — DGU AI Cell</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
---black:#080810;
---black-mid:#0F0F1A;
---black-soft:#161625;
---purple:#7C3AED;
---purple-mid:#6D28D9;
---purple-dim:rgba(124,58,237,0.15);
---purple-border:rgba(124,58,237,0.28);
---white:#F8F8FF;
---muted:#7A7A9A;
---border:rgba(124,58,237,0.2);
+  --black:#080810;
+  --black-mid:#0F0F1A;
+  --black-soft:#161625;
+  --purple:#7C3AED;
+  --purple-mid:#6D28D9;
+  --purple-dim:rgba(124,58,237,0.14);
+  --purple-border:rgba(124,58,237,0.30);
+  --lilac:#C4B5FD;
+  --lilac-soft:#A78BFA;
+  --white:#F8F8FF;
+  --muted:#85859E;
+  --border:rgba(124,58,237,0.18);
 }
 html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;overflow-x:hidden}
+body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
 
-/* Apply Orbitron to all numeric content */
-.stat-num,
-.event-date,
-.init-num,
-.nav-num{
-    font-family:'Orbitron',sans-serif !important;
-}
+/* scrollbar */
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:var(--lilac-soft)}
+
+/* ── LAYOUT CONTAINER (centered + side spacing for every section) ── */
+.container{width:100%;max-width:1180px;margin:0 auto;padding:0 2.5rem}
+.container--narrow{max-width:840px}
+
+/* ── SECTION CORE ── */
+section{padding:7.5rem 0;position:relative}
+.section-head{text-align:center;max-width:720px;margin:0 auto 4.5rem}
+.eyebrow{display:inline-block;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--lilac-soft);font-weight:500}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4.4vw,3.5rem);font-weight:300;line-height:1.12;margin-top:1rem;color:var(--white)}
+.section-title em{font-style:italic;color:var(--lilac)}
+.section-sub{color:var(--muted);font-size:.98rem;line-height:1.9;margin-top:1.3rem;font-weight:300}
+.divider{width:42px;height:1px;background:var(--purple);margin:1.5rem auto 0}
+
 /* ── NAVBAR ── */
-nav{
-  position:fixed;top:0;left:0;width:100%;z-index:100;
-  padding:1.25rem 1rem;
-  display:grid;
-  grid-template-columns:44px 1fr 44px;
-  align-items:center;
-  backdrop-filter:blur(24px);
-  background:rgba(8,8,16,0.88);
-  border-bottom:1px solid var(--border);
-  transition:all .4s;
-}
-::-webkit-scrollbar{
-    width:8px;
-}
+nav{position:fixed;top:0;left:0;width:100%;z-index:120;padding:1.5rem 0;border-bottom:1px solid transparent;transition:background .4s,padding .4s,border-color .4s}
+nav.scrolled{background:rgba(8,8,16,0.92);backdrop-filter:blur(20px);border-bottom-color:var(--border);padding:1rem 0}
+.nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.menu-toggle{justify-self:start}
+.brand{justify-self:center}
+.nav-spacer{justify-self:end}
+.brand{display:flex;align-items:center;gap:.8rem;text-decoration:none}
+.brand img{height:36px}
+.brand span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.18rem;letter-spacing:.05em;color:var(--white)}
+.menu-toggle{display:flex;align-items:center;gap:.75rem;background:transparent;border:none;color:var(--white);cursor:pointer;font-family:'Outfit',sans-serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;padding:0}
+.menu-toggle .bars{display:flex;flex-direction:column;gap:5px;width:26px}
+.menu-toggle .bars span{height:1.6px;width:100%;background:var(--white);border-radius:2px;transition:transform .35s,opacity .35s}
+.menu-toggle.open .bars span:nth-child(1){transform:translateY(6.6px) rotate(45deg)}
+.menu-toggle.open .bars span:nth-child(2){opacity:0}
+.menu-toggle.open .bars span:nth-child(3){transform:translateY(-6.6px) rotate(-45deg)}
+.menu-toggle .label-close{display:none}
+.menu-toggle.open .label-open{display:none}
+.menu-toggle.open .label-close{display:inline}
 
-::-webkit-scrollbar-track{
-    background:#080810;
-}
+/* ── FULLSCREEN OVERLAY MENU ── */
+.menu{position:fixed;inset:0;z-index:115;background:rgba(8,8,16,0.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s}
+.menu.open{opacity:1;pointer-events:all}
+.menu-links{list-style:none;text-align:center;display:flex;flex-direction:column;gap:.15rem}
+.menu-links a{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.6vw,2.3rem);font-weight:300;color:var(--muted);text-decoration:none;padding:.3rem 1rem;letter-spacing:.01em;transition:color .25s,letter-spacing .25s;display:inline-block}
+.menu-links a:hover{color:var(--white);letter-spacing:.05em}
+.menu-social{display:flex;gap:1.5rem;margin-top:2.8rem}
+.menu-social a{color:var(--muted);font-size:1.15rem;transition:color .25s,transform .25s}
+.menu-social a:hover{color:var(--lilac);transform:translateY(-3px)}
 
-::-webkit-scrollbar-thumb{
-    background:#7C3AED;
-    border-radius:999px;
-    box-shadow:0 0 10px rgba(124,58,237,.5);
-}
+/* ── FIXED SIDE SOCIAL ── */
+.side-social{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.side-social::after{content:'';width:1px;height:64px;background:linear-gradient(var(--lilac-soft),transparent);margin-top:.4rem}
+.side-social a{color:var(--muted);font-size:1.05rem;transition:color .25s,transform .25s}
+.side-social a:hover{color:var(--lilac);transform:translateY(-3px)}
+@media(max-width:960px){.side-social{display:none}}
 
-::-webkit-scrollbar-thumb:hover{
-    background:#A78BFA;
-}
-/* Floating Social Bar */
-.floating-social{
-    position:fixed;
-    right:-0.1px;
-    top:50%;
-    transform:translateY(-50%);
-    z-index:999;
+/* ── HERO (with background image) ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-image:url('ChatGPT Image May 28, 2026, 02_21_30 AM.png');background-size:cover;background-position:center;filter:brightness(0.28) saturate(1.05) blur(3px);transform:scale(1.06)}
+.hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(124,58,237,0.20) 0%,rgba(8,8,16,0.72) 70%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(124,58,237,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.07) 1px,transparent 1px);background-size:64px 64px;opacity:.4;pointer-events:none;-webkit-mask-image:radial-gradient(circle at center,#000,transparent 72%);mask-image:radial-gradient(circle at center,#000,transparent 72%)}
+.hero-fade{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to bottom,transparent,var(--black));pointer-events:none}
+.hero .container{position:relative;z-index:2}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,7vw,5rem);font-weight:300;line-height:1.05;letter-spacing:-.01em;margin:1.4rem auto 0;max-width:900px}
+.hero h1 em{font-style:italic;color:var(--lilac)}
+.hero p{color:var(--muted);font-size:1.02rem;line-height:1.9;max-width:560px;margin:1.8rem auto 0;font-weight:300}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2.6rem}
+.btn{padding:.85rem 2.2rem;border-radius:3px;font-size:.76rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem;cursor:pointer}
+.btn-primary{background:var(--purple);color:#fff;border:1px solid var(--purple)}
+.btn-primary:hover{background:var(--purple-mid);border-color:var(--purple-mid);transform:translateY(-2px);box-shadow:0 12px 32px rgba(124,58,237,0.32)}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.22)}
+.btn-ghost:hover{border-color:var(--purple);color:var(--lilac);transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.7rem;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);z-index:2}
+.scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(var(--lilac-soft),transparent);animation:scrollLine 2s ease-in-out infinite}
+@keyframes scrollLine{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
 
-    display:flex;
-    flex-direction:column;
-    gap:18px;
+/* page-load reveal */
+.reveal-load{opacity:0;transform:translateY(22px);animation:loadUp .9s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes loadUp{to{opacity:1;transform:none}}
 
-    background:rgba(15,15,26,0.95);
-    border:1px solid rgba(124,58,237,0.25);
-
-    padding:18px 12px;
-    border-radius:16px;
-
-    backdrop-filter:blur(12px);
-
-    box-shadow:
-      0 0 25px rgba(124,58,237,0.15),
-      0 10px 30px rgba(0,0,0,0.35);
-}
-
-.floating-social a{
-    width:30px;
-    height:30px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#A78BFA;
-    text-decoration:none;
-
-    border-radius:12px;
-
-    transition:all .3s ease;
-}
-
-.floating-social a:hover{
-    background:rgba(124,58,237,0.15);
-    color:#fff;
-    transform:translateX(-4px);
-}
-
-.floating-social i{
-    font-size:1.3rem;
-}
-
-@media(max-width:768px){
-    .floating-social{
-        display:none;
-    }
-    .nav-cta{
-        display:none;
-    }
-}
-
-/* hamburger — left column */
-.hamburger{
-  width:44px;height:44px;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  gap:6px;cursor:pointer;border:none;background:transparent;
-  padding:0;flex-shrink:0;
-}
-.hamburger span{
-  display:block;width:24px;height:1.5px;
-  background:var(--white);
-  transition:all .35s cubic-bezier(.77,0,.18,1);
-  transform-origin:center;
-}
-.hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
-
-/* logo — center column */
-.nav-logo{
-  display:flex;align-items:center;justify-content:center;gap:.85rem;
-}
-.nav-logo img{height:38px}
-.nav-logo span{
-  font-family:'Cormorant Garamond',serif;font-weight:600;
-  font-size:1.15rem;letter-spacing:.07em;color:var(--white);
-}
-
-/* DGU link — right column */
-.nav-cta{
-  justify-self:end;
-  background:transparent;color:var(--white);
-  padding:.48rem 1.4rem;border-radius:2px;font-size:.75rem;font-weight:500;
-  text-decoration:none;border:1px solid rgba(255,255,255,0.25);
-  letter-spacing:.1em;text-transform:uppercase;transition:all .25s;
-}
-.nav-cta:hover{background:var(--purple);border-color:var(--purple)}
-
-/* ── DRAWER ── */
-.drawer-overlay{
-  position:fixed;inset:0;z-index:200;
-  background:rgba(8,8,16,0.6);
-  backdrop-filter:blur(6px);
-  opacity:0;pointer-events:none;
-  transition:opacity .4s;
-}
-.drawer-overlay.open{opacity:1;pointer-events:all}
-
-.drawer{
-  position:fixed;top:0;left:0;bottom:0;z-index:201;
-  width:min(340px,85vw);
-  background:var(--black-mid);
-  border-right:1px solid var(--purple-border);
-  transform:translateX(-100%);
-  transition:transform .45s cubic-bezier(.77,0,.18,1);
-  display:flex;flex-direction:column;
-  padding:2rem 0 3rem;
-}
-.drawer.open{transform:translateX(0)}
-
-.drawer-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2rem 2rem;
-  border-bottom:1px solid var(--border);
-}
-.drawer-brand{
-  font-family:'Cormorant Garamond',serif;font-weight:600;
-  font-size:1.05rem;letter-spacing:.06em;color:var(--white);
-}
-.drawer-close{
-  width:36px;height:36px;border:1px solid var(--border);
-  background:transparent;color:var(--muted);cursor:pointer;
-  border-radius:2px;font-size:1.2rem;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .22s;
-}
-.drawer-close:hover{border-color:var(--purple);color:#C4B5FD;background:var(--purple-dim)}
-
-.drawer-nav{
-  list-style:none;padding:2rem 0;flex:1;
-  display:flex;flex-direction:column;
-}
-.drawer-nav li a{
-  display:flex;align-items:center;gap:1rem;
-  padding:1rem 2rem;
-  color:var(--muted);text-decoration:none;
-  font-size:.82rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;
-  transition:all .22s;border-left:2px solid transparent;
-}
-.drawer-nav li a:hover{
-  color:var(--white);
-  border-left-color:var(--purple);
-  background:var(--purple-dim);
-  padding-left:2.5rem;
-}
-.drawer-nav li a .nav-num{
-  font-family:'Cormorant Garamond',serif;
-  font-size:.75rem;color:#A78BFA;letter-spacing:.14em;min-width:1.4rem;
-}
-
-.drawer-footer{
-  padding:2rem;border-top:1px solid var(--border);
-  font-size:.72rem;color:var(--muted);letter-spacing:.06em;
-}
-
-/* ── HERO ── */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-image:url('ChatGPT Image May 28, 2026, 02_21_30 AM.png');background-size:cover;background-position:center;filter:brightness(0.22)}
-.hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(124,58,237,0.18) 0%,rgba(8,8,16,0.75) 70%);pointer-events:none}
-.hero-bottom-fade{position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(to bottom,transparent,var(--black));pointer-events:none}
-.hero-content{position:relative;z-index:2;max-width:820px;padding:2rem}
-.hero-badge{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--purple-border);border-radius:2px;padding:.4rem 1.2rem;font-size:.7rem;letter-spacing:.16em;color:rgba(167,139,250,0.9);text-transform:uppercase;margin-bottom:2rem;font-weight:400;background:var(--purple-dim)}
-.hero-badge .dot{width:5px;height:5px;background:#A78BFA;border-radius:50%;animation:pulse 2.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.hero h1{font-family:'Arial Black',serif;font-size:clamp(2rem,6.5vw,3rem);font-weight:300;line-height:1;margin-bottom:1.4rem;letter-spacing:-.01em;color:var(--white)}
-.hero h1 em{font-style:italic;color:#C4B5FD}
-.hero p{font-family:'Arial',sans-serif;font-size:.98rem;color:var(--muted);line-height:1.85;max-width:500px;margin:0 auto 3rem;font-weight:700;letter-spacing:.02em}
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn-primary{background:var(--purple);color:var(--white);padding:.78rem 2.2rem;border-radius:2px;font-size:.78rem;font-weight:500;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;border:1px solid var(--purple)}
-.btn-primary:hover{background:var(--purple-mid);transform:translateY(-2px)}
-.btn-ghost{border:1px solid rgba(255,255,255,0.2);color:var(--white);padding:.78rem 2.2rem;border-radius:2px;font-size:.78rem;font-weight:400;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:all .25s}
-.btn-ghost:hover{border-color:rgba(124,58,237,0.6);color:#C4B5FD;transform:translateY(-2px)}
-.scroll-hint{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.6rem;color:var(--muted);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
-.scroll-hint::after{content:'';width:1px;height:36px;background:linear-gradient(to bottom,rgba(124,58,237,.7),transparent)}
-
-/* STATS */
-.stats{background:var(--black-mid);padding:3.5rem 5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.stat{text-align:center;padding:1rem;border-right:1px solid var(--border)}
+/* ── STATS ── */
+.stats{background:var(--black-mid);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3.4rem 0}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.stat{text-align:center;padding:1rem 1.5rem;border-right:1px solid var(--border)}
 .stat:last-child{border-right:none}
-.stat-num{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:#C4B5FD;line-height:1}
-.stat-label{color:var(--muted);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-top:.5rem;font-weight:400}
+.stat-num{font-family:'Orbitron',sans-serif;font-size:2.8rem;font-weight:500;color:var(--lilac);line-height:1}
+.stat-label{color:var(--muted);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-top:.75rem}
+@media(max-width:640px){.stats-grid{grid-template-columns:1fr}.stat{border-right:none;border-bottom:1px solid var(--border);padding:1.4rem}.stat:last-child{border-bottom:none}}
 
-/* SECTION CORE */
-section{padding:7rem 5rem}
-.section-tag{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#A78BFA;margin-bottom:1rem;font-weight:500}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.8vw,3.2rem);font-weight:300;line-height:1.15;margin-bottom:1rem;color:var(--white)}
-.section-sub{color:var(--muted);font-size:.93rem;line-height:1.85;max-width:520px;font-weight:300}
-.divider{width:36px;height:1px;background:var(--purple);margin:1.4rem 0 2.8rem}
-
-/* ABOUT */
+/* ── ABOUT ── */
 .about{background:var(--black)}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;margin-top:4rem}
-.about-img-wrap{position:relative}
-.about-img{width:100%;object-fit:cover;aspect-ratio:4/3;filter:brightness(.72) saturate(.85)}
-.about-slider{
-    position:relative;
-    width:100%;
-    aspect-ratio:4/3;
-    overflow:hidden;
-}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.about-text .section-title{margin-top:0}
+.about-text .divider{margin:1.4rem 0 2rem}
+.about-text p{color:var(--muted);line-height:1.95;font-weight:300;margin-bottom:1.15rem;font-size:.96rem}
+.about-tags{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:2rem}
+.tag{background:var(--purple-dim);border:1px solid var(--purple-border);color:var(--lilac);padding:.32rem .9rem;border-radius:3px;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+.about-media{position:relative}
+.about-slider{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--purple-border)}
+.about-slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease;filter:brightness(.8) saturate(.9)}
+.about-slider img.active{opacity:1}
+.about-media::before{content:'';position:absolute;inset:0;border:1px solid var(--purple-border);transform:translate(16px,16px);z-index:-1}
 
-.about-slider .about-img{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    opacity:0;
-    transition:opacity 1s ease;
-    filter:brightness(.72) saturate(.85);
-}
+/* ── OFFERINGS (moving marquee) ── */
+.offerings{background:var(--black)}
+.marquee{position:relative;overflow:hidden;padding:1.2rem 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee-track{display:flex;width:max-content;animation:offScroll 46s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes offScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.m-card{flex:0 0 290px;margin-right:1rem;background:var(--black-soft);border:1px solid var(--border);border-top:2px solid transparent;border-radius:4px;padding:1.4rem 1.5rem;display:flex;flex-direction:column;transition:border-color .35s,transform .35s,box-shadow .35s}
+.m-card:hover{border-color:var(--purple-border);border-top-color:var(--purple);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.m-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.95rem}
+.m-ico{width:30px;height:30px;color:var(--lilac);flex-shrink:0}
+.m-ico svg{width:24px;height:24px;stroke:var(--lilac);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.m-num{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.2em;color:var(--muted)}
+.m-card h3{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:400;color:var(--white);line-height:1.25;margin-bottom:.45rem}
+.m-card p{font-size:.78rem;color:var(--muted);line-height:1.6;font-weight:300;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.marquee-hint{text-align:center;color:var(--muted);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-top:1.6rem;font-weight:300}
+@media(max-width:560px){.m-card{flex:0 0 76vw}}
+@media(prefers-reduced-motion:reduce){.marquee-track{animation:none}}
 
-.about-slider .about-img.active{
-    opacity:1;
-}
-.about-frame{position:absolute;inset:0;border:1px solid var(--purple-border);transform:translate(14px,14px);z-index:-1}
-
-.about-text p{color:var(--muted);line-height:1.9;font-weight:300;margin-bottom:1.3rem;font-size:.93rem}
-.about-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.8rem}
-.tag{background:var(--purple-dim);border:1px solid var(--purple-border);color:#C4B5FD;padding:.28rem .9rem;border-radius:2px;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
-
-/* OFFERINGS CAROUSEL */
-.offerings{
-  background:var(--black-mid);
-  padding:7rem 0;
-  overflow:hidden;
-}
-
-.offerings-header{
-  text-align:center;
-  padding:0 5rem;
-  margin-bottom:4rem;
-}
-.offerings-track-wrap{
-  position:relative;
-  width:100%;
-}
-/* left/right edge fades */
-.offerings-track-wrap::before,
-.offerings-track-wrap::after{
-  content:'';
-  position:absolute;
-  top:0;bottom:0;width:180px;z-index:10;pointer-events:none;
-}
-.offerings-track-wrap::before{
-  left:0;
-  background:linear-gradient(to right, var(--black-mid) 0%, transparent 100%);
-}
-.offerings-track-wrap::after{
-  right:0;
-  background:linear-gradient(to left, var(--black-mid) 0%, transparent 100%);
-}
-.offerings-track{
-  display:flex;
-  align-items:center;
-  gap:1.25rem;
-  padding:2.5rem 5%;
-  transition:transform 0.6s cubic-bezier(0.77,0,0.18,1);
-  will-change:transform;
-}
-.offering-card{
-  flex:0 0 calc(20% - 1rem);
-  min-width:0;
-  background:var(--black-soft);
-  border:1px solid var(--border);
-  border-top:2px solid transparent;
-  padding:2rem 1.5rem 1.8rem;
-  border-radius:2px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:0;
-  text-align:left;
-  position:relative;
-  cursor:default;
-  transition:
-    transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94),
-    border-color 0.4s ease,
-    opacity 0.45s ease;
-}
-.offering-card.is-center{
-  transform:scale(1.07);
-  border-top-color:var(--purple);
-  border-color:rgba(124,58,237,0.3);
-  border-top-color:var(--purple);
-  z-index:5;
-}
-.offering-card.is-side{
-  transform:scale(0.96);
-  opacity:0.65;
-}
-.offering-card.is-far{
-  transform:scale(0.9);
-  opacity:0.35;
-}
-
-/* ── OFFERINGS MOBILE FIX ── */
-@media(max-width:768px){
-  .offerings{
-    padding:5rem 0;
-  }
-  .offerings-header{
-    padding:0 1.5rem;
-    margin-bottom:2.5rem;
-  }
-  /* hide desktop edge fades on mobile */
-  .offerings-track-wrap::before,
-  .offerings-track-wrap::after{
-    width:40px;
-  }
-  .offerings-track{
-    /* each card = 85vw so only one is visible at a time */
-    gap:1rem;
-    padding:1.5rem 0;
-    align-items:stretch;
-  }
-  .offering-card{
-    /* single-card view: 85% viewport width, centered */
-    flex:0 0 85vw;
-    min-width:85vw;
-    max-width:85vw;
-    padding:1.8rem 1.4rem 1.6rem;
-  }
-  /* remove scale transforms on mobile — they cause overflow/overlap */
-  .offering-card.is-center,
-  .offering-card.is-side,
-  .offering-card.is-far{
-    transform:none !important;
-    opacity:1 !important;
-  }
-  .offering-card.is-center{
-    border-top-color:var(--purple);
-    border-color:rgba(124,58,237,0.3);
-    box-shadow:0 0 24px rgba(124,58,237,0.15);
-  }
-  .offering-card.is-side{
-    opacity:0.55 !important;
-  }
-  .offering-card.is-far{
-    opacity:0.2 !important;
-  }
-  .offerings-arrows{
-    margin-top:1rem;
-  }
-}
-.offering-icon{
-  width:32px;height:32px;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:1.2rem;
-  color:#A78BFA;
-  flex-shrink:0;
-}
-.offering-icon svg{
-  width:22px;height:22px;
-  stroke:#A78BFA;
-  fill:none;
-  stroke-width:1.5;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-.offering-num{
-  font-family:'Orbitron',sans-serif;
-  font-size:.55rem;
-  color:var(--muted);
-  letter-spacing:.18em;
-  margin-bottom:.9rem;
-}
-.offering-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.05rem;
-  font-weight:400;
-  color:var(--white);
-  line-height:1.35;
-  margin-bottom:.65rem;
-}
-.offering-desc{
-  font-size:.75rem;
-  color:var(--muted);
-  line-height:1.7;
-  font-weight:300;
-}
-.offerings-nav{
-  display:flex;
-  justify-content:center;
-  gap:0.5rem;
-  margin-top:3rem;
-  align-items:center;
-}
-.offerings-dot{
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--border);
-  border:1px solid var(--purple-border);
-  cursor:pointer;
-  transition:all 0.3s ease;
-}
-.offerings-dot.active{
-  background:var(--purple);
-  width:22px;
-  border-radius:3px;
-  box-shadow:0 0 10px rgba(124,58,237,0.6);
-}
-.offerings-arrows{
-  display:flex;justify-content:center;gap:1rem;margin-top:1.5rem;
-}
-.off-arrow{
-  width:38px;height:38px;
-  background:transparent;
-  border:1px solid var(--border);
-  color:var(--muted);
-  border-radius:2px;
-  cursor:pointer;
-  font-size:1rem;
-  display:flex;align-items:center;justify-content:center;
-  transition:all 0.22s;
-}
-.off-arrow:hover{
-  border-color:var(--purple);
-  color:#C4B5FD;
-  background:var(--purple-dim);
-}
-
-/* INITIATIVES */
-.initiatives{
-  background-image:url('12.jpeg');
-  background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;
-}
-.initiatives::before{content:'';position:absolute;inset:0;background:rgba(8,8,16,0.82);pointer-events:none}
-.initiatives>*{position:relative;z-index:1}
-.init-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;margin-top:3.5rem;background:var(--border)}
-.init-card{background:var(--black-mid);padding:2.5rem 2rem;transition:all .35s;position:relative;overflow:hidden}
-.init-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--purple);transition:width .4s}
-.init-card:hover::after{width:100%}
-.init-card:hover{background:var(--black-soft)}
-.init-num{font-family:'Cormorant Garamond',serif;font-size:.82rem;color:#A78BFA;letter-spacing:.14em;margin-bottom:1.5rem;display:block}
-.init-card h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;margin-bottom:.8rem;color:var(--white)}
-.init-card p{color:var(--muted);font-size:.87rem;line-height:1.75;font-weight:300}
-
-/* EVENTS */
-.events{background:var(--black)}
-.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:3.5rem}
-.event-card{border:1px solid var(--border);background:var(--black-mid);transition:all .35s;position:relative;overflow:hidden}
-.event-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--purple);transition:height .4s}
-.event-card:hover::before{height:100%}
-.event-card:hover{border-color:var(--purple-border);transform:translateY(-3px)}
-.event-top{background:var(--black-soft);padding:1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
-.event-date{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:#C4B5FD;line-height:1}
-.event-month{font-size:.68rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:.4rem}
-.event-badge{background:var(--purple-dim);border:1px solid var(--purple-border);color:#C4B5FD;padding:.22rem .7rem;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px}
+/* ── EVENTS ── */
+.events{background:var(--black-mid)}
+.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.event-card{border:1px solid var(--border);background:var(--black);transition:transform .35s,border-color .35s;overflow:hidden}
+.event-card:hover{border-color:var(--purple-border);transform:translateY(-4px)}
+.event-top{background:var(--black-soft);padding:1.6rem 1.8rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
+.event-date{font-family:'Orbitron',sans-serif;font-size:2.4rem;font-weight:500;color:var(--lilac);line-height:1}
+.event-month{font-size:.68rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:.5rem}
+.event-badge{background:var(--purple-dim);border:1px solid var(--purple-border);color:var(--lilac);padding:.25rem .7rem;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;white-space:nowrap}
 .event-body{padding:1.8rem}
-.event-body h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;margin-bottom:.7rem;color:var(--white)}
-.event-body p{color:var(--muted);font-size:.85rem;line-height:1.75;font-weight:300}
+.event-body h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;margin-bottom:.7rem;color:var(--white)}
+.event-body p{color:var(--muted);font-size:.85rem;line-height:1.8;font-weight:300}
+@media(max-width:900px){.events-grid{grid-template-columns:1fr}}
 
-/* TEAM */
-.team{
-  background-image:url('gg.jpg');
-  background-size:cover;background-position:center;background-repeat:no-repeat;position:relative;
-}
-.team::before{content:'';position:absolute;inset:0;background:rgba(8,8,16,0.84);pointer-events:none}
-.team>*{position:relative;z-index:1}
-.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;margin-top:3.5rem;background:var(--border)}
-.team-card{background:var(--black-mid);padding:2.5rem 1.5rem 2rem;text-align:center;transition:all .3s}
+/* ── GALLERY ── */
+.gallery{background:var(--black)}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:1rem}
+.gal-item{position:relative;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--border);background:linear-gradient(135deg,var(--black-soft),var(--black-mid))}
+.gal-item.lg{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.gal-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.78) saturate(.9);transition:transform .6s,filter .4s}
+.gal-item:hover img{transform:scale(1.06);filter:brightness(.5)}
+.gal-cap{position:absolute;left:0;right:0;bottom:0;padding:1.2rem 1.3rem;background:linear-gradient(transparent,rgba(8,8,16,0.88));font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s}
+.gal-item:hover .gal-cap{opacity:1;transform:none}
+@media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,1fr)}.gal-item.lg{grid-column:span 2;grid-row:span 1;aspect-ratio:4/3}}
+@media(max-width:560px){.gallery-grid{grid-template-columns:1fr}.gal-item.lg{grid-column:span 1}}
+
+/* ── TEAM ── */
+.team{background:var(--black-mid)}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border)}
+.team-card{background:var(--black);padding:2.6rem 1.4rem 2.1rem;text-align:center;transition:background .3s}
 .team-card:hover{background:var(--black-soft)}
-.team-avatar{width:96px;height:96px;border-radius:50%;overflow:hidden;margin:0 auto 1.5rem;border:1px solid var(--purple-border)}
-.team-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
-.team-card h3{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:400;margin-bottom:.35rem;color:var(--white)}
-.team-card span{color:#A78BFA;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.team-avatar{width:106px;height:106px;border-radius:50%;overflow:hidden;margin:0 auto 1.4rem;border:1px solid var(--purple-border)}
+.team-avatar img{width:100%;height:100%;object-fit:cover}
+.team-card h3{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:500;color:var(--white);margin-bottom:.35rem;letter-spacing:.02em}
+.team-card span{color:var(--lilac-soft);font-size:.69rem;letter-spacing:.12em;text-transform:uppercase}
+@media(max-width:1000px){.team-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.team-grid{grid-template-columns:1fr}}
 
-/* CTA */
-.cta{background:var(--black);padding:7rem 5rem;text-align:center}
-.cta-inner{max-width:580px;margin:0 auto;border:1px solid var(--border);padding:5rem 4rem;position:relative;background:var(--black-mid)}
-.cta-inner::before{content:'';position:absolute;top:-1px;left:15%;width:25%;height:1px;background:var(--purple)}
-.cta-inner h2{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;margin-bottom:1rem;color:var(--white)}
-.cta-inner p{color:var(--muted);font-size:.92rem;line-height:1.85;margin-bottom:2.5rem;font-weight:300}
-.join-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2.6rem;background:var(--purple);color:var(--white);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:all .3s;border-radius:2px;border:1px solid var(--purple)}
-.join-btn:hover{background:transparent;color:#C4B5FD;transform:translateY(-2px)}
-.social-links{display:flex;justify-content:center;gap:.75rem;margin-top:2.5rem;flex-wrap:wrap}
-.social-btn{width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:1rem;transition:all .22s;border-radius:2px}
-.social-btn:hover{border-color:var(--purple);color:#C4B5FD;background:var(--purple-dim)}
+/* ── CTA / JOIN ── */
+.cta{background:var(--black);text-align:center}
+.cta-inner{max-width:600px;margin:0 auto;border:1px solid var(--border);padding:4.5rem 3rem;background:var(--black-mid);position:relative}
+.cta-inner::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--purple)}
+.cta-inner img{height:54px;margin:0 auto 1.8rem;opacity:.95}
+.cta-inner h2{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--white);margin-bottom:.9rem}
+.cta-inner p{color:var(--muted);margin-bottom:2.2rem;font-weight:300}
+.social-row{display:flex;justify-content:center;gap:.7rem;margin-top:2.4rem;flex-wrap:wrap}
+.social-btn{width:42px;height:42px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;border-radius:3px;font-size:1rem;transition:all .22s}
+.social-btn:hover{border-color:var(--purple);color:var(--lilac);background:var(--purple-dim);transform:translateY(-2px)}
 
-/* FOOTER */
-footer{background:var(--black-mid);border-top:1px solid var(--border);padding:2.5rem 5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-footer .logo-wrap{display:flex;align-items:center;gap:.85rem}
-footer .logo-wrap img{height:30px}
-.footer-brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:.92rem;color:var(--white);letter-spacing:.06em}
-footer p{color:var(--muted);font-size:.76rem;letter-spacing:.04em}
-footer a{color:#A78BFA;text-decoration:none}
+/* ── FOOTER ── */
+footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.5rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1.5fr;gap:3rem}
+.footer-brand{display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem}
+.footer-brand img{height:34px}
+.footer-brand span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;color:#fff;letter-spacing:.04em}
+.footer-about{color:var(--muted);font-size:.86rem;line-height:1.85;font-weight:300;max-width:320px}
+.footer-tagline{display:flex;gap:1.4rem;margin-top:1.3rem;color:var(--lilac-soft);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase}
+.footer-col h4{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac-soft);margin-bottom:1.2rem;font-weight:600}
+.footer-links{display:flex;flex-direction:column;gap:.55rem}
+.footer-links a{color:var(--muted);font-size:.86rem;text-decoration:none;font-weight:300;transition:color .22s;width:fit-content}
+.footer-links a:hover{color:var(--lilac)}
+.footer-col p{color:var(--muted);font-size:.86rem;line-height:1.8;font-weight:300;margin-bottom:.4rem}
+.newsletter{display:flex;gap:.5rem;margin-top:1rem}
+.newsletter input{flex:1;min-width:0;background:var(--black-soft);border:1px solid var(--border);color:#fff;padding:.7rem .9rem;border-radius:3px;font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;transition:border-color .22s}
+.newsletter input:focus{border-color:var(--purple-border)}
+.newsletter button{background:var(--purple);color:#fff;border:none;padding:.7rem 1.2rem;border-radius:3px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .25s;white-space:nowrap}
+.newsletter button:hover{background:var(--purple-mid)}
+.footer-bottom{border-top:1px solid var(--border);margin-top:3rem;padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.76rem;letter-spacing:.03em}
+.footer-bottom a{color:var(--lilac-soft);text-decoration:none}
+@media(max-width:820px){.footer-grid{grid-template-columns:1fr;gap:2.5rem}.footer-bottom{justify-content:center;text-align:center}}
 
-/* FADE IN */
-.fade-in{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s ease}
-.fade-in.visible{opacity:1;transform:translateY(0)}
+/* ── FADE-IN ON SCROLL ── */
+.fade-in{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.fade-in.visible{opacity:1;transform:none}
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  nav{padding:1rem 1.5rem}
-  section{padding:5rem 1.5rem}
-  .stats{padding:2.5rem 1.5rem}
-  .stat{border-right:none;border-bottom:1px solid var(--border)}
-  .stat:last-child{border-bottom:none}
-  .about-grid{grid-template-columns:1fr;gap:3.5rem}
-  .about-img-badge{bottom:-1rem;right:0}
-  .about-frame{display:none}
-  footer{padding:2rem 1.5rem;flex-direction:column;text-align:center}
-  .cta{padding:4rem 1.5rem}
-  .cta-inner{padding:3rem 1.5rem}
+/* ── RESPONSIVE BASE ── */
+@media(max-width:820px){
+  section{padding:5rem 0}
+  .container{padding:0 1.5rem}
+  .section-head{margin-bottom:3rem}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+}
+@media(max-width:560px){
+  .menu-toggle .label-open,.menu-toggle .label-close,.menu-toggle.open .label-open,.menu-toggle.open .label-close{display:none}
+  .brand img{height:30px}
+  .brand span{font-size:.98rem;letter-spacing:.03em}
 }
 </style>
 </head>
 <body>
 
-<!-- DRAWER OVERLAY -->
-<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
-
-<!-- SIDE DRAWER -->
-<aside class="drawer" id="drawer" role="navigation" aria-label="Site navigation">
-  <div class="drawer-head">
-    <span class="drawer-brand">DAC — DGU AI Cell</span>
-    <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">✕</button>
-  </div>
-  <ul class="drawer-nav">
-  
-   <li><a href="#about" onclick="closeDrawer()">About</a></li>
-<li><a href="#offerings" onclick="closeDrawer()">Offerings</a></li>
-<li>
-    <a href="book-meeting.html" onclick="closeDrawer()">
-      Book a Meeting
-    </a>
-  </li>
-
-<li><a href="#initiatives" onclick="closeDrawer()">Initiatives</a></li>
-<li><a href="#events" onclick="closeDrawer()">Events</a></li>
-<li><a href="#team" onclick="closeDrawer()">Team</a></li>
-<li>
-    <a href="campus-ambassador.html" onclick="closeDrawer()">
-      Campus Ambassador Programme
-    </a>
-  </li>
-  <li><a href="#contact" onclick="closeDrawer()">Join Us</a></li>
-  </ul>
-  <div class="drawer-footer">
-    DBS Global University · Dehradun<br/>
-    <a href="https://dgu.ac.in" style="color:#A78BFA;text-decoration:none">dgu.ac.in</a>
-  </div>
-</aside>
-
 <!-- NAVBAR -->
-<nav id="navbar">
-  <!-- Hamburger — left -->
-  <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Open navigation menu" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-
-  <!-- Logo — center -->
-  <div class="nav-logo">
-    <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC Logo" onerror="this.style.display='none'"/>
-    <span>DAC — DGU AI Cell</span>
+<nav id="nav">
+  <div class="container nav-inner">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span class="label-open">Menu</span><span class="label-close">Close</span>
+    </button>
+    <a href="#home" class="brand">
+      <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC Logo" onerror="this.style.display='none'"/>
+      <span>DAC — DGU AI Cell</span>
+    </a>
+    <span class="nav-spacer"></span>
   </div>
-
-  <!-- DGU link — right -->
-  <a href="https://dgu.ac.in" target="_blank" class="nav-cta">DGU</a>
 </nav>
+
+<!-- FULLSCREEN OVERLAY MENU -->
+<div class="menu" id="menu">
+  <ul class="menu-links">
+    <li><a href="#home" onclick="closeMenu()">Home</a></li>
+    <li><a href="#about" onclick="closeMenu()">About</a></li>
+    <li><a href="#offerings" onclick="closeMenu()">Offerings</a></li>
+    <li><a href="#events" onclick="closeMenu()">Events</a></li>
+    <li><a href="#gallery" onclick="closeMenu()">Gallery</a></li>
+    <li><a href="#team" onclick="closeMenu()">Team</a></li>
+    <li><a href="campus-ambassador.html" onclick="closeMenu()">Campus Ambassador</a></li>
+    <li><a href="book-meeting.html" onclick="closeMenu()">Book a Meeting</a></li>
+    <li><a href="#contact" onclick="closeMenu()">Join Us</a></li>
+  </ul>
+  <div class="menu-social">
+    <a href="https://instagram.com/dac.dgu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="https://youtube.com/@DACXDGU" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    <a href="https://twitter.com/dac_dgu" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://wa.me/send?phone=919205072074" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- FIXED SIDE SOCIAL -->
+<div class="side-social">
+  <a href="https://instagram.com/dac.dgu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+  <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  <a href="https://youtube.com/@DACXDGU" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+  <a href="https://twitter.com/dac_dgu" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
-  <div class="hero-bottom-fade"></div>
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      DBS Global University · Dehradun
-    </div>
-    <h1>
-      Shaping the Future<br/>with <em>Artificial Intelligence</em>
-    </h1>
-    <p>DAC is the official AI Cell of DBS Global University — a community of innovators, researchers, and builders pushing the boundaries of AI technology.</p>
-    <div class="hero-btns">
-      <a href="#initiatives" class="btn-primary">Explore Initiatives</a>
-      <a href="#about" class="btn-ghost">Learn More</a>
+  <div class="hero-grid"></div>
+  <div class="hero-fade"></div>
+  <div class="container">
+    <span class="eyebrow reveal-load" style="animation-delay:.1s">Learn · Build · Innovate</span>
+    <h1 class="reveal-load" style="animation-delay:.25s">Shaping the Future<br/>with <em>Artificial Intelligence</em></h1>
+    <p class="reveal-load" style="animation-delay:.45s">DAC is the official AI Cell of DBS Global University — a community of innovators, researchers, and builders pushing the boundaries of AI technology.</p>
+    <div class="hero-btns reveal-load" style="animation-delay:.6s">
+      <a href="#offerings" class="btn btn-primary">Explore Offerings</a>
+      <a href="#contact" class="btn btn-ghost">Join Us</a>
     </div>
   </div>
-  <div class="scroll-hint">scroll</div>
+  <a href="#stats" class="scroll-hint">Scroll Down</a>
 </section>
 
 <!-- STATS -->
-<div class="stats">
-  <div class="stat fade-in">
-    <div class="stat-num" data-target="250">0</div>
-    <div class="stat-label">Active Members</div>
-  </div>
-  <div class="stat fade-in">
-    <div class="stat-num" data-target="15">0</div>
-    <div class="stat-label">Upcoming Projects</div>
-  </div>
-  <div class="stat fade-in">
-    <div class="stat-num" data-target="8">0</div>
-    <div class="stat-label">International Industry Partners</div>
+<div class="stats" id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat fade-in">
+        <div class="stat-num" data-target="250">0</div>
+        <div class="stat-label">Active Members</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat-num" data-target="15">0</div>
+        <div class="stat-label">Upcoming Projects</div>
+      </div>
+      <div class="stat fade-in">
+        <div class="stat-num" data-target="8">0</div>
+        <div class="stat-label">International Industry Partners</div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- ABOUT -->
 <section class="about" id="about">
-  <div class="section-tag">Who We Are</div>
-  <div class="about-grid">
-    <div class="about-img-wrap fade-in">
-
-  <div class="about-slider">
-    <img src="1773732510phpG1y4R4.jpeg" class="about-img active" alt="DAC Image 1">
-    <img src="under.png" class="about-img" alt="DAC Image 2">
-    <img src="patron.png" class="about-img" alt="DAC Image 3">
-  </div>
-
-  <div class="about-frame"></div>
-
-  
-</div>
-<div class="floating-social">
-   
-
-    <a href="https://instagram.com/dac.dgu" target="_blank" title="Instagram">
-        <i class="fab fa-instagram"></i>
-
-    </a>
-    <a href="https://youtube.com/@DACXDGU" target="_blank" title="YouTube">
-        <i class="fab fa-youtube"></i>
-</a>
-    </a>
- <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" title="LinkedIn">
-        <i class="fab fa-linkedin-in"></i>
-    </a>
-</a>
-    <a href="https://twitter.com/dac_dgu" target="_blank" title="X">
-        <i class="fab fa-x-twitter"></i>
-    </a>
-
-
-
-</div>
-    <div class="about-text fade-in">
-      <div class="section-title">Empowering Students<br/>Through AI</div>
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="eyebrow">Who We Are</span>
+      <h2 class="section-title">About <em>DAC</em></h2>
       <div class="divider"></div>
-      <p>DAC (DGU AI Cell) is the official artificial intelligence student body of DBS Global University, Dehradun. We are a student-driven community dedicated to exploring, learning, and building with AI.</p>
-      <p>We bring together curious minds from across departments to collaborate on real-world projects, attend expert-led workshops, and participate in national-level competitions — all centered around the transformative power of artificial intelligence.</p>
-      <p>Our mission: democratize AI education and foster a culture of innovation at DGU.</p>
-      <div class="about-tags">
-        <span class="tag">Machine Learning</span>
-        <span class="tag">Deep Learning</span>
-        <span class="tag">NLP</span>
-        <span class="tag">Computer Vision</span>
-        <span class="tag">Robotics</span>
-        <span class="tag">Research</span>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <h3 class="section-title" style="font-size:clamp(1.8rem,3vw,2.4rem)">Empowering Students<br/>Through AI</h3>
+        <div class="divider" style="margin-left:0"></div>
+        <p>DAC (DGU AI Cell) is the official artificial intelligence student body of DBS Global University, Dehradun. We are a student-driven community dedicated to exploring, learning, and building with AI.</p>
+        <p>We bring together curious minds from across departments to collaborate on real-world projects, attend expert-led workshops, and participate in national-level competitions — all centered around the transformative power of artificial intelligence.</p>
+        <p>Our mission: democratize AI education and foster a culture of innovation at DGU.</p>
+        <div class="about-tags">
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Deep Learning</span>
+          <span class="tag">NLP</span>
+          <span class="tag">Computer Vision</span>
+          <span class="tag">Robotics</span>
+          <span class="tag">Research</span>
+        </div>
+      </div>
+      <div class="about-media fade-in">
+        <div class="about-slider">
+          <img src="1773732510phpG1y4R4.jpeg" class="about-img active" alt="DAC 1" onerror="this.style.display='none'"/>
+          <img src="under.png" class="about-img" alt="DAC 2" onerror="this.style.display='none'"/>
+          <img src="patron.png" class="about-img" alt="DAC 3" onerror="this.style.display='none'"/>
+        </div>
       </div>
     </div>
   </div>
@@ -731,469 +358,308 @@ footer a{color:#A78BFA;text-decoration:none}
 
 <!-- OFFERINGS -->
 <section class="offerings" id="offerings">
-  <div class="offerings-header fade-in">
-    <div class="section-tag">What We Offer</div>
-    <div class="section-title">Our Offerings</div>
-    <div class="divider" style="margin:1.4rem auto"></div>
-    <p class="section-sub" style="margin:0 auto">Exclusive opportunities and platforms that set DAC members apart in the AI landscape.</p>
-  </div>
-  <div class="offerings-track-wrap fade-in">
-    <div class="offerings-track" id="offeringsTrack">
-      <div class="offering-card" data-index="0">
-        <div class="offering-num">01</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg></div>
-        <div class="offering-title">R&D Platform</div>
-        <div class="offering-desc">Access a structured research environment to ideate, prototype, and publish AI-driven projects alongside faculty and industry mentors.</div>
-      </div>
-      <div class="offering-card" data-index="1">
-        <div class="offering-num">02</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <div class="offering-title">Cross Border Marketing</div>
-        <div class="offering-desc">Learn to position and promote AI initiatives across global markets through collaborative campaigns with international student bodies.</div>
-      </div>
-      <div class="offering-card" data-index="2">
-        <div class="offering-num">03</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div class="offering-title">Industry Relations</div>
-        <div class="offering-desc">Build lasting ties with AI companies, startups, and enterprises through structured engagement, visits, and partnership programmes.</div>
-      </div>
-      <div class="offering-card" data-index="3">
-        <div class="offering-num">04</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-        <div class="offering-title">CXO Networks</div>
-        <div class="offering-desc">Gain direct access to C-suite executives and senior leaders through curated networking sessions, panels, and mentorship calls.</div>
-      </div>
-      <div class="offering-card" data-index="4">
-        <div class="offering-num">05</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        <div class="offering-title">Event Management Opportunities</div>
-        <div class="offering-desc">Lead and organise real-scale AI events, competitions, and summits — developing hands-on project and people management skills.</div>
-      </div>
-      <div class="offering-card" data-index="5">
-        <div class="offering-num">06</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.45 2 2 0 0 1 3.58 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.92-1.61a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 14.92z"/></svg></div>
-        <div class="offering-title">Live Industry Project Experience</div>
-        <div class="offering-desc">Work on active, real-world briefs from partner companies — gaining portfolio-ready deliverables and professional exposure.</div>
-      </div>
-      <div class="offering-card" data-index="6">
-        <div class="offering-num">07</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <div class="offering-title">Operations Management Platform</div>
-        <div class="offering-desc">Use DAC's internal systems to manage club workflows, track projects, and develop operational thinking applied to AI organisations.</div>
-      </div>
-      <div class="offering-card" data-index="7">
-        <div class="offering-num">08</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-        <div class="offering-title">AI Tools Hands-on Experience</div>
-        <div class="offering-desc">Get structured exposure to leading AI platforms, APIs, and frameworks through guided labs, tool sprints, and peer-led sessions.</div>
-      </div>
-      <div class="offering-card" data-index="8">
-        <div class="offering-num">09</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div class="offering-title">Inter-Campus Events &amp; Workshop Management</div>
-        <div class="offering-desc">Collaborate across universities to co-host workshops, competitions, and knowledge-exchange programmes at a national scale.</div>
-      </div>
-      <div class="offering-card" data-index="9">
-        <div class="offering-num">10</div>
-        <div class="offering-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-        <div class="offering-title">AI Industry Knowledge &amp; Insights</div>
-        <div class="offering-desc">Stay ahead with curated briefings, research digests, and expert commentary on the latest trends shaping the global AI landscape.</div>
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="eyebrow">What We Offer</span>
+      <h2 class="section-title">Our <em>Offerings</em></h2>
+      <p class="section-sub">Exclusive opportunities and platforms that set DAC members apart in the AI landscape.</p>
+      <div class="divider"></div>
+    </div>
+    <div class="marquee fade-in">
+      <div class="marquee-track" id="offeringsMarquee">
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg></div><span class="m-num">01</span></div>
+          <h3>R&amp;D Platform</h3>
+          <p>Access a structured research environment to ideate, prototype, and publish AI-driven projects alongside faculty and industry mentors.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><span class="m-num">02</span></div>
+          <h3>Cross Border Marketing</h3>
+          <p>Learn to position and promote AI initiatives across global markets through collaborative campaigns with international student bodies.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="m-num">03</span></div>
+          <h3>Industry Relations</h3>
+          <p>Build lasting ties with AI companies, startups, and enterprises through structured engagement, visits, and partnership programmes.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><span class="m-num">04</span></div>
+          <h3>CXO Networks</h3>
+          <p>Gain direct access to C-suite executives and senior leaders through curated networking sessions, panels, and mentorship calls.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span class="m-num">05</span></div>
+          <h3>Event Management Opportunities</h3>
+          <p>Lead and organise real-scale AI events, competitions, and summits — developing hands-on project and people management skills.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.45 2 2 0 0 1 3.58 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.92-1.61a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 14.92z"/></svg></div><span class="m-num">06</span></div>
+          <h3>Live Industry Project Experience</h3>
+          <p>Work on active, real-world briefs from partner companies — gaining portfolio-ready deliverables and professional exposure.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="m-num">07</span></div>
+          <h3>Operations Management Platform</h3>
+          <p>Use DAC's internal systems to manage club workflows, track projects, and develop operational thinking applied to AI organisations.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><span class="m-num">08</span></div>
+          <h3>AI Tools Hands-on Experience</h3>
+          <p>Get structured exposure to leading AI platforms, APIs, and frameworks through guided labs, tool sprints, and peer-led sessions.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="m-num">09</span></div>
+          <h3>Inter-Campus Events &amp; Workshop Management</h3>
+          <p>Collaborate across universities to co-host workshops, competitions, and knowledge-exchange programmes at a national scale.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-top"><div class="m-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><span class="m-num">10</span></div>
+          <h3>AI Industry Knowledge &amp; Insights</h3>
+          <p>Stay ahead with curated briefings, research digests, and expert commentary on the latest trends shaping the global AI landscape.</p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="offerings-nav" id="offeringsDots"></div>
-  <div class="offerings-arrows">
-    <button class="off-arrow" id="offPrev">&#8592;</button>
-    <button class="off-arrow" id="offNext">&#8594;</button>
-  </div>
-</section>
-
-<!-- INITIATIVES -->
-<section class="initiatives" id="initiatives">
-  <div style="text-align:center">
-    <div class="section-tag">What We Do</div>
-    <div class="section-title">Our Upcoming Initiatives</div>
-    <p class="section-sub" style="margin:0 auto">From hands-on workshops to flagship competitions, DAC creates meaningful opportunities for every student.</p>
-    <div class="divider" style="margin:1.4rem auto 0"></div>
-  </div>
-  <div class="init-grid fade-in">
-    <div class="init-card">
-      <span class="init-num">01</span>
-      <h3>AI Workshops</h3>
-      <p>Regular hands-on sessions on ML, deep learning, LLMs, and AI tools — designed for beginners and advanced learners alike.</p>
-    </div>
-    <div class="init-card">
-      <span class="init-num">02</span>
-      <h3>Hackathons</h3>
-      <p>Competitive events where teams build AI-powered solutions to real-world problems within 24–48 hours under expert mentorship.</p>
-    </div>
-    <div class="init-card">
-      <span class="init-num">03</span>
-      <h3>Research Projects</h3>
-      <p>Collaborative research initiatives with faculty and industry mentors — turning academic curiosity into publishable work.</p>
-    </div>
-    <div class="init-card">
-      <span class="init-num">04</span>
-      <h3>Speaker Series</h3>
-      <p>Industry experts and AI researchers share insights through talks, panels, and fireside chats — bringing the AI world to campus.</p>
-    </div>
-    <div class="init-card">
-      <span class="init-num">05</span>
-      <h3>Industry Connect</h3>
-      <p>Building bridges between students and AI companies through internship drives, networking events, and live projects.</p>
-    </div>
+    <p class="marquee-hint">Hover to pause</p>
   </div>
 </section>
 
 <!-- EVENTS -->
 <section class="events" id="events">
-  <div style="text-align:center">
-    <div class="section-tag">Stay Updated</div>
-    <div class="section-title">Upcoming Events</div>
-    <div class="divider" style="margin:1.4rem auto"></div>
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="eyebrow">Stay Updated</span>
+      <h2 class="section-title">Upcoming <em>Events</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="events-grid fade-in">
+      <div class="event-card">
+        <div class="event-top">
+          <div><div class="event-date">20</div><div class="event-month">August 2026</div></div>
+          <span class="event-badge">Meeting</span>
+        </div>
+        <div class="event-body">
+          <h3>Official First Meeting of DAC</h3>
+          <p>Join the official first meeting of the DGU AI Club (DAC). Meet the core team, explore upcoming AI events and projects, connect with like-minded students, and begin your journey in the world of Artificial Intelligence and innovation.</p>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-top">
+          <div><div class="event-date">05</div><div class="event-month">September 2026</div></div>
+          <span class="event-badge">Hackathon</span>
+        </div>
+        <div class="event-body">
+          <h3>DACathon 1.0 — Build with AI</h3>
+          <p>DAC's flagship 36-hour AI hackathon. Form teams, pick a problem statement, and build a working AI prototype.</p>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-top">
+          <div><div class="event-date">18</div><div class="event-month">October 2026</div></div>
+          <span class="event-badge">Trip</span>
+        </div>
+        <div class="event-body">
+          <h3>AI Content Creation Competition @ Nainital Trip</h3>
+          <p>Join DAC on an exciting trip to Nainital where students capture memories, explore beautiful locations, and use AI tools to create and edit a 60-second cinematic video. The most creative AI-edited video wins a full refund of the trip fee from DAC.</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="events-grid fade-in">
-    <div class="event-card">
-      <div class="event-top">
-        <div>
-          <div class="event-date">20</div>
-          <div class="event-month">August 2026</div>
-        </div>
-        <span class="event-badge">Meeting</span>
-      </div>
-      <div class="event-body">
-        <h3>Official First Meeting of DAC</h3>
-        <p>Join the official first meeting of the DGU AI Club (DAC). Meet the core team, explore upcoming AI events and projects, connect with like-minded students, and begin your journey in the world of Artificial Intelligence and innovation.</p>
-      </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="eyebrow">Witness the Awesomeness</span>
+      <h2 class="section-title">Gallery</h2>
+      <p class="section-sub">A glimpse into DAC's workshops, competitions, and community moments.</p>
+      <div class="divider"></div>
     </div>
-    <div class="event-card">
-      <div class="event-top">
-        <div>
-          <div class="event-date">5</div>
-          <div class="event-month">September 2026</div>
-        </div>
-        <span class="event-badge">Hackathon</span>
-      </div>
-      <div class="event-body">
-        <h3>DACathon 1.0 — Build with AI</h3>
-        <p>DAC's flagship 36-hour AI hackathon. Form teams, pick a problem statement, and build a working AI prototype.</p>
-      </div>
-    </div>
-    <div class="event-card">
-      <div class="event-top">
-        <div>
-          <div class="event-date">18</div>
-          <div class="event-month">October 2026</div>
-        </div>
-        <span class="event-badge">Trip</span>
-      </div>
-      <div class="event-body">
-        <h3>AI Content Creation Competition@Nainital Trip</h3>
-        <p>Join DAC on an exciting trip to Nainital where students will capture memories, explore beautiful locations, and use AI tools to create and edit a 60-second cinematic video of Nainital. The most creative and impactful AI-edited video will win a full refund of the trip fee from DAC.</p>
-      </div>
+    <div class="gallery-grid fade-in">
+      <div class="gal-item lg"><img src="chairman.png
+     " alt="" onerror="this.style.display='none'"/><div class="gal-cap">Workshops &amp; Sessions</div></div>
+      <div class="gal-item"><img src="aisummit.png" alt="" onerror="this.style.display='none'"/><div class="gal-cap">Hackathons</div></div>
+      <div class="gal-item"><img src="summit.png" alt="" onerror="this.style.display='none'"/><div class="gal-cap">Community</div></div>
     </div>
   </div>
 </section>
 
 <!-- TEAM -->
 <section class="team" id="team">
-  <div style="text-align:center">
-    <div class="section-tag">The People</div>
-    <div class="section-title">Core Team</div>
-    <div class="divider" style="margin:1.4rem auto"></div>
-  </div>
-  <div class="team-grid fade-in">
-    <div class="team-card">
-      <div class="team-avatar"><img src="rishab.jpeg" alt="President"></div>
-      <h3>Secretary-Industry Relations</h3>
-      <span>Rishab Verma</span>
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="eyebrow">The People</span>
+      <h2 class="section-title">Core <em>Team</em></h2>
+      <div class="divider"></div>
     </div>
-    <div class="team-card">
-      <div class="team-avatar"><img src="anirudh.jpeg" alt="Vice President"></div>
-      <h3>Secretary-Research & Development</h3>
-      <span>Aniruddh Jakotia</span>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar"><img src="cd.jpeg" alt="Treasurer"></div>
-      <h3>Joint Secreatry</h3>
-      <span>Pujita G.</span>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar"><img src="dhurv.jpeg" alt="Pujita G."></div>
-      <h3>Coordinator</h3>
-      <span>Dhruv Goswami</span>
-    </div>
-    <div class="team-card">
-      <div class="team-avatar"><img src="anoushka.jpeg" alt="Aniruddh"></div>
-      <h3>Coordinator</h3>
-      <span>Anoushka</span>
+    <div class="team-grid fade-in">
+      <div class="team-card">
+        <div class="team-avatar"><img src="rishab.jpeg" alt="Rishab Verma" onerror="this.style.display='none'"></div>
+        <h3>Rishab Verma</h3>
+        <span>Secretary · Industry Relations</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="anirudh.jpeg" alt="Aniruddh Jakotia" onerror="this.style.display='none'"></div>
+        <h3>Aniruddh Jakotia</h3>
+        <span>Secretary · Research &amp; Development</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="cd.jpeg" alt="Pujita G." onerror="this.style.display='none'"></div>
+        <h3>Pujita G.</h3>
+        <span>Joint Secretary</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="dhurv.jpeg" alt="Dhruv Goswami" onerror="this.style.display='none'"></div>
+        <h3>Dhruv Goswami</h3>
+        <span>Coordinator</span>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="anoushka.jpeg" alt="Anoushka" onerror="this.style.display='none'"></div>
+        <h3>Anoushka</h3>
+        <span>Coordinator</span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CTA / CONTACT -->
+<!-- CTA / JOIN -->
 <section class="cta" id="contact">
-  <div class="cta-inner fade-in">
-    <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" style="height:54px;margin-bottom:2rem;opacity:.95" onerror="this.style.display='none'"/>
-    <h2>Join the AI Revolution</h2>
-    <p>Be part of DGU's most exciting student community.</p>
-    <a href="join-dac.html" class="join-btn">Join DGU AI Club →</a>
-    <div class="social-links">
-
-      <!-- Instagram -->
-      <a href="https://instagram.com/dac.dgu" target="_blank" class="social-btn" title="Instagram">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-      </a>
-
-      <!-- LinkedIn -->
-      <a href="https://linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" class="social-btn" title="LinkedIn">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-      </a>
-
-      <!-- Twitter/X -->
-      <a href="https://twitter.com/dac_dgu" target="_blank" class="social-btn" title="Twitter/X">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-
-      <!-- WhatsApp -->
-      <a href="https://wa.me/send?phone=919205072074" target="_blank" class="social-btn" title="WhatsApp">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.79 11.79 0 0012.04 0C5.5 0 .16 5.34.16 11.88c0 2.1.55 4.15 1.6 5.96L0 24l6.34-1.66a11.83 11.83 0 005.7 1.45h.01c6.54 0 11.88-5.34 11.88-11.88 0-3.17-1.23-6.15-3.41-8.43z"/></svg>
-      </a>
-
-      <!-- YouTube -->
-      <a href="https://youtube.com/@DACXDGU" target="_blank" class="social-btn" title="YouTube">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31.4 31.4 0 000 12a31.4 31.4 0 00.5 5.8 3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1A31.4 31.4 0 0024 12a31.4 31.4 0 00-.5-5.8zM9.75 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
-      </a>
-
-      <!-- Linktree -->
-      <a href="https://linktr.ee/dgu.dac" target="_blank" class="social-btn" title="Linktree">
-        <!-- Linktree logo mark (simplified) -->
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.51 5.53 17.66 1l1.43 1.43-4.43 4.53h3.07l5.27-5.39L24.43 3l-5.72 5.86v3.35h-2V8.86l-5.72-5.86L12.42 1.57l5.27 5.39h-4.18ZM12 13.56a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
-          <path d="M7.83 8.86H5.29L-0.43 3 1 1.57l5.27 5.39h3.07L4.91 2.43 6.34 1l4.15 4.53v2.47l-2.66 2.86Z"/>
-        </svg>
-      </a>
-
-      <!-- Email -->
-      <a href="mailto:dac@dgu.ac.in" class="social-btn" title="Email">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-      </a>
-
+  <div class="container">
+    <div class="cta-inner fade-in">
+      <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
+      <h2>Join the AI Revolution</h2>
+      <p>Be part of DGU's most exciting student community.</p>
+      <a href="join-dac.html" class="btn btn-primary">Join DGU AI Club →</a>
+      <div class="social-row">
+        <a href="https://instagram.com/dac.dgu" target="_blank" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://twitter.com/dac_dgu" target="_blank" class="social-btn" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://youtube.com/@DACXDGU" target="_blank" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://wa.me/send?phone=919205072074" target="_blank" class="social-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://linktr.ee/dgu.dac" target="_blank" class="social-btn" aria-label="Linktree"><i class="fas fa-link"></i></a>
+        <a href="mailto:dac@dgu.ac.in" class="social-btn" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="logo-wrap">
-    <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
-    <div>
-      <div class="footer-brand">DAC — DGU AI Cell</div>
-      <div style="color:var(--muted);font-size:.72rem;letter-spacing:.06em;margin-top:.15rem">DBS Global University, Dehradun</div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
+          <span>DAC — DGU AI Cell</span>
+        </div>
+        <p class="footer-about">The official AI Cell of DBS Global University, Dehradun — a student-driven community exploring, learning, and building with artificial intelligence.</p>
+        <div class="footer-tagline"><span>Learn</span><span>Build</span><span>Innovate</span></div>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank">LinkedIn</a>
+          <a href="https://instagram.com/dac.dgu" target="_blank">Instagram</a>
+          <a href="https://twitter.com/dac_dgu" target="_blank">X (Twitter)</a>
+          <a href="https://youtube.com/@DACXDGU" target="_blank">YouTube</a>
+          <a href="https://linktr.ee/dgu.dac" target="_blank">Linktree</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Get Notified</h4>
+        <p>Be the first to know about DAC's events and activities.</p>
+        <form class="newsletter" onsubmit="return subscribe(event)">
+          <input id="nl-email" type="email" placeholder="Your email" required/>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DAC · DGU AI Cell · <a href="https://dgu.ac.in" target="_blank">dgu.ac.in</a></span>
+      <span>DBS Global University, Dehradun</span>
     </div>
   </div>
-  <p>© 2026 DAC · DGU AI Cell · <a href="https://dgu.ac.in">dgu.ac.in</a></p>
 </footer>
 
 <script>
-/* ── Fade-in observer ── */
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
-},{threshold:.12});
-document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+/* ── Fullscreen menu ── */
+const menu = document.getElementById('menu');
+const menuToggle = document.getElementById('menuToggle');
+function toggleMenu(){
+  const open = menu.classList.toggle('open');
+  menuToggle.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+  menuToggle.setAttribute('aria-expanded', open);
+}
+function closeMenu(){
+  menu.classList.remove('open');
+  menuToggle.classList.remove('open');
+  document.body.style.overflow = '';
+  menuToggle.setAttribute('aria-expanded', false);
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
 
-/* ── Navbar scroll ── */
-window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').style.background =
-    window.scrollY > 60 ? 'rgba(8,8,16,0.97)' : 'rgba(8,8,16,0.88)';
+/* ── Navbar scroll state ── */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('scrolled', window.scrollY > 40);
 });
 
-/* ── Drawer ── */
-function openDrawer(){
-  document.getElementById('drawer').classList.add('open');
-  document.getElementById('drawerOverlay').classList.add('open');
-  document.getElementById('hamburger').classList.add('open');
-  document.getElementById('hamburger').setAttribute('aria-expanded','true');
-  document.body.style.overflow='hidden';
-}
-function closeDrawer(){
-  document.getElementById('drawer').classList.remove('open');
-  document.getElementById('drawerOverlay').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('hamburger').setAttribute('aria-expanded','false');
-  document.body.style.overflow='';
-}
-function toggleDrawer(){
-  document.getElementById('drawer').classList.contains('open') ? closeDrawer() : openDrawer();
-}
+/* ── Fade-in on scroll ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:.12 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-/* Close drawer on Escape key */
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+/* ── Stats counters ── */
 const counters = document.querySelectorAll('.stat-num');
-
-const countObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-
-        if(entry.isIntersecting){
-
-            const counter = entry.target;
-            const target = +counter.dataset.target;
-
-            let count = 0;
-
-            const updateCounter = () => {
-
-                const increment = target / 80;
-
-                if(count < target){
-                    count += increment;
-                    counter.innerText = Math.ceil(count);
-                    requestAnimationFrame(updateCounter);
-                }else{
-                    counter.innerText = target + '+';
-                }
-            };
-
-            updateCounter();
-
-            countObserver.unobserve(counter);
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const counter = entry.target;
+      const target = +counter.dataset.target;
+      let count = 0;
+      const step = () => {
+        const inc = target / 80;
+        if(count < target){
+          count += inc;
+          counter.innerText = Math.ceil(count);
+          requestAnimationFrame(step);
+        } else {
+          counter.innerText = target + '+';
         }
-    });
-},{
-    threshold:0.5
-});
+      };
+      step();
+      countObserver.unobserve(counter);
+    }
+  });
+}, { threshold:.5 });
+counters.forEach(c => countObserver.observe(c));
 
-counters.forEach(counter => {
-    countObserver.observe(counter);
-});
-/* OFFERINGS CAROUSEL */
+/* ── Offerings marquee: duplicate cards for a seamless loop ── */
 (function(){
-  const track      = document.getElementById('offeringsTrack');
-  const dotsWrap   = document.getElementById('offeringsDots');
-  const btnPrev    = document.getElementById('offPrev');
-  const btnNext    = document.getElementById('offNext');
-  if(!track) return;
-
-  const cards      = Array.from(track.querySelectorAll('.offering-card'));
-  const total      = cards.length;
-  let   current    = 0;
-  let   isAnimating = false;
-
-  /* build dots */
-  cards.forEach((_,i)=>{
-    const d = document.createElement('span');
-    d.className = 'offerings-dot' + (i===0?' active':'');
-    d.addEventListener('click',()=>goTo(i));
-    dotsWrap.appendChild(d);
-  });
-  const dots = Array.from(dotsWrap.querySelectorAll('.offerings-dot'));
-
-  function isMobile(){ return window.innerWidth <= 768; }
-
-  function getCardWidth(){
-    const style = getComputedStyle(track);
-    const gap   = parseFloat(style.gap)||16;
-    return cards[0].getBoundingClientRect().width + gap;
-  }
-
-  function applyClasses(){
-    cards.forEach((c,i)=>{
-      const rel = i - current;
-      c.classList.remove('is-center','is-side','is-far');
-      if(rel === 0)             c.classList.add('is-center');
-      else if(Math.abs(rel)===1) c.classList.add('is-side');
-      else                       c.classList.add('is-far');
-    });
-  }
-
-  function updateDots(){
-    dots.forEach((d,i)=> d.classList.toggle('active', i===current));
-  }
-
-  function slideTo(idx, animate){
-    if(isAnimating) return;
-    isAnimating = true;
-
-    current = ((idx % total) + total) % total;
-
-    const cw         = getCardWidth();
-    const wrapWidth  = track.parentElement.offsetWidth;
-    const cardW      = cards[0].getBoundingClientRect().width;
-    const centerPos  = wrapWidth * 0.5;
-    const cardCenter = current * cw + cardW / 2;
-    let   offset;
-
-    if(isMobile()){
-      /* on mobile: no 5% padding offset — just center the active card */
-      offset = centerPos - cardCenter;
-    } else {
-      const trackPad = wrapWidth * 0.05;
-      offset = centerPos - cardCenter - trackPad;
-    }
-
-    track.style.transition = animate
-      ? 'transform 0.4s cubic-bezier(0.77,0,0.18,1)'
-      : 'none';
-    track.style.transform = `translateX(${offset}px)`;
-
-    applyClasses();
-    updateDots();
-
-    setTimeout(()=>{ isAnimating=false; }, animate ? 450 : 10);
-  }
-
-  function goTo(idx){ slideTo(idx, true); }
-
-  btnNext.addEventListener('click',()=>goTo(current+1));
-  btnPrev.addEventListener('click',()=>goTo(current-1));
-
-  /* keyboard */
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight') goTo(current+1);
-    if(e.key==='ArrowLeft')  goTo(current-1);
-  });
-
-  /* touch / swipe support */
-  let touchStartX = 0;
-  track.addEventListener('touchstart', e=>{ touchStartX = e.touches[0].clientX; }, {passive:true});
-  track.addEventListener('touchend',   e=>{
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if(Math.abs(diff) > 40){
-      diff > 0 ? goTo(current+1) : goTo(current-1);
-    }
-  }, {passive:true});
-
-  /* auto-advance */
-  let autoTimer = setInterval(()=>goTo(current+1), 2000);
-  [btnPrev,btnNext,...dots].forEach(el=>{
-    el.addEventListener('click',()=>{
-      clearInterval(autoTimer);
-      autoTimer = setInterval(()=>goTo(current+1), 2000);
-    });
-  });
-
-  /* init */
-  requestAnimationFrame(()=>{
-    slideTo(0, false);
-    window.addEventListener('resize',()=> slideTo(current, false));
-  });
+  const track = document.getElementById('offeringsMarquee');
+  if(track) track.innerHTML += track.innerHTML;
 })();
 
-/* ABOUT SLIDESHOW */
+/* ── About slideshow ── */
 const slides = document.querySelectorAll('.about-slider .about-img');
+if(slides.length){
+  let current = 0;
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 3000);
+}
 
-let currentSlide = 0;
-
-setInterval(() => {
-
-    slides[currentSlide].classList.remove('active');
-
-    currentSlide = (currentSlide + 1) % slides.length;
-
-    slides[currentSlide].classList.add('active');
-
-}, 3000);
-
+/* ── Newsletter (opens mail client — placeholder) ── */
+function subscribe(e){
+  e.preventDefault();
+  const v = document.getElementById('nl-email').value;
+  window.location.href = 'mailto:dac@dgu.ac.in?subject=Newsletter%20Subscription&body=' + encodeURIComponent('Please subscribe this email to DAC updates: ' + v);
+  return false;
+}
 </script>
 </body>
 </html>
