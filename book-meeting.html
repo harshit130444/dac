@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Book a Meeting — DAC · DGU AI Cell</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- Calendly widget CSS -->
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
 <style>
@@ -16,196 +16,156 @@
   --black-soft:#161625;
   --purple:#7C3AED;
   --purple-mid:#6D28D9;
-  --purple-dim:rgba(124,58,237,0.15);
-  --purple-border:rgba(124,58,237,0.28);
+  --purple-dim:rgba(124,58,237,0.14);
+  --purple-border:rgba(124,58,237,0.30);
+  --lilac:#C4B5FD;
+  --lilac-soft:#A78BFA;
   --white:#F8F8FF;
-  --muted:#7A7A9A;
-  --border:rgba(124,58,237,0.2);
+  --muted:#85859E;
+  --border:rgba(124,58,237,0.18);
 }
 html{scroll-behavior:smooth}
-body{
-  background:var(--black);
-  color:var(--white);
-  font-family:'Outfit',sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
-}
+body{background:var(--black);color:var(--white);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
 
 /* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-track{background:#080810}
-::-webkit-scrollbar-thumb{background:#7C3AED;border-radius:999px;box-shadow:0 0 10px rgba(124,58,237,.5)}
-::-webkit-scrollbar-thumb:hover{background:#A78BFA}
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:var(--lilac-soft)}
 
 /* ── NAVBAR ── */
-nav{
-  position:fixed;top:0;left:0;width:100%;z-index:100;
-  padding:1.25rem 1rem;
-  display:grid;
-  grid-template-columns:44px 1fr 44px;
-  align-items:center;
-  backdrop-filter:blur(24px);
-  background:rgba(8,8,16,0.88);
-  border-bottom:1px solid var(--border);
-  transition:background .4s;
-}
-.nav-logo{
-  display:flex;align-items:center;justify-content:center;gap:.85rem;
-  text-decoration:none;
-}
-.nav-logo img{height:38px}
-.nav-logo span{
-  font-family:'Cormorant Garamond',serif;font-weight:600;
-  font-size:1.15rem;letter-spacing:.07em;color:var(--white);
-}
-.back-btn{
-  justify-self:end;
-  display:flex;align-items:center;gap:.45rem;
-  color:var(--muted);text-decoration:none;
-  font-size:.72rem;font-weight:400;
-  letter-spacing:.1em;text-transform:uppercase;
-  transition:color .22s;
-}
-.back-btn:hover{color:#C4B5FD}
-.back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0}
+nav{position:fixed;top:0;left:0;width:100%;z-index:120;padding:1.5rem 0;border-bottom:1px solid transparent;transition:background .4s,padding .4s,border-color .4s}
+nav.scrolled{background:rgba(8,8,16,0.92);backdrop-filter:blur(20px);border-bottom-color:var(--border);padding:1rem 0}
+.nav-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:100%;max-width:1180px;margin:0 auto;padding:0 2.5rem}
+.menu-toggle{justify-self:start;display:flex;align-items:center;gap:.75rem;background:transparent;border:none;color:var(--white);cursor:pointer;font-family:'Outfit',sans-serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;padding:0}
+.menu-toggle .bars{display:flex;flex-direction:column;gap:5px;width:26px}
+.menu-toggle .bars span{height:1.6px;width:100%;background:var(--white);border-radius:2px;transition:transform .35s,opacity .35s}
+.menu-toggle.open .bars span:nth-child(1){transform:translateY(6.6px) rotate(45deg)}
+.menu-toggle.open .bars span:nth-child(2){opacity:0}
+.menu-toggle.open .bars span:nth-child(3){transform:translateY(-6.6px) rotate(-45deg)}
+.menu-toggle .label-close{display:none}
+.menu-toggle.open .label-open{display:none}
+.menu-toggle.open .label-close{display:inline}
+.brand{justify-self:center;display:flex;align-items:center;gap:.8rem;text-decoration:none}
+.brand img{height:36px}
+.brand span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.18rem;letter-spacing:.05em;color:var(--white)}
+.nav-spacer{justify-self:end}
+
+/* ── FULLSCREEN OVERLAY MENU ── */
+.menu{position:fixed;inset:0;z-index:115;background:rgba(8,8,16,0.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s}
+.menu.open{opacity:1;pointer-events:all}
+.menu-links{list-style:none;text-align:center;display:flex;flex-direction:column;gap:.15rem}
+.menu-links a{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3.6vw,2.3rem);font-weight:300;color:var(--muted);text-decoration:none;padding:.3rem 1rem;letter-spacing:.01em;transition:color .25s,letter-spacing .25s;display:inline-block}
+.menu-links a:hover{color:var(--white);letter-spacing:.05em}
+.menu-social{display:flex;gap:1.5rem;margin-top:2.8rem}
+.menu-social a{color:var(--muted);font-size:1.15rem;transition:color .25s,transform .25s}
+.menu-social a:hover{color:var(--lilac);transform:translateY(-3px)}
+
+/* ── FIXED SIDE SOCIAL ── */
+.side-social{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+.side-social::after{content:'';width:1px;height:64px;background:linear-gradient(var(--lilac-soft),transparent);margin-top:.4rem}
+.side-social a{color:var(--muted);font-size:1.05rem;transition:color .25s,transform .25s}
+.side-social a:hover{color:var(--lilac);transform:translateY(-3px)}
+@media(max-width:960px){.side-social{display:none}}
 
 /* ── PAGE HERO ── */
-.page-top{
-  padding:9rem 2rem 3.5rem;
-  text-align:center;
-  position:relative;overflow:hidden;
-}
-.page-top::before{
-  content:'';position:absolute;
-  top:-80px;left:50%;transform:translateX(-50%);
-  width:700px;height:700px;
-  background:radial-gradient(ellipse,rgba(124,58,237,.12) 0%,transparent 68%);
-  pointer-events:none;
-}
-.page-top::after{
-  content:'';position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(124,58,237,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(124,58,237,.04) 1px,transparent 1px);
-  background-size:48px 48px;
-  pointer-events:none;
-}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:.6rem;
-  border:1px solid var(--purple-border);border-radius:2px;
-  padding:.4rem 1.2rem;
-  font-size:.7rem;letter-spacing:.16em;
-  color:rgba(167,139,250,0.9);text-transform:uppercase;
-  margin-bottom:1.8rem;font-weight:400;
-  background:var(--purple-dim);
-  position:relative;z-index:1;
-}
-.hero-badge .dot{
-  width:5px;height:5px;
-  background:#A78BFA;border-radius:50%;
-  animation:pulse 2.5s infinite;
-}
+.page-top{padding:9rem 2rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+.page-top::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(124,58,237,.12) 0%,transparent 68%);pointer-events:none}
+.page-top::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(124,58,237,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;-webkit-mask-image:radial-gradient(circle at center,#000,transparent 75%);mask-image:radial-gradient(circle at center,#000,transparent 75%)}
+.hero-badge{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--purple-border);border-radius:2px;padding:.4rem 1.2rem;font-size:.7rem;letter-spacing:.16em;color:var(--lilac-soft);text-transform:uppercase;margin-bottom:1.8rem;font-weight:400;background:var(--purple-dim);position:relative;z-index:1}
+.hero-badge .dot{width:5px;height:5px;background:var(--lilac-soft);border-radius:50%;animation:pulse 2.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-
-.page-top h1{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(2.2rem,5.5vw,3.8rem);
-  font-weight:300;line-height:1.05;
-  margin-bottom:1rem;
-  position:relative;z-index:1;
-}
-.page-top h1 em{font-style:italic;color:#C4B5FD}
-.page-top p{
-  color:var(--muted);font-size:.93rem;
-  line-height:1.85;font-weight:300;
-  max-width:500px;margin:0 auto;
-  position:relative;z-index:1;
-}
+.page-top h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:300;line-height:1.05;margin-bottom:1rem;position:relative;z-index:1}
+.page-top h1 em{font-style:italic;color:var(--lilac)}
+.page-top p{color:var(--muted);font-size:.95rem;line-height:1.85;font-weight:300;max-width:500px;margin:0 auto;position:relative;z-index:1}
+.page-divider{width:42px;height:1px;background:var(--purple);margin:1.6rem auto 0;position:relative;z-index:1}
 
 /* ── INFO CHIPS ── */
-.info-strip{
-  display:flex;gap:2rem;flex-wrap:wrap;
-  justify-content:center;margin:2rem 0 0;
-  position:relative;z-index:1;
-}
-.info-chip{
-  display:flex;align-items:center;gap:.55rem;
-  color:var(--muted);font-size:.76rem;
-  letter-spacing:.08em;text-transform:uppercase;
-}
-.info-chip svg{
-  width:14px;height:14px;
-  stroke:#A78BFA;fill:none;stroke-width:1.6;flex-shrink:0;
-}
+.info-strip{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin:2rem 0 0;position:relative;z-index:1}
+.info-chip{display:flex;align-items:center;gap:.55rem;color:var(--muted);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase}
+.info-chip svg{width:14px;height:14px;stroke:var(--lilac-soft);fill:none;stroke-width:1.6;flex-shrink:0}
 
 /* ── CALENDLY WRAPPER ── */
-.calendly-section{
-  max-width:1000px;margin:0 auto;
-  padding:0 1.5rem 6rem;
-}
-.calendly-wrap{
-  background:var(--black-mid);
-  border:1px solid var(--border);
-  border-radius:2px;
-  overflow:hidden;
-  position:relative;
-}
-.calendly-wrap::before{
-  content:'';position:absolute;
-  top:0;left:15%;width:30%;height:1px;
-  background:var(--purple);
-  z-index:1;
-}
-/* Override Calendly widget background to match dark theme */
-.calendly-inline-widget{
-  min-width:320px;
-  height:700px;
-  background:transparent !important;
-}
+.calendly-section{max-width:1000px;margin:0 auto;padding:0 2.5rem 6rem}
+.calendly-wrap{background:var(--black-mid);border:1px solid var(--border);border-radius:3px;overflow:hidden;position:relative}
+.calendly-wrap::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:1px;background:var(--purple);z-index:1}
+.calendly-inline-widget{min-width:320px;height:700px;background:transparent !important}
 
 /* ── FOOTER ── */
-footer{
-  background:var(--black-mid);
-  border-top:1px solid var(--border);
-  padding:2.2rem 2rem;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:1rem;
-}
-.footer-logo{display:flex;align-items:center;gap:.85rem}
-.footer-logo img{height:28px}
-.footer-brand{
-  font-family:'Cormorant Garamond',serif;
-  font-weight:600;font-size:.92rem;
-  color:var(--white);letter-spacing:.06em;
-}
-footer p{color:var(--muted);font-size:.74rem;letter-spacing:.04em}
-footer a{color:#A78BFA;text-decoration:none}
+footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.5rem 0 2rem}
+.footer-inner{width:100%;max-width:1180px;margin:0 auto;padding:0 2.5rem}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1.5fr;gap:3rem}
+.footer-brand{display:flex;align-items:center;gap:.8rem;margin-bottom:1.1rem}
+.footer-brand img{height:34px}
+.footer-brand span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;color:#fff;letter-spacing:.04em}
+.footer-about{color:var(--muted);font-size:.86rem;line-height:1.85;font-weight:300;max-width:320px}
+.footer-tagline{display:flex;gap:1.4rem;margin-top:1.3rem;color:var(--lilac-soft);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase}
+.footer-col h4{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac-soft);margin-bottom:1.2rem;font-weight:600}
+.footer-links{display:flex;flex-direction:column;gap:.55rem}
+.footer-links a{color:var(--muted);font-size:.86rem;text-decoration:none;font-weight:300;transition:color .22s;width:fit-content}
+.footer-links a:hover{color:var(--lilac)}
+.footer-col p{color:var(--muted);font-size:.86rem;line-height:1.8;font-weight:300;margin-bottom:.4rem}
+.newsletter{display:flex;gap:.5rem;margin-top:1rem}
+.newsletter input{flex:1;min-width:0;background:var(--black-soft);border:1px solid var(--border);color:#fff;padding:.7rem .9rem;border-radius:3px;font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;transition:border-color .22s}
+.newsletter input:focus{border-color:var(--purple-border)}
+.newsletter button{background:var(--purple);color:#fff;border:none;padding:.7rem 1.2rem;border-radius:3px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:background .25s;white-space:nowrap}
+.newsletter button:hover{background:var(--purple-mid)}
+.footer-bottom{border-top:1px solid var(--border);margin-top:3rem;padding-top:1.8rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;color:var(--muted);font-size:.76rem;letter-spacing:.03em}
+.footer-bottom a{color:var(--lilac-soft);text-decoration:none}
 
-@media(max-width:600px){
-  .calendly-inline-widget{height:650px}
-  footer{flex-direction:column;text-align:center}
-}
+/* ── RESPONSIVE ── */
+@media(max-width:820px){.nav-inner{padding:0 1.5rem}.calendly-section{padding:0 1.5rem 5rem}.footer-inner{padding:0 1.5rem}.footer-grid{grid-template-columns:1fr;gap:2.5rem}.footer-bottom{justify-content:center;text-align:center}}
+@media(max-width:600px){.calendly-inline-widget{height:650px}.page-top{padding:7.5rem 1.5rem 3rem}}
+@media(max-width:560px){.menu-toggle .label-open,.menu-toggle .label-close,.menu-toggle.open .label-open,.menu-toggle.open .label-close{display:none}.brand img{height:30px}.brand span{font-size:.98rem;letter-spacing:.03em}}
 </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav id="navbar">
-  <!-- placeholder left column (no hamburger on sub-page) -->
-  <div></div>
-
-  <!-- Logo center -->
-  <a class="nav-logo" href="index.html">
-    <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC Logo" onerror="this.style.display='none'"/>
-    <span>DAC — DGU AI Cell</span>
-  </a>
-
-  <!-- Back link right -->
-  <a href="index.html" class="back-btn">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    Back
-  </a>
+  <div class="nav-inner">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
+      <span class="bars"><span></span><span></span><span></span></span>
+      <span class="label-open">Menu</span><span class="label-close">Close</span>
+    </button>
+    <a href="index.html" class="brand">
+      <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC Logo" onerror="this.style.display='none'"/>
+      <span>DAC — DGU AI Cell</span>
+    </a>
+    <span class="nav-spacer"></span>
+  </div>
 </nav>
+
+<!-- FULLSCREEN OVERLAY MENU -->
+<div class="menu" id="menu">
+  <ul class="menu-links">
+    <li><a href="index.html#home" onclick="closeMenu()">Home</a></li>
+    <li><a href="index.html#about" onclick="closeMenu()">About</a></li>
+    <li><a href="index.html#offerings" onclick="closeMenu()">Offerings</a></li>
+    <li><a href="index.html#events" onclick="closeMenu()">Events</a></li>
+    <li><a href="index.html#gallery" onclick="closeMenu()">Gallery</a></li>
+    <li><a href="index.html#team" onclick="closeMenu()">Team</a></li>
+    <li><a href="campus-ambassador.html" onclick="closeMenu()">Campus Ambassador</a></li>
+    <li><a href="book-meeting.html" onclick="closeMenu()">Book a Meeting</a></li>
+    <li><a href="index.html#contact" onclick="closeMenu()">Join Us</a></li>
+  </ul>
+  <div class="menu-social">
+    <a href="https://instagram.com/dac.dgu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="https://youtube.com/@DACXDGU" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    <a href="https://twitter.com/dac_dgu" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://wa.me/send?phone=919205072074" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</div>
+
+<!-- FIXED SIDE SOCIAL -->
+<div class="side-social">
+  <a href="https://instagram.com/dac.dgu" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+  <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  <a href="https://youtube.com/@DACXDGU" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+  <a href="https://twitter.com/dac_dgu" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+</div>
 
 <!-- PAGE HERO -->
 <div class="page-top">
@@ -214,7 +174,7 @@ footer a{color:#A78BFA;text-decoration:none}
     Schedule a Session
   </div>
   <h1>Book a <em>Meeting</em></h1>
-  <p>Pick a slot that works for you and connect with the DAC team — whether you have questions, ideas, or just want to know more about AI Club.</p>
+  <p>Pick a slot that works for you and connect with the DAC team — whether you have questions, ideas, or just want to know more about the AI Club.</p>
   <div class="info-strip">
     <div class="info-chip">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -229,18 +189,16 @@ footer a{color:#A78BFA;text-decoration:none}
       Instant Confirmation
     </div>
   </div>
+  <div class="page-divider"></div>
 </div>
 
 <!-- CALENDLY WIDGET -->
 <div class="calendly-section">
   <div class="calendly-wrap">
-    <!-- 
-      ╔══════════════════════════════════════════════════════╗
-      ║  SETUP: Replace the URL below with your actual       ║
-      ║  Calendly link. Sign up free at calendly.com,        ║
-      ║  create an event type, and paste the URL here.       ║
-      ║  Example: https://calendly.com/dac-dgu/intro-call   ║
-      ╚══════════════════════════════════════════════════════╝
+    <!--
+      SETUP: Replace the data-url below with your actual Calendly link.
+      Sign up free at calendly.com, create an event type, and paste the URL here.
+      Example: https://calendly.com/dac-dgu/intro-call
     -->
     <div
       class="calendly-inline-widget"
@@ -252,35 +210,75 @@ footer a{color:#A78BFA;text-decoration:none}
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">
-    <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
-    <div>
-      <div class="footer-brand">DAC — DGU AI Cell</div>
-      <div style="color:var(--muted);font-size:.7rem;letter-spacing:.06em;margin-top:.15rem">DBS Global University, Dehradun</div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
+          <span>DAC — DGU AI Cell</span>
+        </div>
+        <p class="footer-about">The official AI Cell of DBS Global University, Dehradun — a student-driven community exploring, learning, and building with artificial intelligence.</p>
+        <div class="footer-tagline"><span>Learn</span><span>Build</span><span>Innovate</span></div>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank">LinkedIn</a>
+          <a href="https://instagram.com/dac.dgu" target="_blank">Instagram</a>
+          <a href="https://twitter.com/dac_dgu" target="_blank">X (Twitter)</a>
+          <a href="https://youtube.com/@DACXDGU" target="_blank">YouTube</a>
+          <a href="https://linktr.ee/dgu.dac" target="_blank">Linktree</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Get Notified</h4>
+        <p>Be the first to know about DAC's events and activities.</p>
+        <form class="newsletter" onsubmit="return subscribe(event)">
+          <input id="nl-email" type="email" placeholder="Your email" required/>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DAC · DGU AI Cell · <a href="https://dgu.ac.in" target="_blank">dgu.ac.in</a></span>
+      <span>DBS Global University, Dehradun</span>
     </div>
   </div>
-  <p>© 2026 DAC · DGU AI Cell · <a href="https://dgu.ac.in">dgu.ac.in</a></p>
 </footer>
 
 <!-- Calendly widget JS -->
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 <script>
+/* ── Fullscreen overlay menu ── */
+function toggleMenu(){
+  const menu=document.getElementById('menu');
+  const t=document.getElementById('menuToggle');
+  const open=menu.classList.toggle('open');
+  t.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+  t.setAttribute('aria-expanded',open);
+}
+function closeMenu(){
+  document.getElementById('menu').classList.remove('open');
+  document.getElementById('menuToggle').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('menuToggle').setAttribute('aria-expanded',false);
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+
+/* ── Newsletter (opens mail client — placeholder) ── */
+function subscribe(e){
+  e.preventDefault();
+  const v=document.getElementById('nl-email').value;
+  window.location.href='mailto:dac@dgu.ac.in?subject=Newsletter%20Subscription&body='+encodeURIComponent('Please subscribe this email to DAC updates: '+v);
+  return false;
+}
+
 /* ── Navbar scroll ── */
 window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').style.background =
-    window.scrollY > 60 ? 'rgba(8,8,16,0.97)' : 'rgba(8,8,16,0.88)';
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>40);
 });
-
-/* ── Meeting type selector — swaps Calendly URL ── */
-
-
-);
-  }
-
-  // Smooth scroll down to the widget
-  widget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
 </script>
 </body>
 </html>
