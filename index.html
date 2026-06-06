@@ -86,7 +86,7 @@ nav.scrolled{background:rgba(8,8,16,0.92);backdrop-filter:blur(20px);border-bott
 
 /* ── HERO (with background image) ── */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-image:url('clg.png');background-size:cover;background-position:center;filter:brightness(0.28) saturate(1.05) blur(3px);transform:scale(1.06)}
+.hero-bg{position:absolute;inset:0;background-image:url('clg.png');background-size:cover;background-position:center;filter:brightness(0.28) saturate(1.05) blur(1.5px);transform:scale(1.06)}
 .hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(124,58,237,0.20) 0%,rgba(8,8,16,0.72) 70%);pointer-events:none}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(124,58,237,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.07) 1px,transparent 1px);background-size:64px 64px;opacity:.4;pointer-events:none;-webkit-mask-image:radial-gradient(circle at center,#000,transparent 72%);mask-image:radial-gradient(circle at center,#000,transparent 72%)}
 .hero-fade{position:absolute;left:0;right:0;bottom:0;height:200px;background:linear-gradient(to bottom,transparent,var(--black));pointer-events:none}
@@ -175,17 +175,56 @@ nav.scrolled{background:rgba(8,8,16,0.92);backdrop-filter:blur(20px);border-bott
 @media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,1fr)}.gal-item.lg{grid-column:span 2;grid-row:span 1;aspect-ratio:4/3}}
 @media(max-width:560px){.gallery-grid{grid-template-columns:1fr}.gal-item.lg{grid-column:span 1}}
 
-/* ── TEAM ── */
+/* ── TEAM (department structure + E-Cell-style photo tiles) ── */
 .team{background:var(--black-mid)}
-.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border)}
-.team-card{background:var(--black);padding:2.6rem 1.4rem 2.1rem;text-align:center;transition:background .3s}
-.team-card:hover{background:var(--black-soft)}
-.team-avatar{width:106px;height:106px;border-radius:50%;overflow:hidden;margin:0 auto 1.4rem;border:1px solid var(--purple-border)}
-.team-avatar img{width:100%;height:100%;object-fit:cover}
-.team-card h3{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:500;color:var(--white);margin-bottom:.35rem;letter-spacing:.02em}
-.team-card span{color:var(--lilac-soft);font-size:.69rem;letter-spacing:.12em;text-transform:uppercase}
-@media(max-width:1000px){.team-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.team-grid{grid-template-columns:1fr}}
+.dept{margin-top:5.5rem}
+.dept:first-of-type{margin-top:.5rem}
+.dept-head{text-align:center;margin-bottom:3rem}
+.dept-kicker{display:inline-block;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.dept-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:300;color:var(--white);margin-top:.5rem;letter-spacing:.01em}
+.dept-title em{font-style:italic;color:var(--lilac)}
+.dept-line{width:54px;height:1px;background:var(--purple);margin:1.1rem auto 0;transform:scaleX(0);transform-origin:center;transition:transform .9s .25s cubic-bezier(.16,.84,.44,1)}
+.dept.in .dept-line{transform:scaleX(1)}
+
+.role-label{text-align:center;font-size:.65rem;letter-spacing:.26em;text-transform:uppercase;color:var(--lilac-soft);font-weight:500;margin-bottom:1.9rem;position:relative}
+.role-label::before,.role-label::after{content:'';position:absolute;top:50%;width:34px;height:1px;background:var(--border)}
+.role-label::before{right:calc(50% + 4.6rem)}
+.role-label::after{left:calc(50% + 4.6rem)}
+.role-label--sup{margin-top:3.6rem}
+
+.people-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.7rem;max-width:760px;margin:0 auto}
+.people-row--single{grid-template-columns:minmax(0,234px);justify-content:center}
+
+.person{text-align:center}
+.person-photo{position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;border:1px solid var(--purple-border);background:linear-gradient(135deg,var(--black-soft),var(--black-mid));transition:transform .15s ease,box-shadow .4s ease,border-color .4s ease}
+.person-photo::before{content:attr(data-initials);position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:500;color:var(--lilac-soft);opacity:.45;letter-spacing:.05em}
+.person-photo img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;filter:brightness(.92) saturate(.95);transition:transform .6s cubic-bezier(.16,.84,.44,1),filter .4s}
+.person:hover .person-photo{border-color:var(--purple);box-shadow:0 18px 44px rgba(124,58,237,.28)}
+.person:hover .person-photo img{transform:scale(1.07);filter:brightness(.5) saturate(1)}
+
+.person-overlay{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;gap:.7rem;background:linear-gradient(to top,rgba(124,58,237,.92),rgba(8,8,16,.42));opacity:0;transition:opacity .4s ease}
+.person:hover .person-overlay{opacity:1}
+.person-soc{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.55);color:#fff;font-size:1.05rem;text-decoration:none;transform:translateY(18px);opacity:0;transition:transform .5s cubic-bezier(.16,.84,.44,1),opacity .5s,background .25s,color .25s}
+.person:hover .person-soc{transform:none;opacity:1}
+.person:hover .person-soc:nth-child(2){transition-delay:.08s}
+.person-soc:hover{background:#fff;color:var(--purple-mid);transform:translateY(-3px)}
+
+.person-name{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:500;color:var(--white);margin-top:1.1rem;letter-spacing:.02em}
+.person-role{display:block;color:var(--muted);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;margin-top:.4rem}
+
+/* Supervisor emphasis */
+.person--sup .person-photo{border-color:var(--purple)}
+.person--sup .person-name{color:var(--lilac)}
+.sup-badge{display:inline-block;margin-top:.55rem;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lilac-soft);border:1px solid var(--purple-border);background:var(--purple-dim);padding:.2rem .65rem;border-radius:999px}
+
+@media(max-width:600px){
+  .people-row{gap:.85rem}
+  .people-row--single{grid-template-columns:minmax(0,200px)}
+  .person-soc{width:40px;height:40px;font-size:.95rem}
+  .person-name{font-size:1rem;margin-top:.85rem}
+  .role-label::before{right:calc(50% + 3.7rem)}
+  .role-label::after{left:calc(50% + 3.7rem)}
+}
 
 /* ── CTA / JOIN ── */
 .cta{background:var(--black);text-align:center}
@@ -220,9 +259,24 @@ footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.
 .footer-bottom a{color:var(--lilac-soft);text-decoration:none}
 @media(max-width:820px){.footer-grid{grid-template-columns:1fr;gap:2.5rem}.footer-bottom{justify-content:center;text-align:center}}
 
-/* ── FADE-IN ON SCROLL ── */
-.fade-in{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+/* ── SCROLL REVEAL SYSTEM ── */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.16,.84,.44,1),transform .9s cubic-bezier(.16,.84,.44,1);transition-delay:var(--d,0s)}
 .fade-in.visible{opacity:1;transform:none}
+.reveal{opacity:0;transform:translateY(42px);transition:opacity .95s cubic-bezier(.16,.84,.44,1),transform .95s cubic-bezier(.16,.84,.44,1),filter .95s ease;transition-delay:var(--d,0s);will-change:opacity,transform}
+.reveal.in{opacity:1;transform:none;filter:none}
+.reveal.r-left{transform:translateX(-52px)}
+.reveal.r-right{transform:translateX(52px)}
+.reveal.r-zoom{transform:scale(.85)}
+.reveal.r-blur{filter:blur(16px);transform:translateY(28px)}
+/* section divider draws itself in */
+.section-head .divider{transform:scaleX(0);transform-origin:center;transition:transform .9s .2s cubic-bezier(.16,.84,.44,1)}
+.section-head.visible .divider{transform:scaleX(1)}
+/* scroll progress bar */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--purple),var(--lilac));z-index:200;box-shadow:0 0 12px rgba(124,58,237,.6)}
+@media(prefers-reduced-motion:reduce){
+  .reveal,.fade-in{opacity:1!important;transform:none!important;filter:none!important;transition:none}
+  .section-head .divider,.dept-line{transform:scaleX(1)!important;transition:none}
+}
 
 /* ── RESPONSIVE BASE ── */
 @media(max-width:820px){
@@ -239,6 +293,9 @@ footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.
 </style>
 </head>
 <body>
+
+<!-- SCROLL PROGRESS BAR -->
+<div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- NAVBAR -->
 <nav id="nav">
@@ -493,33 +550,133 @@ footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.
       <h2 class="section-title">Core <em>Team</em></h2>
       <div class="divider"></div>
     </div>
-    <div class="team-grid fade-in">
-      <div class="team-card">
-        <div class="team-avatar"><img src="rishab.jpeg" alt="Rishab Verma" onerror="this.style.display='none'"></div>
-        <h3>Rishab Verma</h3>
-        <span>Secretary · Industry Relations</span>
+
+    <!-- ░░░ RESEARCH & DEVELOPMENT ░░░ -->
+    <div class="dept reveal r-up">
+      <div class="dept-head">
+        <span class="dept-kicker">Department</span>
+        <h3 class="dept-title">Research &amp; <em>Development</em></h3>
+        <div class="dept-line"></div>
       </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="anirudh.jpeg" alt="Aniruddh Jakotia" onerror="this.style.display='none'"></div>
-        <h3>Aniruddh Jakotia</h3>
-        <span>Secretary · Research &amp; Development</span>
+
+      <p class="role-label">Secretaries</p>
+      <div class="people-row" data-stagger>
+        <article class="person reveal r-up">
+          <div class="person-photo" data-initials="HJ">
+            <img src="harshit.jpeg" alt="Harshit Jaiswal" onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Harshit Jaiswal on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Harshit Jaiswal"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Harshit Jaiswal</h4>
+          <span class="person-role">Secretary</span>
+        </article>
+
+        <article class="person reveal r-up">
+          <div class="person-photo" data-initials="R">
+            <img src="ronbir.jpeg" alt="Ronbir" onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Ronbir on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Ronbir"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Ronbir</h4>
+          <span class="person-role">Secretary</span>
+        </article>
+
+        <article class="person reveal r-up">
+          <div class="person-photo" data-initials="AJ">
+            <img src="anirudh.jpeg" alt="Anirudh Jakotia" onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Anirudh Jakotia on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Anirudh Jakotia"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Anirudh Jakotia</h4>
+          <span class="person-role">Secretary</span>
+        </article>
       </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="cd.jpeg" alt="Pujita G." onerror="this.style.display='none'"></div>
-        <h3>Pujita G.</h3>
-        <span>Joint Secretary</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="dhurv.jpeg" alt="Dhruv Goswami" onerror="this.style.display='none'"></div>
-        <h3>Dhruv Goswami</h3>
-        <span>Coordinator</span>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar"><img src="anoushka.jpeg" alt="Anoushka" onerror="this.style.display='none'"></div>
-        <h3>Anoushka</h3>
-        <span>Coordinator</span>
+
+      <p class="role-label role-label--sup">Supervisor</p>
+      <div class="people-row people-row--single" data-stagger>
+        <article class="person person--sup reveal r-zoom">
+          <div class="person-photo" data-initials="K">
+            <img src="kshitiz.jpeg" alt="Kshitiz" onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Kshitiz on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Kshitiz"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Kshitiz</h4>
+          <span class="sup-badge">Supervisor</span>
+        </article>
       </div>
     </div>
+
+    <!-- ░░░ INDUSTRY RELATIONS ░░░ -->
+    <div class="dept reveal r-up">
+      <div class="dept-head">
+        <span class="dept-kicker">Department</span>
+        <h3 class="dept-title">Industry <em>Relations</em></h3>
+        <div class="dept-line"></div>
+      </div>
+
+      <p class="role-label">Secretaries</p>
+      <div class="people-row" data-stagger>
+        <article class="person reveal r-up">
+          <div class="person-photo" data-initials="RV">
+            <img src="rishab.jpeg" alt="Rishab Verma" onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Rishab Verma on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Rishab Verma"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Rishab Verma</h4>
+          <span class="person-role">Secretary</span>
+        </article>
+
+        <article class="person reveal r-up">
+          <div class="person-photo" data-initials="PG">
+            <img src="cd.jpeg" alt="Pujita G." onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Pujita G. on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Pujita G."><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Pujita G.</h4>
+          <span class="person-role">Secretary</span>
+        </article>
+
+        <article class="person reveal r-up">
+          <div class="person-photo" data-initials="DO">
+            <img src="divyansh.jpeg" alt="Divyansh Ojha" onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Divyansh Ojha on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Divyansh Ojha"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Divyansh Ojha</h4>
+          <span class="person-role">Secretary</span>
+        </article>
+      </div>
+
+      <p class="role-label role-label--sup">Supervisor</p>
+      <div class="people-row people-row--single" data-stagger>
+        <article class="person person--sup reveal r-zoom">
+          <div class="person-photo" data-initials="DT">
+            <img src="divyanshu.jpeg" alt="Divyanshu Tiwari" onerror="this.style.display='none'">
+            <div class="person-overlay">
+              <a class="person-soc" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Divyanshu Tiwari on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a class="person-soc" href="mailto:dac@dgu.ac.in" aria-label="Email Divyanshu Tiwari"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          <h4 class="person-name">Divyanshu Tiwari</h4>
+          <span class="sup-badge">Supervisor</span>
+        </article>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -600,17 +757,78 @@ function closeMenu(){
 }
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
 
-/* ── Navbar scroll state ── */
+/* ── Navbar scroll state + scroll progress + hero parallax ── */
 const navEl = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  navEl.classList.toggle('scrolled', window.scrollY > 40);
+const heroBg = document.querySelector('.hero-bg');
+const progressBar = document.getElementById('scrollProgress');
+function onScroll(){
+  const y = window.scrollY;
+  navEl.classList.toggle('scrolled', y > 40);
+  if(progressBar){
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.transform = 'scaleX(' + (h > 0 ? Math.min(y / h, 1) : 0) + ')';
+  }
+  if(heroBg && y < window.innerHeight){
+    heroBg.style.transform = 'scale(1.08) translateY(' + (y * 0.16) + 'px)';
+  }
+}
+window.addEventListener('scroll', onScroll, { passive:true });
+onScroll();
+
+/* ── Reveal setup: directional + staggered cascades ── */
+const reduceMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+// About section slides in from the sides
+const aboutText = document.querySelector('.about-text');
+const aboutMedia = document.querySelector('.about-media');
+if(aboutText){ aboutText.classList.remove('fade-in'); aboutText.classList.add('reveal','r-left'); }
+if(aboutMedia){ aboutMedia.classList.remove('fade-in'); aboutMedia.classList.add('reveal','r-right'); }
+
+// Convert selected grids into staggered child reveals
+['.events-grid', '.gallery-grid', '.about-tags'].forEach(sel => {
+  const c = document.querySelector(sel);
+  if(!c) return;
+  c.classList.remove('fade-in');
+  [...c.children].forEach((ch, i) => {
+    ch.classList.add('reveal', 'r-up');
+    ch.style.setProperty('--d', (i * 0.09) + 's');
+  });
 });
 
-/* ── Fade-in on scroll ── */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold:.12 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+// Stat cards cascade
+const statsGrid = document.querySelector('.stats-grid');
+if(statsGrid){ [...statsGrid.children].forEach((ch, i) => ch.style.setProperty('--d', (i * 0.12) + 's')); }
+
+// Generic [data-stagger] containers (team rows, etc.)
+document.querySelectorAll('[data-stagger]').forEach(c => {
+  [...c.children].forEach((ch, i) => {
+    if(ch.classList.contains('reveal')) ch.style.setProperty('--d', (i * 0.12) + 's');
+  });
+});
+
+/* ── Reveal-on-scroll observer ── */
+const revObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible', 'in');
+      revObserver.unobserve(e.target);
+    }
+  });
+}, { threshold:.12, rootMargin:'0px 0px -7% 0px' });
+document.querySelectorAll('.fade-in, .reveal').forEach(el => revObserver.observe(el));
+
+/* ── Subtle 3D tilt on team photo tiles ── */
+if(!reduceMotion && matchMedia('(hover:hover) and (pointer:fine)').matches){
+  document.querySelectorAll('.person-photo').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = 'perspective(720px) rotateX(' + (-py * 7) + 'deg) rotateY(' + (px * 7) + 'deg)';
+    });
+    card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+  });
+}
 
 /* ── Stats counters ── */
 const counters = document.querySelectorAll('.stat-num');
@@ -664,5 +882,4 @@ function subscribe(e){
 </script>
 </body>
 </html>
-
 
