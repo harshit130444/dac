@@ -104,8 +104,9 @@ nav.scrolled{background:rgba(8,8,16,0.92);backdrop-filter:blur(20px);border-bott
 .scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(var(--lilac-soft),transparent);animation:scrollLine 2s ease-in-out infinite}
 @keyframes scrollLine{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
 
-/* page-load reveal */
-.reveal-load{opacity:0;transform:translateY(22px);animation:loadUp .9s cubic-bezier(.2,.7,.2,1) forwards}
+/* page-load reveal (held until the intro loader finishes booting) */
+.reveal-load{opacity:0;transform:translateY(22px)}
+body.ready .reveal-load{animation:loadUp .9s cubic-bezier(.2,.7,.2,1) forwards}
 @keyframes loadUp{to{opacity:1;transform:none}}
 
 /* ── STATS ── */
@@ -295,9 +296,184 @@ footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.
   .brand img{height:30px}
   .brand span{font-size:.98rem;letter-spacing:.03em}
 }
+
+/* ════════════════════════════════════════════════════════
+   TECHY / CYBERPUNK LAYER
+   ════════════════════════════════════════════════════════ */
+
+/* lock scroll while the intro is booting */
+body.is-loading{overflow:hidden}
+
+/* ── CYBERPUNK BOOT LOADER ── */
+.loader{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  background-color:var(--black);
+  background-image:radial-gradient(ellipse 90% 70% at 50% 42%,rgba(124,58,237,.16),transparent 60%);
+  opacity:1;transition:opacity .6s ease,transform .6s ease;
+}
+.loader.done{opacity:0;transform:scale(1.04);pointer-events:none}
+/* faint scanline texture over the whole intro */
+.loader::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:4;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 3px);
+  mix-blend-mode:overlay;opacity:.6;
+}
+.loader-grid{
+  position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:
+    linear-gradient(rgba(124,58,237,.10) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,58,237,.10) 1px,transparent 1px);
+  background-size:48px 48px;
+  -webkit-mask-image:radial-gradient(circle at 50% 46%,#000,transparent 72%);
+  mask-image:radial-gradient(circle at 50% 46%,#000,transparent 72%);
+  animation:gridDrift48 30s linear infinite;
+}
+.loader-scan{
+  position:absolute;left:0;right:0;top:0;height:2px;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--lilac),transparent);
+  box-shadow:0 0 18px 2px rgba(196,181,253,.5);opacity:.75;
+  animation:scanSweep 2.6s cubic-bezier(.45,0,.55,1) infinite;
+}
+@keyframes scanSweep{0%{top:-2%}100%{top:102%}}
+.loader-brackets span{
+  position:absolute;width:clamp(28px,6vw,52px);height:clamp(28px,6vw,52px);
+  border:2px solid var(--purple);opacity:0;z-index:2;
+  box-shadow:0 0 16px rgba(124,58,237,.4);
+  animation:bracketIn .8s ease .15s forwards;
+}
+.loader-brackets span:nth-child(1){top:5vmin;left:5vmin;border-right:none;border-bottom:none}
+.loader-brackets span:nth-child(2){top:5vmin;right:5vmin;border-left:none;border-bottom:none}
+.loader-brackets span:nth-child(3){bottom:5vmin;left:5vmin;border-right:none;border-top:none}
+.loader-brackets span:nth-child(4){bottom:5vmin;right:5vmin;border-left:none;border-top:none}
+@keyframes bracketIn{from{opacity:0;transform:scale(.5)}to{opacity:.85;transform:none}}
+
+.loader-core{position:relative;z-index:5;text-align:center;padding:1.5rem;width:min(440px,86vw)}
+.loader-glitch{
+  position:relative;display:inline-block;
+  font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:.14em;line-height:1;
+  font-size:clamp(3rem,13vw,6.2rem);color:var(--white);
+  text-shadow:0 0 26px rgba(124,58,237,.55);
+}
+.loader-glitch::before,.loader-glitch::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+  background:transparent;color:var(--white);overflow:hidden;
+}
+.loader-glitch::before{left:2px;text-shadow:-2px 0 var(--lilac);animation:glitchTop 2.4s steps(2,end) infinite alternate-reverse}
+.loader-glitch::after{left:-2px;text-shadow:2px 0 var(--purple);animation:glitchBot 1.9s steps(2,end) infinite alternate-reverse}
+@keyframes glitchTop{
+  0%{clip-path:inset(0 0 82% 0)}20%{clip-path:inset(18% 0 54% 0)}40%{clip-path:inset(42% 0 38% 0)}
+  60%{clip-path:inset(8% 0 70% 0)}80%{clip-path:inset(30% 0 46% 0)}100%{clip-path:inset(60% 0 12% 0)}
+}
+@keyframes glitchBot{
+  0%{clip-path:inset(70% 0 8% 0)}25%{clip-path:inset(48% 0 30% 0)}50%{clip-path:inset(86% 0 2% 0)}
+  75%{clip-path:inset(34% 0 50% 0)}100%{clip-path:inset(56% 0 24% 0)}
+}
+.loader-sub{
+  font-family:'Orbitron',sans-serif;font-size:clamp(.5rem,1.6vw,.62rem);
+  letter-spacing:.42em;color:var(--lilac-soft);margin-top:1.1rem;opacity:.9;
+}
+.loader-console{
+  font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.06em;
+  color:var(--muted);text-align:left;margin:1.9rem auto 1.4rem;min-height:5.4rem;
+  width:fit-content;max-width:100%;
+}
+.loader-line{opacity:0;animation:lineIn .25s ease forwards;white-space:nowrap}
+.loader-line span{color:var(--lilac)}
+@keyframes lineIn{from{opacity:0;transform:translateX(-6px)}to{opacity:.8;transform:none}}
+.loader-bar{
+  position:relative;height:3px;width:100%;border-radius:999px;overflow:hidden;
+  background:rgba(124,58,237,.18);
+}
+.loader-bar i{
+  position:absolute;inset:0 auto 0 0;width:0%;border-radius:999px;
+  background:linear-gradient(90deg,var(--purple),var(--lilac));
+  box-shadow:0 0 14px rgba(124,58,237,.7);transition:width .12s linear;
+}
+.loader-meta{
+  display:flex;justify-content:space-between;margin-top:.85rem;
+  font-family:'Orbitron',sans-serif;font-size:.56rem;letter-spacing:.22em;
+}
+.loader-meta #loaderStatus{color:var(--muted)}
+.loader-meta #loaderPct{color:var(--lilac)}
+
+/* ── ANIMATED HERO HEADLINE (Artificial Intelligence) ── */
+.hero h1 em{
+  font-style:italic;
+  background:linear-gradient(100deg,var(--lilac-soft) 0%,#fff 24%,var(--lilac) 48%,var(--lilac-soft) 72%,#fff 100%);
+  background-size:230% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 0 14px rgba(124,58,237,.45));
+  animation:aiFlow 7s linear infinite,aiPulse 3.6s ease-in-out infinite;
+}
+@keyframes aiFlow{to{background-position:230% 0}}
+@keyframes aiPulse{
+  0%,100%{filter:drop-shadow(0 0 11px rgba(124,58,237,.32))}
+  50%{filter:drop-shadow(0 0 24px rgba(124,58,237,.62))}
+}
+
+/* ── TECHY GRID BACKDROP (Core Team + Join Us) ── */
+.grid-bg{position:relative;overflow:hidden}
+.grid-bg > .container{position:relative;z-index:1}
+.grid-bg::before{
+  content:'';position:absolute;inset:-2px;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(124,58,237,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,58,237,.07) 1px,transparent 1px);
+  background-size:54px 54px;
+  -webkit-mask-image:radial-gradient(ellipse 82% 72% at 50% 40%,#000 0%,transparent 80%);
+  mask-image:radial-gradient(ellipse 82% 72% at 50% 40%,#000 0%,transparent 80%);
+  animation:gridDrift54 34s linear infinite;
+}
+.grid-bg::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 58% 48% at 50% 32%,rgba(124,58,237,.10),transparent 72%);
+}
+@keyframes gridDrift54{to{background-position:54px 54px}}
+@keyframes gridDrift48{to{background-position:48px 48px}}
+
+/* make the hero grid feel alive */
+.hero-grid{animation:heroGridDrift 38s linear infinite}
+@keyframes heroGridDrift{to{background-position:64px 64px}}
+
+/* ── HUD CORNER BRACKETS on the Join card ── */
+.cta-inner{position:relative}
+.hud-corner{
+  position:absolute;width:20px;height:20px;border:1.6px solid var(--purple);
+  opacity:.85;pointer-events:none;box-shadow:0 0 12px rgba(124,58,237,.28);
+}
+.hud-corner.tl{top:-1px;left:-1px;border-right:none;border-bottom:none}
+.hud-corner.tr{top:-1px;right:-1px;border-left:none;border-bottom:none}
+.hud-corner.bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
+.hud-corner.br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+/* respect reduced motion for everything added above */
+@media(prefers-reduced-motion:reduce){
+  .reveal-load{opacity:1;transform:none}
+  .loader-grid,.loader-scan,.loader-brackets span,.grid-bg::before,.hero-grid{animation:none}
+  .loader-glitch::before,.loader-glitch::after{animation:none;opacity:.4}
+  .hero h1 em{animation:none}
+  .loader{transition:opacity .3s ease}
+}
 </style>
 </head>
-<body>
+<body class="is-loading">
+
+<!-- CYBERPUNK BOOT LOADER -->
+<div class="loader" id="loader" role="status" aria-label="Loading DAC">
+  <div class="loader-grid"></div>
+  <div class="loader-scan"></div>
+  <div class="loader-brackets"><span></span><span></span><span></span><span></span></div>
+  <div class="loader-core">
+    <div class="loader-glitch" data-text="DAC">DAC</div>
+    <div class="loader-sub">DGU&nbsp;·&nbsp;ARTIFICIAL&nbsp;INTELLIGENCE&nbsp;CELL</div>
+    <div class="loader-console" id="loaderConsole"></div>
+    <div class="loader-bar"><i id="loaderFill"></i></div>
+    <div class="loader-meta"><span id="loaderStatus">INITIALIZING</span><span id="loaderPct">0%</span></div>
+  </div>
+</div>
+<noscript><style>#loader{display:none!important}body.is-loading{overflow:auto}.reveal-load{opacity:1!important;transform:none!important}</style></noscript>
 
 <!-- SCROLL PROGRESS BAR -->
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -548,7 +724,7 @@ footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.
 </section>
 
 <!-- TEAM -->
-<section class="team" id="team">
+<section class="team grid-bg" id="team">
   <div class="container">
     <div class="section-head fade-in">
       <span class="eyebrow">The People</span>
@@ -686,9 +862,11 @@ footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.
 </section>
 
 <!-- CTA / JOIN -->
-<section class="cta" id="contact">
+<section class="cta grid-bg" id="contact">
   <div class="container">
     <div class="cta-inner fade-in">
+      <span class="hud-corner tl"></span><span class="hud-corner tr"></span>
+      <span class="hud-corner bl"></span><span class="hud-corner br"></span>
       <img src="Screenshot_2026-05-27_203726-removebg-preview.png" alt="DAC" onerror="this.style.display='none'"/>
       <h2>Join the AI Revolution</h2>
       <p>Be part of DGU's most exciting student community.</p>
@@ -745,6 +923,65 @@ footer{background:var(--black-mid);border-top:1px solid var(--border);padding:4.
 </footer>
 
 <script>
+/* ── Cyberpunk boot loader ── */
+(function(){
+  const loader = document.getElementById('loader');
+  const body = document.body;
+  function go(){ body.classList.remove('is-loading'); body.classList.add('ready'); }
+  if(!loader){ go(); return; }
+
+  const fill = document.getElementById('loaderFill');
+  const pctEl = document.getElementById('loaderPct');
+  const statusEl = document.getElementById('loaderStatus');
+  const consoleEl = document.getElementById('loaderConsole');
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let done = false;
+
+  function finish(){
+    if(done) return; done = true;
+    if(fill) fill.style.width = '100%';
+    if(pctEl) pctEl.textContent = '100%';
+    if(statusEl) statusEl.textContent = 'ONLINE';
+    loader.classList.add('done');
+    go();
+    setTimeout(() => { loader.style.display = 'none'; }, 650);
+  }
+
+  // hard fallback — the intro can never get stuck
+  setTimeout(finish, 4200);
+
+  if(reduce){
+    if(consoleEl) consoleEl.innerHTML = '<div class="loader-line" style="opacity:.8">&gt; system ready <span>OK</span></div>';
+    setTimeout(finish, 320);
+    return;
+  }
+
+  // type out the boot log
+  const lines = ['booting dac.kernel','loading neural modules','linking industry uplink','rendering interface'];
+  let li = 0;
+  (function typeLine(){
+    if(li >= lines.length) return;
+    const div = document.createElement('div');
+    div.className = 'loader-line';
+    div.innerHTML = '&gt; ' + lines[li] + ' <span>✓</span>';
+    consoleEl && consoleEl.appendChild(div);
+    li++;
+    setTimeout(typeLine, 235);
+  })();
+
+  // drive the progress bar
+  const start = performance.now(), DURATION = 1950;
+  (function tick(now){
+    const t = Math.min((now - start) / DURATION, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const p = Math.round(eased * 100);
+    if(fill) fill.style.width = p + '%';
+    if(pctEl) pctEl.textContent = p + '%';
+    if(statusEl) statusEl.textContent = p < 35 ? 'INITIALIZING' : p < 72 ? 'LOADING ASSETS' : p < 100 ? 'RENDERING' : 'ONLINE';
+    if(t < 1) requestAnimationFrame(tick); else setTimeout(finish, 340);
+  })(start);
+})();
+
 /* ── Fullscreen menu ── */
 const menu = document.getElementById('menu');
 const menuToggle = document.getElementById('menuToggle');
