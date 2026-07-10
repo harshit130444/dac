@@ -305,7 +305,7 @@ footer{background:var(--black);border-top:1px solid var(--border);padding:3rem 0
    client with all the details pre-filled to dac@dgu.ac.in, so no
    submission is ever lost.
    ══════════════════════════════════════════════════════════════ */
-const PARTNER_ENDPOINT = ""; // e.g. "https://script.google.com/macros/s/XXXX/exec"
+const PARTNER_ENDPOINT = "https://script.google.com/macros/s/AKfycbzSCiqOqWWRXvBfoNrKlt2Oy6iYzzTNdInk8B3oPuGSvR1-FC3Khd2iV5qfYLfeCd5Z/exec";
 const FALLBACK_EMAIL = "dac@dgu.ac.in";
 
 /* scroll progress */
@@ -368,7 +368,7 @@ form.addEventListener('submit', function(e){
 
   if(PARTNER_ENDPOINT){
     const body = new URLSearchParams(data);
-    fetch(PARTNER_ENDPOINT, { method:'POST', body })
+    fetch(PARTNER_ENDPOINT, { method:'POST', mode:'no-cors', body })
       .then(() => showSuccess())
       .catch(() => { mailtoFallback(data); showSuccess(); });
   } else {
@@ -396,32 +396,41 @@ function showSuccess(){
 
 <!--
 ════════════════════════════════════════════════════════════════════════
-  HOW TO SAVE SUBMISSIONS TO AN EXCEL / GOOGLE SHEET
+  HOW TO SAVE SUBMISSIONS TO AN EXCEL / GOOGLE SHEET  (~3 minutes)
 ════════════════════════════════════════════════════════════════════════
-1. Create a new Google Sheet. Row 1 headers (in this order):
-   Partnership Type | Full Name | Email | Phone | Organization |
-   Designation | Website/LinkedIn | Areas of Collaboration | Message |
-   Agreed to Terms | Submitted At
+1. Go to sheets.new  → a blank Google Sheet opens.
+   (You can rename it "DAC — Partner Registrations". No need to add
+    headers — the script below creates them automatically.)
 
-2. In the Sheet: Extensions ▸ Apps Script, paste this and Save:
+2. In that Sheet:  Extensions ▸ Apps Script.  Delete anything there,
+   paste the code below, and click Save (the 💾 icon):
 
    function doPost(e){
-     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-     const h = sheet.getRange(1,1,1,sheet.getLastColumn()).getValues()[0];
-     const row = h.map(function(key){ return e.parameter[key] || ""; });
-     sheet.appendRow(row);
-     return ContentService.createTextOutput("OK");
+     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+     var HEADERS = ["Partnership Type","Full Name","Email","Phone",
+       "Organization","Designation","Website/LinkedIn",
+       "Areas of Collaboration","Message","Agreed to Terms","Submitted At"];
+     if (sheet.getLastRow() === 0) sheet.appendRow(HEADERS);
+     var p = (e && e.parameter) || {};
+     sheet.appendRow(HEADERS.map(function(k){ return p[k] || ""; }));
+     return ContentService
+       .createTextOutput(JSON.stringify({ result: "ok" }))
+       .setMimeType(ContentService.MimeType.JSON);
    }
 
-3. Deploy ▸ New deployment ▸ type "Web app" ▸ Execute as: Me ▸
-   Who has access: Anyone ▸ Deploy. Copy the Web-App URL.
+3. Click Deploy ▸ New deployment ▸ gear icon ▸ "Web app".
+   Set  Execute as: Me   and   Who has access: Anyone   ▸ Deploy.
+   Approve the permission prompt, then COPY the "Web app URL"
+   (it looks like https://script.google.com/macros/s/AKfy.../exec).
 
 4. Paste that URL into the PARTNER_ENDPOINT constant near the top of
-   the <script> above. Done — every submission becomes a new row you
-   can File ▸ Download ▸ Microsoft Excel (.xlsx).
+   the <script> above (between the quotes). Save & re-upload this file.
 
-  Until PARTNER_ENDPOINT is filled in, the form emails the details to
-  dac@dgu.ac.in instead, so nothing is ever lost.
+   Done. Every submission becomes a new row. Export any time via
+   File ▸ Download ▸ Microsoft Excel (.xlsx).
+
+  Until PARTNER_ENDPOINT is filled in, the form safely emails the
+  details to dac@dgu.ac.in instead, so nothing is ever lost.
 ════════════════════════════════════════════════════════════════════════
 -->
 </body>
