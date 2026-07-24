@@ -202,3 +202,25 @@ The standalone "DBS Global University, Dehradun" line under the
 FOLLOW US column on index.html is gone. The address still appears in
 the footer description paragraph and in the bottom bar of the other
 pages.
+
+═══════════════════════════════════════════════════════════════
+READ EDITING_GUIDE.md FIRST
+═══════════════════════════════════════════════════════════════
+A developer-facing guide now sits next to this file:
+
+      EDITING_GUIDE.md
+
+It covers what each file is, the one big caveat about index.html
+(its body is a COMPILED React bundle, not hand-written code), the
+new SITE CONFIG block, and a search-string table for every common
+edit. Start there rather than opening a 500KB HTML file blind.
+
+SITE CONFIG BLOCK (new)
+───────────────────────
+Every page now opens with a commented block:
+
+      window.DAC_CONFIG = { members: 250, partners: 7, events: 8, ... }
+
+Change members there and it updates the animated counter, the robot
+speech bubble, the chatbot answer and the stat strip together. The
+member count went 60 -> 250 in this build.

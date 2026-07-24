@@ -325,6 +325,46 @@ footer .col p{color:#a1a1aa;font-size:.84rem;line-height:1.7;margin-bottom:.7rem
 
 </head>
 <body>
+<!-- ══════════════════════════════════════════════════════════════════════════
+     DAC SITE CONFIG   —   EDIT HERE, NOT IN THE CODE BELOW
+     ══════════════════════════════════════════════════════════════════════════
+     Everything on this page that changes regularly is a value in this block.
+     Change a number here and it updates everywhere on the page at once — the
+     big animated counter, the robot's speech bubble, the chatbot's answers.
+
+     This block MUST stay above every other script on the page.
+     Copy the same edit into all 7 HTML files to keep the site consistent.
+
+     Full instructions: see EDITING_GUIDE.md in the repo root.
+     ══════════════════════════════════════════════════════════════════════════ -->
+<script>
+window.DAC_CONFIG = {
+
+  /* ---- the three headline numbers ------------------------------------- */
+  members      : 250,                       // "250+ active members"
+  partners     : 7,                         // "7+ industry partners"
+  events       : 8,                         // "8+ workshops and events"
+
+  /* ---- where things point --------------------------------------------- */
+  email        : "dac@dgu.ac.in",
+  dashboardUrl : "https://dgu-dac.base44.app/",
+
+  /* ---- Google Sheet (same one behind every form on the site) ----------- */
+  sheetUrl     : "https://script.google.com/macros/s/AKfycbwPpqKv_R5hyM_vpcILTrARcLee4RUxjBwL_mM78sJXjJnyHr0ZkXdWt4elsKNICNPi/exec",
+  subscribeTab : "Subscribers"              // tab name new subscribers land in
+};
+
+/* Fills any element marked  data-dac="members"  with the number above.
+   Used by the plain-HTML stat strips. Nothing to change here. */
+document.addEventListener('DOMContentLoaded', function () {
+  var c = window.DAC_CONFIG || {};
+  document.querySelectorAll('[data-dac]').forEach(function (el) {
+    var v = c[el.getAttribute('data-dac')];
+    if (v !== undefined) el.textContent = v + (el.dataset.dacPlus === 'no' ? '' : '+');
+  });
+});
+</script>
+
 <div id="bar"></div>
 
 <nav id="nav">
@@ -709,7 +749,12 @@ footer .col p{color:#a1a1aa;font-size:.84rem;line-height:1.7;margin-bottom:.7rem
   /* Log questions the bot COULDN'T answer into your Google Sheet, so you can
      see what students actually ask and I can teach it the answers.
      Creates a "Bot Questions" tab. Set to '' to switch off. */
-  const LOG_URL = 'https://script.google.com/macros/s/AKfycbwPpqKv_R5hyM_vpcILTrARcLee4RUxjBwL_mM78sJXjJnyHr0ZkXdWt4elsKNICNPi/exec';
+  const LOG_URL = (window.DAC_CONFIG || {}).sheetUrl || 'https://script.google.com/macros/s/AKfycbwPpqKv_R5hyM_vpcILTrARcLee4RUxjBwL_mM78sJXjJnyHr0ZkXdWt4elsKNICNPi/exec';
+
+  /* the three headline numbers, from the SITE CONFIG block at the top */
+  const _C = window.DAC_CONFIG || {};
+  const N_MEMBERS = _C.members || 250, N_PARTNERS = _C.partners || 7,
+        N_EVENTS  = _C.events  || 8;
 
   /* ═══════════════════════ KNOWLEDGE BASE ═══════════════════════
      keys  = words/phrases that point at this answer (synonyms + Hinglish)
@@ -771,7 +816,7 @@ footer .col p{color:#a1a1aa;font-size:.84rem;line-height:1.7;margin-bottom:.7rem
 
   { id:'stats',
     keys:['how many members','how big','size','members','how many people','community size','strength','how many students'],
-    a:"Right now: <b>60+ active members</b> across the globe, <b>7+ industry networks</b>, and <b>8+ AI workshops and events</b> run so far. 📈<br><br>Growing fast — and yes, applications are open.",
+    a:"Right now: <b>" + N_MEMBERS + "+ active members</b> across the globe, <b>" + N_PARTNERS + "+ industry networks</b>, and <b>" + N_EVENTS + "+ AI workshops and events</b> run so far. 📈<br><br>Growing fast — and yes, applications are open.",
     chips:['How do I join?','What events are coming up?','Who are your partners?'] },
 
   { id:'vision',
@@ -1541,8 +1586,8 @@ secs.forEach(s => spy.observe(s));
      "Form" is the tab name — change SHEET_TAB below to file
      subscribers into a different tab. Columns build themselves.
      ══════════════════════════════════════════════════════════════ */
-  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwPpqKv_R5hyM_vpcILTrARcLee4RUxjBwL_mM78sJXjJnyHr0ZkXdWt4elsKNICNPi/exec';
-  var SHEET_TAB = 'Subscribers';
+  var SHEET_URL = (window.DAC_CONFIG || {}).sheetUrl || 'https://script.google.com/macros/s/AKfycbwPpqKv_R5hyM_vpcILTrARcLee4RUxjBwL_mM78sJXjJnyHr0ZkXdWt4elsKNICNPi/exec';
+  var SHEET_TAB = (window.DAC_CONFIG || {}).subscribeTab || 'Subscribers';
 
   var $ = function(id){ return document.getElementById(id); };
   var tab=$('dacxTab'), ov=$('dacxOv'), card=ov?ov.querySelector('.dacx-card'):null,
