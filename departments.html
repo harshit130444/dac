@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Departments — DAC · DGU AI Cell</title>
+<meta name="description" content="The five departments of the DGU AI Cell (DAC): Industry Relations, Research &amp; Development, Startup &amp; Incubation, Events, Workshops &amp; Seminars, and PR Management." />
+<meta name="theme-color" content="#EDEEF5"/>
+<link rel="icon" type="image/png" href="./assets/img/dac-mark.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="./assets/css/site.css"/>
+    <link rel="stylesheet" href="./assets/css/page-departments.css"/>
+
+
+
+</head>
+<body>
+<!-- ══════════════════════════════════════════════════════════════════════════
+     DAC SITE CONFIG   —   EDIT HERE, NOT IN THE CODE BELOW
+     ══════════════════════════════════════════════════════════════════════════
+     Everything on this page that changes regularly is a value in this block.
+     Change a number here and it updates everywhere on the page at once — the
+     big animated counter, the robot's speech bubble, the chatbot's answers.
+
+     This block MUST stay above every other script on the page.
+     Copy the same edit into all 7 HTML files to keep the site consistent.
+
+     Full instructions: see EDITING_GUIDE.md in the repo root.
+     ══════════════════════════════════════════════════════════════════════════ -->
+<script src="./assets/js/config.js"></script>
+
+<div id="bar"></div>
+
+<nav id="nav">
+  <div class="nav-in">
+    <a class="brand" href="./index.html">
+      <img src="./assets/img/dac-logo.png" alt="" aria-hidden="true" draggable="false"/><b>DAC</b><i>DGU AI Cell</i>
+    </a>
+    <div class="nav-links"><a href="./index.html#about">About</a><a href="./index.html#offerings">Offerings</a><a href="./index.html#projects">Projects</a><a href="./index.html#events">Events</a><a href="./index.html#partners">AI Partners</a><a href="./index.html#team">Team</a><a href="./departments.html">Departments</a><a href="./campus-ambassador.html">Campus Ambassador</a><a href="./become-a-partner.html">Industry Partnership</a><a href="https://dgu-dac.base44.app/" target="_blank" rel="noreferrer">DAC Dashboard</a><a href="./book-meeting.html">Book a Meeting</a></div>
+    <div class="nav-act">
+      <a class="ghost" href="./index.html">&larr;<span>&nbsp;Back to Site</span></a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <div><span></span><span></span><span></span></div>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="menu-top">
+    <a class="brand" href="./index.html"><img src="./assets/img/dac-logo.png" alt="" aria-hidden="true"/><b>DAC</b><i>DGU AI Cell</i></a>
+    <button class="menu-x" id="menuX" aria-label="Close menu">&#10005;</button>
+  </div>
+  <div class="menu-list">
+    <a href="./index.html">Home <span>&rarr;</span></a>
+    <a href="./index.html#about">About <span>&rarr;</span></a><a href="./index.html#offerings">Offerings <span>&rarr;</span></a><a href="./index.html#projects">Projects <span>&rarr;</span></a><a href="./index.html#events">Events <span>&rarr;</span></a><a href="./index.html#partners">AI Partners <span>&rarr;</span></a><a href="./index.html#team">Team <span>&rarr;</span></a>
+    <a href="./departments.html">Departments <span>&rarr;</span></a><a href="./campus-ambassador.html">Campus Ambassador <span>&rarr;</span></a><a href="./become-a-partner.html">Industry Partnership <span>&rarr;</span></a>
+    <a href="https://dgu-dac.base44.app/" target="_blank" rel="noreferrer">DAC Dashboard <span>&rarr;</span></a>
+    <a href="./join-dac.html">Join DAC <span>&rarr;</span></a>
+    <a href="./book-meeting.html">Book a Meeting <span>&rarr;</span></a>
+    <a class="menu-cta" href="./become-a-partner.html">Become a Partner</a>
+  </div>
+</div>
+<header class="hero">
+  <div class="g"></div><div class="w"></div>
+  <div class="wrap in">
+    <div class="pill rv"><span class="d"></span>Five departments &middot; One cell</div>
+    <h1 class="rv">Pick the room where<br/>you&rsquo;ll <em>do the work</em>.</h1>
+    <p class="lede rv">
+      DAC isn&rsquo;t one undifferentiated club. It runs as five departments, each owning a
+      different part of what the cell actually does &mdash; from signing companies to shipping
+      research to filling a hall on a Saturday morning. You join one. You can still work
+      across all of them.
+    </p>
+    <div class="meta rv">
+      <span>Any year</span><span>Any programme</span><span>Coding optional</span>
+    </div>
+  </div>
+</header>
+
+<main class="doc">
+  <div class="wrap">
+
+    <div class="dp-intro rv">
+      <h2>Every department has its own job.</h2>
+      <p>
+        Departments exist so work has an owner. Each one has a lead, a remit and its own
+        weekly rhythm &mdash; and each needs people who are good at very different things.
+        Read all five before you choose; the one that sounds least like your degree is
+        often the one you&rsquo;ll enjoy most.
+      </p>
+    </div>
+
+    <div class="dp-strip rv" role="navigation" aria-label="Departments">
+      <a href="#industry-relations"><span class="t">Industry Relations</span></a>
+      <a href="#research-development"><span class="t">Research &amp; Development</span></a>
+      <a href="#startup-incubation"><span class="t">Startup &amp; Incubation</span></a>
+      <a href="#events-workshops"><span class="t">Events, Workshops &amp; Seminars</span></a>
+      <a href="#pr-management"><span class="t">PR Management</span></a>
+    </div>
+
+    <!-- ═══════════ 01 · INDUSTRY RELATIONS ═══════════ -->
+    <section class="dp rv" id="industry-relations">
+      <div class="dp-copy">
+        <div class="dp-eyebrow"><b>INDUSTRY RELATIONS</b><i></i></div>
+        <h3>The people who get companies to say yes.</h3>
+        <p class="dp-lede">
+          Every partner logo on the DAC site started as a cold email somebody wrote. Industry
+          Relations opens those conversations, keeps them warm, and turns them into things
+          students can actually use &mdash; tool credits, internship slots, guest sessions,
+          signed MoUs.
+        </p>
+        <ul class="dp-does">
+          <li>Research and approach companies, then run the follow-up until there&rsquo;s an answer</li>
+          <li>Prepare the deck, the ask and the one-pager before a partner meeting</li>
+          <li>Negotiate what students get: seats, credits, mentor hours, hiring pipelines</li>
+          <li>Keep existing partners engaged so year two is easier than year one</li>
+        </ul>
+        <div class="dp-fit"><b>Good fit if</b> you&rsquo;re comfortable being the first to speak,
+          you write a clean email, and a slow reply doesn&rsquo;t put you off.</div>
+      </div>
+      <div class="dp-win">
+        <div class="dp-bar"><s></s><s></s><s></s><span>partner pipeline</span></div>
+        <svg viewBox="0 0 520 330" role="img" aria-label="Diagram: the DAC hub connected to four partner companies, with outreach flowing outward and internships, credits, mentors and talks flowing back.">
+          <!-- flow lines -->
+          <path class="wire dp-flow" d="M150 165 C 230 165, 250 70, 340 70"/>
+          <path class="wire dp-flow" d="M150 165 C 230 165, 250 132, 340 132" style="animation-delay:.3s"/>
+          <path class="wire dp-flow" d="M150 165 C 230 165, 250 198, 340 198" style="animation-delay:.6s"/>
+          <path class="wire dp-flow" d="M150 165 C 230 165, 250 260, 340 260" style="animation-delay:.9s"/>
+
+          <!-- hub -->
+          <rect class="box-b" x="42" y="128" width="108" height="74" rx="12"/>
+          <text class="lbl lbl-d" x="96" y="160" text-anchor="middle">DAC</text>
+          <text class="lbl" x="96" y="177" text-anchor="middle">Industry Relations</text>
+          <circle class="dp-beat" cx="96" cy="128" r="4" fill="#B026FF"/>
+
+          <!-- partner cards -->
+          <rect class="box" x="340" y="46"  width="140" height="48" rx="10"/>
+          <text class="lbl lbl-d" x="356" y="68">AI tooling partner</text>
+          <text class="lbl" x="356" y="83">free student credits</text>
+
+          <rect class="box" x="340" y="108" width="140" height="48" rx="10"/>
+          <text class="lbl lbl-d" x="356" y="130">Product company</text>
+          <text class="lbl" x="356" y="145">internship pipeline</text>
+
+          <rect class="box" x="340" y="174" width="140" height="48" rx="10"/>
+          <text class="lbl lbl-d" x="356" y="196">Research lab</text>
+          <text class="lbl" x="356" y="211">mentor hours</text>
+
+          <rect class="box" x="340" y="236" width="140" height="48" rx="10"/>
+          <text class="lbl lbl-d" x="356" y="258">Local startup</text>
+          <text class="lbl" x="356" y="273">guest sessions</text>
+
+          <circle class="dp-beat" cx="340" cy="70"  r="3.5" fill="#B026FF"/>
+          <circle class="dp-beat" cx="340" cy="132" r="3.5" fill="#B026FF" style="animation-delay:.4s"/>
+          <circle class="dp-beat" cx="340" cy="198" r="3.5" fill="#B026FF" style="animation-delay:.8s"/>
+          <circle class="dp-beat" cx="340" cy="260" r="3.5" fill="#B026FF" style="animation-delay:1.2s"/>
+
+          <text class="lbl" x="42" y="308">outreach &rarr; conversation &rarr; MoU &rarr; something students can use</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══════════ 02 · RESEARCH & DEVELOPMENT ═══════════ -->
+    <section class="dp rev rv" id="research-development">
+      <div class="dp-copy">
+        <div class="dp-eyebrow"><b>RESEARCH &amp; DEVELOPMENT</b><i></i></div>
+        <h3>The department that ships the actual thing.</h3>
+        <p class="dp-lede">
+          R&amp;D is where a half-formed idea becomes a repository, a demo and &mdash; often
+          enough &mdash; a paper. Projects run in small teams with a faculty mentor attached,
+          and they&rsquo;re expected to end in something you can show a stranger, not a folder
+          nobody opens again.
+        </p>
+        <ul class="dp-does">
+          <li>Run project teams from problem statement through to a working build</li>
+          <li>Read and present papers so the rest of the cell keeps up with the field</li>
+          <li>Prepare submissions for conferences, journals and student research tracks</li>
+          <li>Maintain the shared codebase, datasets and internal how-to notes</li>
+        </ul>
+        <div class="dp-fit"><b>Good fit if</b> you want to build, you&rsquo;ll happily read
+          something difficult twice, and you&rsquo;d rather finish one real project than start five.</div>
+      </div>
+      <div class="dp-win">
+        <div class="dp-bar"><s></s><s></s><s></s><span>project pipeline</span></div>
+        <svg viewBox="0 0 520 330" role="img" aria-label="Diagram: a research pipeline running from problem to prototype to evaluation to publication, above a small neural network with signals moving through it.">
+          <!-- pipeline -->
+          <line class="wire dp-flow" x1="78" y1="66" x2="442" y2="66"/>
+          <g>
+            <rect class="box-b" x="38" y="44" width="82" height="44" rx="10"/>
+            <text class="lbl lbl-d" x="79" y="63" text-anchor="middle">Problem</text>
+            <text class="lbl" x="79" y="77" text-anchor="middle">scoped</text>
+          </g>
+          <g>
+            <rect class="box" x="146" y="44" width="82" height="44" rx="10"/>
+            <text class="lbl lbl-d" x="187" y="63" text-anchor="middle">Prototype</text>
+            <text class="lbl" x="187" y="77" text-anchor="middle">built</text>
+          </g>
+          <g>
+            <rect class="box" x="254" y="44" width="82" height="44" rx="10"/>
+            <text class="lbl lbl-d" x="295" y="63" text-anchor="middle">Evaluated</text>
+            <text class="lbl" x="295" y="77" text-anchor="middle">benchmarked</text>
+          </g>
+          <g>
+            <rect class="box" x="362" y="44" width="120" height="44" rx="10"/>
+            <text class="lbl lbl-d" x="422" y="63" text-anchor="middle">Published / shipped</text>
+            <text class="lbl" x="422" y="77" text-anchor="middle">paper or demo</text>
+          </g>
+
+          <!-- neural net -->
+          <g stroke="rgba(176,38,255,.22)" stroke-width="1" fill="none">
+            <path d="M120 175 L215 145 M120 175 L215 185 M120 175 L215 225
+                     M120 235 L215 145 M120 235 L215 185 M120 235 L215 225"/>
+            <path d="M215 145 L310 165 M215 145 L310 215 M215 185 L310 165 M215 185 L310 215
+                     M215 225 L310 165 M215 225 L310 215"/>
+            <path d="M310 165 L400 195 M310 215 L400 195"/>
+          </g>
+          <path class="wire dp-flow" d="M120 205 L215 185 L310 190 L400 195" style="stroke-width:1.8"/>
+
+          <circle class="dp-beat" cx="120" cy="175" r="4" fill="#B026FF"/>
+          <circle class="dp-beat" cx="120" cy="235" r="4" fill="#B026FF" style="animation-delay:.5s"/>
+          <circle class="dp-beat" cx="215" cy="145" r="4" fill="#B026FF" style="animation-delay:.2s"/>
+          <circle class="dp-beat" cx="215" cy="185" r="4" fill="#B026FF" style="animation-delay:.7s"/>
+          <circle class="dp-beat" cx="215" cy="225" r="4" fill="#B026FF" style="animation-delay:1.1s"/>
+          <circle class="dp-beat" cx="310" cy="165" r="4" fill="#B026FF" style="animation-delay:.4s"/>
+          <circle class="dp-beat" cx="310" cy="215" r="4" fill="#B026FF" style="animation-delay:.9s"/>
+          <circle class="dp-beat" cx="400" cy="195" r="5" fill="#B026FF" style="animation-delay:1.3s"/>
+
+          <text class="lbl" x="98" y="272" text-anchor="middle">input</text>
+          <text class="lbl" x="215" y="272" text-anchor="middle">hidden layers</text>
+          <text class="lbl" x="404" y="272" text-anchor="middle">result</text>
+          <text class="lbl" x="38" y="308">every project ends in something you can show a stranger</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══════════ 03 · STARTUP & INCUBATION ═══════════ -->
+    <section class="dp rv" id="startup-incubation">
+      <div class="dp-copy">
+        <div class="dp-eyebrow"><b>STARTUP &amp; INCUBATION</b><i></i></div>
+        <h3>Where a side project turns into a company.</h3>
+        <p class="dp-lede">
+          Some ideas at DAC are too good to stay projects. Startup &amp; Incubation takes them
+          through the unglamorous middle bit &mdash; validating the idea, finding the first
+          users, getting the numbers straight and building a pitch that survives questions.
+        </p>
+        <ul class="dp-does">
+          <li>Run the intake: which ideas get incubated this semester, and why</li>
+          <li>Pair founders with mentors, and hold them to a real build schedule</li>
+          <li>Pressure-test business models, pricing and the go-to-market plan</li>
+          <li>Prep teams for demo days, grants, accelerators and investor conversations</li>
+        </ul>
+        <div class="dp-fit"><b>Good fit if</b> you like the commercial side as much as the
+          technical one &mdash; or you already have an idea and want people who&rsquo;ll argue with it.</div>
+      </div>
+      <div class="dp-win">
+        <div class="dp-bar"><s></s><s></s><s></s><span>incubation ladder</span></div>
+        <svg viewBox="0 0 520 330" role="img" aria-label="Diagram: an ascending four-stage incubation ladder from idea to validation to build to pitch, with a rocket rising above it.">
+          <!-- baseline -->
+          <line x1="46" y1="268" x2="480" y2="268" stroke="rgba(0,0,0,.12)" stroke-width="1"/>
+
+          <!-- stage columns -->
+          <g class="dp-bar-g">
+            <rect class="box-b" x="62" y="200" width="80" height="68" rx="8"/>
+          </g>
+          <g class="dp-bar-g" style="animation-delay:.25s">
+            <rect class="box-b" x="164" y="164" width="80" height="104" rx="8"/>
+          </g>
+          <g class="dp-bar-g" style="animation-delay:.5s">
+            <rect class="box-b" x="266" y="122" width="80" height="146" rx="8"/>
+          </g>
+          <g class="dp-bar-g" style="animation-delay:.75s">
+            <rect class="box-b" x="368" y="76" width="80" height="192" rx="8"/>
+          </g>
+
+          <text class="lbl lbl-d" x="102" y="288" text-anchor="middle">Idea</text>
+          <text class="lbl lbl-d" x="204" y="288" text-anchor="middle">Validate</text>
+          <text class="lbl lbl-d" x="306" y="288" text-anchor="middle">Build</text>
+          <text class="lbl lbl-d" x="408" y="288" text-anchor="middle">Pitch</text>
+
+          <text class="lbl" x="102" y="306" text-anchor="middle">one page</text>
+          <text class="lbl" x="204" y="306" text-anchor="middle">first users</text>
+          <text class="lbl" x="306" y="306" text-anchor="middle">working MVP</text>
+          <text class="lbl" x="408" y="306" text-anchor="middle">demo day</text>
+
+          <!-- trajectory -->
+          <path class="wire dp-draw" d="M102 200 C 160 190, 175 164, 204 164 C 250 164, 262 122, 306 122 C 350 122, 360 76, 408 76"
+                stroke-width="1.8"/>
+
+          <!-- rocket -->
+          <g class="dp-lift" transform="translate(392,26)">
+            <path d="M16 0 C 25 10, 27 24, 24 36 L 8 36 C 5 24, 7 10, 16 0 Z"
+                  fill="rgba(176,38,255,.12)" stroke="#B026FF" stroke-width="1.5"/>
+            <circle cx="16" cy="16" r="4" fill="#fff" stroke="#B026FF" stroke-width="1.4"/>
+            <path d="M8 30 L1 40 L9 37 Z M24 30 L31 40 L23 37 Z" fill="#B026FF" opacity=".55"/>
+          </g>
+
+          <text class="lbl" x="46" y="46">idea &rarr; company, one honest stage at a time</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══════════ 04 · EVENTS, WORKSHOPS & SEMINARS ═══════════ -->
+    <section class="dp rev rv" id="events-workshops">
+      <div class="dp-copy">
+        <div class="dp-eyebrow"><b>EVENTS, WORKSHOPS &amp; SEMINARS</b><i></i></div>
+        <h3>The department that fills the room.</h3>
+        <p class="dp-lede">
+          DACathon, the speaker sessions, the hands-on workshops, the trips &mdash; none of it
+          happens without someone booking the hall, chasing the speaker, testing the projector
+          and making sure people actually turn up. This is the most visible work in the cell,
+          and the most logistical.
+        </p>
+        <ul class="dp-does">
+          <li>Plan the semester calendar and own each event end to end</li>
+          <li>Handle venue, budget, permissions, equipment and the run-of-show</li>
+          <li>Brief speakers, build the workshop material, prepare the hands-on tracks</li>
+          <li>Run registrations on the day and collect feedback that changes the next one</li>
+        </ul>
+        <div class="dp-fit"><b>Good fit if</b> you&rsquo;re organised under pressure, you like
+          a checklist, and you want the thing you worked on to happen in front of 200 people.</div>
+      </div>
+      <div class="dp-win">
+        <div class="dp-bar"><s></s><s></s><s></s><span>run of show</span></div>
+        <svg viewBox="0 0 520 330" role="img" aria-label="Diagram: an event timeline from planning to speaker briefing to the live day to feedback, above a hall layout with a stage and filling seats.">
+          <!-- timeline -->
+          <line x1="52" y1="52" x2="470" y2="52" stroke="rgba(0,0,0,.12)" stroke-width="1"/>
+          <line class="wire dp-flow" x1="52" y1="52" x2="470" y2="52" stroke-width="1.6"/>
+          <circle class="dp-beat" cx="52"  cy="52" r="4" fill="#B026FF"/>
+          <circle class="dp-beat" cx="191" cy="52" r="4" fill="#B026FF" style="animation-delay:.4s"/>
+          <circle class="dp-beat" cx="330" cy="52" r="4" fill="#B026FF" style="animation-delay:.8s"/>
+          <circle class="dp-beat" cx="470" cy="52" r="4" fill="#B026FF" style="animation-delay:1.2s"/>
+          <text class="lbl lbl-d" x="52"  y="76">Plan</text>
+          <text class="lbl lbl-d" x="160" y="76">Brief speakers</text>
+          <text class="lbl lbl-d" x="305" y="76">Event day</text>
+          <text class="lbl lbl-d" x="424" y="76">Feedback</text>
+
+          <!-- stage -->
+          <rect class="box-b" x="150" y="106" width="220" height="40" rx="8"/>
+          <text class="lbl lbl-d" x="260" y="131" text-anchor="middle">STAGE</text>
+
+          <!-- speaker + screen -->
+          <rect class="box" x="392" y="106" width="88" height="40" rx="8"/>
+          <text class="lbl" x="436" y="131" text-anchor="middle">screen</text>
+
+          <!-- seat grid -->
+          <g fill="#B026FF">
+            <rect class="dp-seat" x="118" y="176" width="20" height="14" rx="3" opacity=".2"/>
+            <rect class="dp-seat" x="146" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.1s"/>
+            <rect class="dp-seat" x="174" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.2s"/>
+            <rect class="dp-seat" x="202" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.3s"/>
+            <rect class="dp-seat" x="230" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.4s"/>
+            <rect class="dp-seat" x="258" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.5s"/>
+            <rect class="dp-seat" x="286" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.6s"/>
+            <rect class="dp-seat" x="314" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.7s"/>
+            <rect class="dp-seat" x="342" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.8s"/>
+            <rect class="dp-seat" x="370" y="176" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.9s"/>
+
+            <rect class="dp-seat" x="118" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.15s"/>
+            <rect class="dp-seat" x="146" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.25s"/>
+            <rect class="dp-seat" x="174" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.35s"/>
+            <rect class="dp-seat" x="202" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.45s"/>
+            <rect class="dp-seat" x="230" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.55s"/>
+            <rect class="dp-seat" x="258" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.65s"/>
+            <rect class="dp-seat" x="286" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.75s"/>
+            <rect class="dp-seat" x="314" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.85s"/>
+            <rect class="dp-seat" x="342" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.95s"/>
+            <rect class="dp-seat" x="370" y="200" width="20" height="14" rx="3" opacity=".2" style="animation-delay:1.05s"/>
+
+            <rect class="dp-seat" x="118" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.2s"/>
+            <rect class="dp-seat" x="146" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.3s"/>
+            <rect class="dp-seat" x="174" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.4s"/>
+            <rect class="dp-seat" x="202" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.5s"/>
+            <rect class="dp-seat" x="230" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.6s"/>
+            <rect class="dp-seat" x="258" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.7s"/>
+            <rect class="dp-seat" x="286" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.8s"/>
+            <rect class="dp-seat" x="314" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:.9s"/>
+            <rect class="dp-seat" x="342" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:1s"/>
+            <rect class="dp-seat" x="370" y="224" width="20" height="14" rx="3" opacity=".2" style="animation-delay:1.1s"/>
+          </g>
+
+          <text class="lbl" x="52" y="272">registrations filling &middot; 200+ seats &middot; doors 9:30</text>
+          <text class="lbl" x="52" y="308">book the hall, chase the speaker, test the projector, then do it again</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══════════ 05 · PR MANAGEMENT ═══════════ -->
+    <section class="dp rv" id="pr-management">
+      <div class="dp-copy">
+        <div class="dp-eyebrow"><b>PR MANAGEMENT &middot; SOCIAL MEDIA</b><i></i></div>
+        <h3>How anyone hears about any of it.</h3>
+        <p class="dp-lede">
+          A workshop nobody knew about may as well not have happened. PR Management runs
+          everything outward-facing &mdash; the Instagram and LinkedIn feeds, the event posters,
+          the recap reels, the press notes &mdash; and keeps DAC sounding like one organisation
+          rather than five.
+        </p>
+        <ul class="dp-does">
+          <li>Own the content calendar across Instagram, LinkedIn, X and YouTube</li>
+          <li>Design posters, carousels and reels &mdash; and shoot the coverage on the day</li>
+          <li>Write announcements, recaps and press notes in DAC&rsquo;s voice</li>
+          <li>Track what reached people, and drop what didn&rsquo;t</li>
+        </ul>
+        <div class="dp-fit"><b>Good fit if</b> you design, write, shoot or edit &mdash; or you
+          simply have taste and opinions about why most college posters are bad.</div>
+      </div>
+      <div class="dp-win">
+        <div class="dp-bar"><s></s><s></s><s></s><span>reach &amp; engagement</span></div>
+        <svg viewBox="0 0 520 330" role="img" aria-label="Diagram: a phone showing a post, with reach rippling outward and an engagement chart rising week over week.">
+          <!-- ripple rings -->
+          <g fill="none" stroke="#B026FF" stroke-width="1.2">
+            <circle class="dp-ring" cx="112" cy="165" r="14"/>
+            <circle class="dp-ring" cx="112" cy="165" r="14" style="animation-delay:1s"/>
+            <circle class="dp-ring" cx="112" cy="165" r="14" style="animation-delay:2s"/>
+          </g>
+
+          <!-- phone -->
+          <rect class="box" x="80" y="86" width="64" height="118" rx="11"/>
+          <rect x="94" y="100" width="36" height="4" rx="2" fill="rgba(0,0,0,.12)"/>
+          <rect class="box-b" x="90" y="112" width="44" height="34" rx="5"/>
+          <rect x="90" y="153" width="44" height="3.5" rx="2" fill="rgba(0,0,0,.14)"/>
+          <rect x="90" y="162" width="30" height="3.5" rx="2" fill="rgba(0,0,0,.1)"/>
+          <path d="M95 178 a5 5 0 0 1 9 -3 a5 5 0 0 1 9 3 c0 5 -9 10 -9 10 s-9 -5 -9 -10 z"
+                fill="#B026FF" opacity=".65"/>
+          <text class="lbl" x="118" y="188">1.2k</text>
+
+          <!-- engagement chart -->
+          <line x1="212" y1="252" x2="472" y2="252" stroke="rgba(0,0,0,.12)"/>
+          <g fill="rgba(176,38,255,.35)">
+            <g class="dp-bar-g"><rect x="222" y="206" width="26" height="46" rx="4"/></g>
+            <g class="dp-bar-g" style="animation-delay:.15s"><rect x="266" y="188" width="26" height="64" rx="4"/></g>
+            <g class="dp-bar-g" style="animation-delay:.3s"><rect x="310" y="162" width="26" height="90" rx="4"/></g>
+            <g class="dp-bar-g" style="animation-delay:.45s"><rect x="354" y="176" width="26" height="76" rx="4"/></g>
+            <g class="dp-bar-g" style="animation-delay:.6s"><rect x="398" y="132" width="26" height="120" rx="4"/></g>
+            <g class="dp-bar-g" style="animation-delay:.75s"><rect x="442" y="108" width="26" height="144" rx="4"/></g>
+          </g>
+          <path class="wire dp-draw" d="M235 206 L279 188 L323 162 L367 176 L411 132 L455 108" stroke-width="1.8"/>
+          <circle class="dp-beat" cx="455" cy="108" r="4" fill="#B026FF"/>
+
+          <text class="lbl" x="212" y="272">W1</text>
+          <text class="lbl" x="256" y="272">W2</text>
+          <text class="lbl" x="300" y="272">W3</text>
+          <text class="lbl" x="344" y="272">W4</text>
+          <text class="lbl" x="388" y="272">W5</text>
+          <text class="lbl" x="432" y="272">W6</text>
+
+          <text class="lbl lbl-d" x="212" y="60">post &rarr; reach &rarr; turnout</text>
+          <text class="lbl" x="212" y="76">what got people in the room, week by week</text>
+          <text class="lbl" x="80" y="308">a workshop nobody knew about may as well not have happened</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══════════ CLOSING ═══════════ -->
+    <section class="dp-end rv">
+      <h2>Still not sure which one?</h2>
+      <p>
+        Pick the one you&rsquo;d want to be in the room for. You choose a department on the
+        application form, it isn&rsquo;t permanent, and members regularly work across two &mdash;
+        an R&amp;D project still needs a poster, and an event still needs a sponsor.
+      </p>
+      <div class="dp-btns">
+        <a class="dp-btn dp-btn-p" href="./join-dac.html">Apply and pick a department</a>
+        <a class="dp-btn dp-btn-s" href="mailto:dac@dgu.ac.in">Ask us first</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <div class="fb"><img src="./assets/img/dac-logo.png" alt="" aria-hidden="true"/><b>DAC</b></div>
+        <p class="fa">The official AI Cell of DBS Global University, Dehradun — a student-driven community exploring, learning and building with artificial intelligence.</p>
+        <div class="ft"><span>Learn</span><span>Build</span><span>Innovate</span></div>
+      </div>
+      <div class="col">
+        <h4>Follow</h4>
+        <div class="fl">
+          <a href="https://www.linkedin.com/in/dgu-ai-cell-a3049640a/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://instagram.com/dac.dgu" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://twitter.com/dac_dgu" target="_blank" rel="noreferrer">X (Twitter)</a>
+          <a href="https://youtube.com/@DACXDGU" target="_blank" rel="noreferrer">YouTube</a>
+          <a href="https://linktr.ee/dgu.dac" target="_blank" rel="noreferrer">Linktree</a>
+        </div>
+      </div>
+      <div class="col">
+        <h4>Get involved</h4>
+        <div class="fl">
+          <a href="./join-dac.html">Join DAC</a>
+          <a href="./become-a-partner.html">Become a Partner</a>
+          <a href="./partner-terms.html">Partner Terms</a>
+          <a href="./terms.html">Terms &amp; Conditions</a>
+          <a href="./assets/docs/DAC_Brochure_2026.pdf" download="DAC_Brochure_2026.pdf">DAC Brochure</a>
+          <a href="./assets/docs/DAC_Rulebook_2026.pdf" download="DAC_Rulebook_2026.pdf">DAC Rulebook</a>
+          <a href="mailto:dac@dgu.ac.in">dac@dgu.ac.in</a>
+        </div>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; 2026 DAC &middot; DGU AI Cell</span>
+      <span><a href="https://dgu.ac.in" target="_blank" rel="noreferrer">dgu.ac.in</a> &middot; DBS Global University, Dehradun</span>
+    </div>
+  </div>
+</footer>
+
+<div class="ck" id="ck" role="dialog" aria-label="Cookie consent">
+  <h3>We use cookies</h3>
+  <p>To understand how the site is used and improve it. Decline and nothing breaks.</p>
+  <div class="r">
+    <button class="a" id="ckA">Accept</button>
+    <button class="d" id="ckD">Decline</button>
+    <a class="m" href="./terms.html">Learn more</a>
+  </div>
+</div>
+<link rel="stylesheet" href="./assets/css/chatbot.css"/>
+
+<button class="dacb-fab" id="dacbFab" aria-label="Chat with DAC" aria-expanded="false">
+  <span class="dacb-ping"></span>
+  <img class="dacb-ic" src="./assets/img/dac-logo.png" alt="" aria-hidden="true"/>
+  <span class="dacb-x" aria-hidden="true">&#10005;</span>
+</button>
+
+<div class="dacb-panel" id="dacbPanel" role="dialog" aria-label="Chat with DAC" aria-modal="false">
+  <div class="dacb-head">
+    <img src="./assets/img/dac-logo.png" alt="" aria-hidden="true"/>
+    <div class="dacb-t">
+      <b>DAC</b>
+      <span><i></i>Online &middot; always up for a chat</span>
+    </div>
+    <button id="dacbClose" aria-label="Close chat">&#10005;</button>
+  </div>
+
+  <div class="dacb-body" id="dacbBody" aria-live="polite"></div>
+
+  <div class="dacb-menu" id="dacbMenu" aria-label="All questions"></div>
+
+  <div class="dacb-foot">
+    <button class="dacb-browse" id="dacbBrowse" type="button" aria-expanded="false" aria-controls="dacbMenu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" aria-hidden="true">
+        <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+        <line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.2" fill="currentColor" stroke="none"/>
+        <circle cx="3.5" cy="12" r="1.2" fill="currentColor" stroke="none"/>
+        <circle cx="3.5" cy="18" r="1.2" fill="currentColor" stroke="none"/>
+      </svg>
+      <span>Browse all questions</span>
+      <span class="dacb-caret" aria-hidden="true">&#9662;</span>
+    </button>
+  </div>
+</div>
+
+<script src="./assets/js/chatbot.js" defer></script>
+<script src="./assets/js/site.js"></script>
+<script>
+/* This page has no form — the Campus Ambassador wizard JS was removed. */
+</script>
+<!-- ═══════════════════════════════════════════════════════════════
+     DAC ADD-ONS  ·  floating Subscribe  +  footer download styles
+     Everything is prefixed .dacx- so nothing on the page can clash.
+     ═══════════════════════════════════════════════════════════════ -->
+<link rel="stylesheet" href="./assets/css/subscribe.css"/>
+
+<button class="dacx-tab" id="dacxTab" type="button" aria-haspopup="dialog" aria-label="Subscribe to DAC updates">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 6.5 9 6.5 9-6.5"/>
+  </svg>
+  <span class="dacx-tab-l">Subscribe</span>
+</button>
+
+<div class="dacx-ov" id="dacxOv" role="dialog" aria-modal="true" aria-labelledby="dacxTitle">
+  <div class="dacx-card">
+    <button class="dacx-x" id="dacxX" type="button" aria-label="Close">&#10005;</button>
+
+    <div id="dacxPane">
+      <div class="dacx-eyebrow">DAC Updates</div>
+      <h3 id="dacxTitle">Subscribe now</h3>
+      <p class="dacx-sub">Events, workshops and open calls from the DGU AI Cell &mdash; straight to your inbox.</p>
+      <form id="dacxForm" novalidate>
+        <label for="dacxName">Name</label>
+        <input id="dacxName" type="text" autocomplete="name" placeholder="Your full name"/>
+        <label for="dacxEmail">Email</label>
+        <input id="dacxEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"/>
+        <div class="dacx-err" id="dacxErr"></div>
+        <button class="dacx-go" id="dacxGo" type="submit">Subscribe</button>
+        <p class="dacx-fine">We only email about DAC. Unsubscribe any time.</p>
+      </form>
+    </div>
+
+    <div class="dacx-done" id="dacxDone" style="display:none">
+      <div class="dacx-tick">&#10003;</div>
+      <h4>You&rsquo;re on the list</h4>
+      <p>We&rsquo;ll send DAC updates to <b id="dacxDoneMail"></b>.</p>
+      <button class="dacx-go" id="dacxClose2" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="./assets/js/subscribe.js" defer></script>
+
+</body>
+</html>

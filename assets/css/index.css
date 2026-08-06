@@ -1,0 +1,109 @@
+/* ==========================================================================
+   DAC — landing page styles
+   Everything here is the motion layer that used to live inside the React
+   bundle. Tailwind utility classes handle all the static styling (see the
+   class="" attributes in index.html); this file only covers the things
+   Tailwind can't express: scroll reveals, the typewriter caret, the logo
+   marquee and the stacked-section scroll effect.
+
+   Load order: tailwind.css -> index.css. Anything here beats Tailwind.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. REVEAL ON SCROLL
+   Any element with data-reveal starts hidden and slides in when it first
+   enters the viewport. assets/js/index.js adds .is-visible to trigger it.
+   Direction is set per element with data-reveal-from.
+   -------------------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity .7s cubic-bezier(.22, 1, .36, 1),
+              transform .7s cubic-bezier(.22, 1, .36, 1);
+  will-change: opacity, transform;
+}
+[data-reveal][data-reveal-from="up"]    { transform: translateY(24px); }
+[data-reveal][data-reveal-from="down"]  { transform: translateY(-18px); }
+[data-reveal][data-reveal-from="left"]  { transform: translateX(26px); }
+[data-reveal][data-reveal-from="right"] { transform: translateX(-26px); }
+[data-reveal][data-reveal-from="pop"]   { transform: translateY(40px) scale(.9); }
+[data-reveal][data-reveal-from="line"]  { transform: translateY(.5em); }
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect the OS "reduce motion" setting: show everything, animate nothing. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none; }
+  .dac-marquee__track,
+  .dac-caret { animation: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   2. HERO TYPEWRITER
+   The <h1> types itself out. The full sentence is always present in a
+   .sr-only span so screen readers and search engines get it immediately.
+   -------------------------------------------------------------------------- */
+.dac-caret {
+  display: inline-block;
+  width: 3px;
+  height: .85em;
+  margin-left: .25rem;
+  vertical-align: middle;
+  transform: translateY(.08em);
+  background: var(--dac-ink, #16161a);
+  animation: dac-blink 1s steps(1) infinite;
+}
+@keyframes dac-blink { 0%, 50% { opacity: 1 } 50.01%, 100% { opacity: 0 } }
+
+/* --------------------------------------------------------------------------
+   3. PARTNER LOGO MARQUEE
+   Two identical copies of the logo strip sit side by side and the track
+   slides left by exactly half its width, so the loop is seamless.
+   Duplicate the list in the HTML if you add logos — both copies must match.
+   -------------------------------------------------------------------------- */
+.dac-marquee { overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
+.dac-marquee__track { display: flex; width: max-content; animation: dac-marquee 38s linear infinite; }
+.dac-marquee:hover .dac-marquee__track { animation-play-state: paused; }
+@keyframes dac-marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+
+/* --------------------------------------------------------------------------
+   4. STACKED SECTIONS
+   Each <section data-stack> lifts slightly and rounds its top corners as it
+   scrolls up, so sections appear to stack like cards. index.js sets the
+   --stack custom property from 0 (fully lifted) to 1 (settled).
+   -------------------------------------------------------------------------- */
+section[data-stack] {
+  --stack: 1;
+  border-top-left-radius:  calc((1 - var(--stack)) * 56px);
+  border-top-right-radius: calc((1 - var(--stack)) * 56px);
+  box-shadow: 0 -30px 60px -20px rgba(0, 0, 0, calc((1 - var(--stack)) * .16));
+  transform: translateY(calc((1 - var(--stack)) * 70px)) scale(calc(.94 + var(--stack) * .06));
+  transform-origin: top center;
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   5. HERO CURSOR GLOW
+   A soft purple light that follows the pointer across the hero.
+   index.js moves it; it is decorative and never captures clicks.
+   -------------------------------------------------------------------------- */
+.dac-glow {
+  position: absolute;
+  left: 0; top: 0;
+  width: 640px; height: 640px;
+  margin: -320px 0 0 -320px;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 50%;
+  background: radial-gradient(320px, rgba(176, 38, 255, .20), transparent 70%);
+  transition: opacity .4s ease;
+  will-change: transform;
+}
+.dac-glow.is-on { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   6. SCROLL PROGRESS BAR (the thin line under the nav)
+   -------------------------------------------------------------------------- */
+.dac-progress { transform: scaleX(0); transform-origin: left center; }
