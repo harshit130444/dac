@@ -12,7 +12,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="./assets/css/site.css"/>
     <link rel="stylesheet" href="./assets/css/page-join-dac.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+/* ── single-page form (OTP removed) ── */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-body{padding:1.75rem 1.25rem 1.5rem}
+.form-body h2{font-family:'Outfit';font-size:1.35rem;font-weight:600;letter-spacing:-.02em}
+.form-body .sub{font-size:.85rem;color:var(--muted);margin:.2rem 0 1.5rem}
+.acts-wrap{padding:0 1.25rem 1.75rem}
+.acts-wrap .next{width:100%;justify-content:center}
+</style>
 </head>
 <body>
 <!-- ══════════════════════════════════════════════════════════════════════════
@@ -165,18 +173,15 @@
       <div class="form-col">
         <div class="card rv">
 
-          <div class="steps" id="steps">
-            <div class="st"><div class="c on" id="c1">1</div><div class="l on" id="l1">You</div></div>
-            <div class="rule" id="r1"></div>
-            <div class="st"><div class="c" id="c2">2</div><div class="l" id="l2">Studies</div></div>
-            <div class="rule" id="r2"></div>
-            <div class="st"><div class="c" id="c3">3</div><div class="l" id="l3">Motivation</div></div>
+          <!-- honeypot — hidden from humans, bots fill it in -->
+          <div class="hp" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off"/>
           </div>
 
-          <!-- STEP 1 -->
-          <section class="pane on" id="p1">
-            <h2>First, who are you?</h2>
-            <p class="sub">We verify college emails, so use your DGU address.</p>
+          <section class="form-body" id="form">
+            <h2>Apply to DAC</h2>
+            <p class="sub">A few quick fields. Takes about a minute.</p>
 
             <div class="two">
               <div class="f" id="f-fname">
@@ -192,11 +197,8 @@
             </div>
 
             <div class="f" id="f-email">
-              <label>College email <i>*</i><span class="vok" id="vok">✓ Verified</span></label>
-              <div class="mailrow">
-                <input type="email" id="email" autocomplete="email" placeholder="yourname@dgu.ac.in"/>
-                <button type="button" class="otpbtn" id="otpBtn">Verify</button>
-              </div>
+              <label>College email <i>*</i></label>
+              <input type="email" id="email" autocomplete="email" placeholder="yourname@dgu.ac.in"/>
               <div class="err" id="emailErr">Use your college email — it must end in @dgu.ac.in</div>
             </div>
 
@@ -205,16 +207,10 @@
               <input type="tel" id="phone" autocomplete="tel" placeholder="10-digit mobile number"/>
               <div class="err">Please enter a valid 10-digit number</div>
             </div>
-          </section>
-
-          <!-- STEP 2 -->
-          <section class="pane" id="p2">
-            <h2>Where are you studying?</h2>
-            <p class="sub">So we can group you with the right track.</p>
 
             <div class="two">
               <div class="f" id="f-year">
-                <label>Year <i>*</i></label>
+                <label>Year of study <i>*</i></label>
                 <select id="year">
                   <option value="" disabled selected>Select year</option>
                   <option>1st Year</option><option>2nd Year</option><option>3rd Year</option>
@@ -224,19 +220,14 @@
               </div>
               <div class="f" id="f-branch">
                 <label>Programme <i>*</i></label>
-                <select id="branch">
-                  <option value="" disabled selected>Select programme</option>
-                  <option>B.Tech</option><option>BBA</option><option>BCA</option><option>B.COM</option>
-                  <option>MBA</option><option>BBA+MBA Integrated</option><option>BA/BBA+LLB</option>
-                  <option>BLS</option><option>BSC</option><option>PHARMA</option><option>Other</option>
-                </select>
-                <div class="err">Please select your programme</div>
+                <input type="text" id="branch" placeholder="e.g. BCA, B.Tech, BBA+MBA"/>
+                <div class="err">Please enter your programme</div>
               </div>
             </div>
 
-            <div class="f" id="f-enrollment">
-              <label>Enrollment / roll number <i>*</i></label>
-              <input type="text" id="enrollment" placeholder="e.g. 0241BCA025"/>
+            <div class="f" id="f-erp">
+              <label>Enrollment No <i>*</i></label>
+              <input type="text" id="erp" placeholder="ERP ID"/>
               <div class="err">Please enter your enrollment number</div>
             </div>
 
@@ -254,45 +245,6 @@
                 departments. Not sure yet? <a href="./departments.html">Read what each one does</a>.
               </p>
               <div class="err">Please pick the department you'd like to join</div>
-            </div>
-
-            <div class="f">
-              <label>What pulls you in? <span style="text-transform:none;letter-spacing:0;font-weight:400;color:var(--faint)">— pick any</span></label>
-              <div class="chips" id="chips">
-                <label class="chip"><input type="checkbox" value="Machine Learning"/><span class="tick"></span>Machine Learning</label>
-                <label class="chip"><input type="checkbox" value="Deep Learning"/><span class="tick"></span>Deep Learning</label>
-                <label class="chip"><input type="checkbox" value="NLP"/><span class="tick"></span>NLP</label>
-                <label class="chip"><input type="checkbox" value="Computer Vision"/><span class="tick"></span>Computer Vision</label>
-                <label class="chip"><input type="checkbox" value="Generative AI"/><span class="tick"></span>Generative AI</label>
-                <label class="chip"><input type="checkbox" value="Robotics"/><span class="tick"></span>Robotics</label>
-                <label class="chip"><input type="checkbox" value="Data Science"/><span class="tick"></span>Data Science</label>
-                <label class="chip"><input type="checkbox" value="Research"/><span class="tick"></span>Research</label>
-              </div>
-            </div>
-          </section>
-
-          <!-- STEP 3 -->
-          <section class="pane" id="p3">
-            <h2>Why you?</h2>
-            <p class="sub">Be specific. We read every one of these.</p>
-
-            <div class="f" id="f-why">
-              <label>Why do you want in? <i>*</i></label>
-              <textarea id="why" maxlength="500" placeholder="What got you into AI? What do you want to build here?"></textarea>
-              <div class="count" id="whyN">0 / 500</div>
-              <div class="err">Tell us why you want to join</div>
-            </div>
-
-            <div class="f" id="f-value">
-              <label>What will you bring? <i>*</i></label>
-              <textarea id="value" maxlength="500" placeholder="Skills, projects, hustle, a good idea — technical or not."></textarea>
-              <div class="count" id="valN">0 / 500</div>
-              <div class="err">Tell us what you'd contribute</div>
-            </div>
-
-            <div class="f">
-              <label>Anything else?</label>
-              <textarea id="extra" maxlength="300" style="min-height:82px" placeholder="Optional — links, previous work, questions."></textarea>
             </div>
 
             <label class="consent" id="consent">
@@ -316,7 +268,7 @@
             <p>Your application landed with us. Here's what happens next.</p>
             <div class="next-steps">
               <div class="ns"><span class="i">1</span><p><b>We read it.</b> Every application gets looked at by the core team.</p></div>
-              <div class="ns"><span class="i">2</span><p><b>We email you.</b> Reply lands on the address you just verified.</p></div>
+              <div class="ns"><span class="i">2</span><p><b>We email you.</b> Reply lands on the address you gave us.</p></div>
               <div class="ns"><span class="i">3</span><p><b>See you on 20 August.</b> That's the official first meeting.</p></div>
             </div>
             <a class="go" href="./index.html">
@@ -338,18 +290,12 @@
                script, and paste in the Apps Script web-app URL.</p>
           </div>
 
-          <!-- ACTIONS -->
-          <div class="pane on" id="acts" style="padding-top:0">
-            <div class="acts">
-              <button class="prev" id="prev" style="visibility:hidden">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                Back
-              </button>
-              <button class="next" id="next">
-                Continue
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            </div>
+          <!-- ACTION -->
+          <div class="acts-wrap" id="acts">
+            <button class="next" id="next">
+              Submit application
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
           </div>
 
         </div>
@@ -402,25 +348,6 @@
   </div>
 </footer>
 
-<!-- ═══ OTP MODAL ═══ -->
-<div class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Verify your email">
-  <div class="modal">
-    <h3>Check your inbox</h3>
-    <p class="d">We sent a 6-digit code to <b id="ovMail"></b>. Pop it in below.</p>
-    <div class="digits" id="digits">
-      <input type="text" maxlength="1" inputmode="numeric" id="d0" aria-label="Digit 1"/>
-      <input type="text" maxlength="1" inputmode="numeric" id="d1" aria-label="Digit 2"/>
-      <input type="text" maxlength="1" inputmode="numeric" id="d2" aria-label="Digit 3"/>
-      <input type="text" maxlength="1" inputmode="numeric" id="d3" aria-label="Digit 4"/>
-      <input type="text" maxlength="1" inputmode="numeric" id="d4" aria-label="Digit 5"/>
-      <input type="text" maxlength="1" inputmode="numeric" id="d5" aria-label="Digit 6"/>
-    </div>
-    <div class="oerr" id="oerr"></div>
-    <div class="timer" id="timer">Resend in <b id="cnt">60</b>s</div>
-    <button class="verify" id="verify">Verify &amp; continue</button>
-    <button class="cancel" id="cancel">Wrong address? Change it</button>
-  </div>
-</div>
 
 <!-- ═══ COOKIES ═══ -->
 <div class="ck" id="ck" role="dialog" aria-label="Cookie consent">
@@ -434,10 +361,6 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════════
-   The ONLY things carried over from the old page — do not change these,
-   the Google Sheet's columns and the OTP email template depend on them.
-   ═══════════════════════════════════════════════════════════════════ */
 /* ══════════════════════════════════════════════════════════════════════
    GOOGLE SHEET ENDPOINT  —  PASTE YOUR APPS SCRIPT WEB-APP URL HERE
    ══════════════════════════════════════════════════════════════════════
@@ -455,10 +378,6 @@
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwPpqKv_R5hyM_vpcILTrARcLee4RUxjBwL_mM78sJXjJnyHr0ZkXdWt4elsKNICNPi/exec';
 
 const configured = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{20,}\/exec$/.test(SHEET_URL);
-const EJS_PUBLIC   = '3yIGjZbjJfOR7EhuL';
-const EJS_SERVICE  = 'service_txncq5g';
-const EJS_TEMPLATE = 'template_391v8pl';
-if (window.emailjs) emailjs.init(EJS_PUBLIC);
 
 const $ = id => document.getElementById(id);
 
@@ -488,135 +407,9 @@ const openMenu = o => {
 $('burger').onclick = () => openMenu(true);
 $('menuX').onclick  = () => openMenu(false);
 menu.querySelectorAll('a').forEach(a => a.onclick = () => openMenu(false));
-addEventListener('keydown', e => {
-  if (e.key !== 'Escape') return;
-  openMenu(false);
-  if ($('ov').classList.contains('on')) closeOtp();
-});
+addEventListener('keydown', e => { if (e.key === 'Escape') openMenu(false); });
 
-/* ═══════════ OTP ═══════════ */
-let otp = '', verified = false, timer = null;
-
-$('otpBtn').onclick = sendOtp;
-$('verify').onclick = checkOtp;
-$('cancel').onclick = closeOtp;
-
-function sendOtp() {
-  const mail = $('email').value.trim();
-  if (!/^[^\s@]+@dgu\.ac\.in$/i.test(mail)) {
-    $('emailErr').textContent = 'Use your college email — it must end in @dgu.ac.in';
-    $('f-email').classList.add('bad');
-    return;
-  }
-  $('f-email').classList.remove('bad');
-
-  const btn = $('otpBtn');
-  btn.disabled = true;
-  btn.textContent = 'Sending…';
-  otp = String(Math.floor(100000 + Math.random() * 900000));
-
-  emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
-    email: mail,
-    otp_code: otp,
-    user_name: $('fname').value.trim() || 'Applicant'
-  }).then(() => {
-    btn.textContent = 'Resend';
-    btn.disabled = false;
-    openOtp(mail);
-  }).catch(err => {
-    console.error(err);
-    btn.textContent = 'Verify';
-    btn.disabled = false;
-    alert("Couldn't send the code: " + (err.text || err.message || 'unknown error'));
-  });
-}
-
-function openOtp(mail) {
-  $('ovMail').textContent = mail;
-  $('oerr').classList.remove('on');
-  for (let i = 0; i < 6; i++) { const d = $('d' + i); d.value = ''; d.classList.remove('f'); }
-  $('ov').classList.add('on');
-  startTimer();
-  setTimeout(() => $('d0').focus(), 120);
-}
-function closeOtp() { $('ov').classList.remove('on'); clearInterval(timer); }
-
-for (let i = 0; i < 6; i++) {
-  const d = $('d' + i);
-  d.oninput = function () {
-    this.value = this.value.replace(/\D/g, '').slice(-1);
-    this.classList.toggle('f', !!this.value);
-    if (this.value && i < 5) $('d' + (i + 1)).focus();
-    // auto-verify the moment all six are in
-    if (i === 5 && this.value) {
-      let all = ''; for (let j = 0; j < 6; j++) all += $('d' + j).value;
-      if (all.length === 6) setTimeout(checkOtp, 140);
-    }
-  };
-  d.onkeydown = function (e) {
-    if (e.key === 'Backspace' && !this.value && i > 0) $('d' + (i - 1)).focus();
-  };
-  d.onpaste = e => {
-    e.preventDefault();
-    const p = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
-    for (let j = 0; j < p.length; j++) { const el = $('d' + j); el.value = p[j]; el.classList.add('f'); }
-    $('d' + Math.min(p.length, 5)).focus();
-    if (p.length === 6) setTimeout(checkOtp, 140);
-  };
-}
-
-function startTimer() {
-  clearInterval(timer);
-  let s = 60;
-  $('timer').innerHTML = 'Resend in <b id="cnt">60</b>s';
-  timer = setInterval(() => {
-    s--;
-    const c = $('cnt'); if (c) c.textContent = s;
-    if (s <= 0) {
-      clearInterval(timer);
-      $('timer').innerHTML = '<button class="resend" id="rs">Send a new code</button>';
-      $('rs').onclick = resend;
-    }
-  }, 1000);
-}
-function resend() {
-  otp = String(Math.floor(100000 + Math.random() * 900000));
-  emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
-    email: $('email').value.trim(),
-    otp_code: otp,
-    user_name: $('fname').value.trim() || 'Applicant'
-  }).then(startTimer).catch(() => alert("Couldn't resend. Try again in a moment."));
-}
-
-function checkOtp() {
-  let got = ''; for (let i = 0; i < 6; i++) got += $('d' + i).value;
-  if (got.length < 6) return oerr('Enter all six digits.');
-
-  if (got === otp) {
-    verified = true;
-    closeOtp();
-    $('vok').classList.add('on');
-    const b = $('otpBtn');
-    b.textContent = '✓ Verified';
-    b.disabled = true;
-    b.style.cssText = 'background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.3);color:#16A34A;opacity:1';
-    $('email').readOnly = true;
-    $('f-email').classList.remove('bad');
-  } else {
-    oerr('That code is wrong. Check the email again.');
-    const d = $('digits');
-    d.style.animation = 'none';
-    setTimeout(() => { d.style.animation = 'shake .35s ease'; }, 10);
-  }
-}
-function oerr(m) { const e = $('oerr'); e.textContent = m; e.classList.add('on'); }
-
-/* ═══════════ chips & consent ═══════════ */
-document.querySelectorAll('.chip').forEach(c => {
-  const i = c.querySelector('input');
-  const sync = () => { c.classList.toggle('on', i.checked); c.querySelector('.tick').textContent = i.checked ? '✓' : ''; };
-  i.onchange = sync; sync();
-});
+/* ═══════════ consent checkbox ═══════════ */
 const cCb = $('consentCb');
 cCb.onchange = () => {
   $('consent').classList.toggle('on', cCb.checked);
@@ -624,80 +417,12 @@ cCb.onchange = () => {
   if (cCb.checked) $('consentErr').classList.remove('on');
 };
 
-/* ═══════════ char counters ═══════════ */
-[['why','whyN',500],['value','valN',500]].forEach(([id,n,max]) => {
-  $(id).oninput = () => {
-    const L = $(id).value.length;
-    $(n).textContent = L + ' / ' + max;
-    $(n).className = 'count' + (L > max * .9 ? ' warn' : '');
-    if (L) $('f-' + id).classList.remove('bad');
-  };
-});
+/* ═══════════ validation ═══════════ */
+const bad  = id => { $('f-' + id)?.classList.add('bad'); return false; };
+const good = id => $('f-' + id)?.classList.remove('bad');
 
-/* ═══════════ wizard ═══════════ */
-let step = 1;
-const bad   = id => { $('f-' + id)?.classList.add('bad'); return false; };
-const good  = id => $('f-' + id)?.classList.remove('bad');
-
-function paint() {
-  for (let i = 1; i <= 3; i++) {
-    const c = $('c' + i), l = $('l' + i);
-    c.className = 'c' + (i < step ? ' ok' : i === step ? ' on' : '');
-    l.className = 'l' + (i < step ? ' ok' : i === step ? ' on' : '');
-    c.textContent = i < step ? '✓' : i;
-    if (i < 3) $('r' + i).className = 'rule' + (i < step ? ' ok' : '');
-  }
-  $('prev').style.visibility = step > 1 ? 'visible' : 'hidden';
-  $('next').innerHTML = step === 3
-    ? 'Submit application <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
-    : 'Continue <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
-}
-
-function valid(s) {
-  let ok = true;
-  if (s === 1) {
-    if (!$('fname').value.trim()) { bad('fname'); ok = false; } else good('fname');
-    if (!$('lname').value.trim()) { bad('lname'); ok = false; } else good('lname');
-
-    const m = $('email').value.trim();
-    if (!/^[^\s@]+@dgu\.ac\.in$/i.test(m)) {
-      $('emailErr').textContent = 'Use your college email — it must end in @dgu.ac.in';
-      bad('email'); ok = false;
-    } else if (!verified) {
-      $('emailErr').textContent = 'Hit Verify and enter the code we email you.';
-      bad('email'); ok = false;
-    } else good('email');
-
-    if ($('phone').value.replace(/\D/g, '').length < 10) { bad('phone'); ok = false; } else good('phone');
-  }
-  if (s === 2) {
-    if (!$('year').value)              { bad('year');       ok = false; } else good('year');
-    if (!$('branch').value)            { bad('branch');     ok = false; } else good('branch');
-    if (!$('enrollment').value.trim()) { bad('enrollment'); ok = false; } else good('enrollment');
-    if (!document.querySelector('#dpick input:checked')) { bad('dept'); ok = false; } else good('dept');
-  }
-  if (s === 3) {
-    if (!$('why').value.trim())   { bad('why');   ok = false; } else good('why');
-    if (!$('value').value.trim()) { bad('value'); ok = false; } else good('value');
-    if (!cCb.checked) { $('consentErr').classList.add('on'); ok = false; }
-    else $('consentErr').classList.remove('on');
-  }
-  return ok;
-}
-
-const goto = n => {
-  $('p' + step).classList.remove('on');
-  step = n;
-  $('p' + step).classList.add('on');
-  paint();
-  $('steps').scrollIntoView({ behavior: 'smooth', block: 'center' });
-};
-
-$('next').onclick = () => { if (!valid(step)) return; step === 3 ? submit() : goto(step + 1); };
-$('prev').onclick = () => { if (step > 1) goto(step - 1); };
-
-['fname','lname','email','phone','enrollment'].forEach(id => $(id).oninput = () => good(id));
-['year','branch'].forEach(id => $(id).onchange = () => good(id));
+['fname','lname','email','phone','branch','erp'].forEach(id => $(id).oninput = () => good(id));
+$('year').onchange = () => good('year');
 
 /* department picker — single choice, paints the selected card */
 document.querySelectorAll('#dpick input').forEach(r => {
@@ -708,37 +433,69 @@ document.querySelectorAll('#dpick input').forEach(r => {
   };
 });
 
+function validateAll() {
+  let ok = true, first = null;
+  const fail = id => { bad(id); ok = false; if (!first) first = $('f-' + id); };
+
+  if (!$('fname').value.trim()) fail('fname'); else good('fname');
+  if (!$('lname').value.trim()) fail('lname'); else good('lname');
+
+  if (!/^[^\s@]+@dgu\.ac\.in$/i.test($('email').value.trim())) {
+    $('emailErr').textContent = 'Use your college email — it must end in @dgu.ac.in';
+    fail('email');
+  } else good('email');
+
+  if ($('phone').value.replace(/\D/g, '').length < 10) fail('phone'); else good('phone');
+  if (!$('year').value) fail('year'); else good('year');
+  if (!$('branch').value.trim()) fail('branch'); else good('branch');
+  if (!$('erp').value.trim()) fail('erp'); else good('erp');
+  if (!document.querySelector('#dpick input:checked')) fail('dept'); else good('dept');
+
+  if (!cCb.checked) {
+    $('consentErr').classList.add('on');
+    ok = false;
+    if (!first) first = $('consent');
+  } else $('consentErr').classList.remove('on');
+
+  if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return ok;
+}
+
 /* ═══════════ submit → Google Sheet ═══════════
-   The payload keys below MUST stay exactly as they are — they map 1:1 to the
-   columns in your sheet. Everything else on this page was rebuilt; this wasn't. */
+   The payload keys below map 1:1 to the columns in your sheet. */
+$('next').onclick = submit;
+
+function showDone() {
+  $('form').style.display = 'none';
+  $('acts').style.display = 'none';
+  $('done').classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function submit() {
+  /* honeypot — only bots fill this in. Fake a success and drop it. */
+  if ($('website').value) { showDone(); return; }
+
+  if (!validateAll()) return;
+
   if (!configured) {                       // never fake a success
     $('setup').classList.add('on');
     $('setup').scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
-  const interests = [...document.querySelectorAll('.chip input:checked')]
-    .map(c => c.value).join(', ') || 'None selected';
-
-  /* "Form" tells the Apps Script which tab to file this under. The rest become
-     the column headers — in plain English, so the sheet is actually readable. */
   const data = {
-    "Form":            "Join DAC",
-    "First Name":      $('fname').value.trim(),
-    "Last Name":       $('lname').value.trim(),
-    "Email":           $('email').value.trim(),
-    "Phone":           $('phone').value.trim(),
-    "Year":            $('year').value,
-    "Programme":       $('branch').value,
-    "Enrollment No":   $('enrollment').value.trim(),
-    "Department":      (document.querySelector('#dpick input:checked') || {}).value || '',
-    "Interests":       interests,
-    "Why Join":        $('why').value.trim(),
-    "What They Bring": $('value').value.trim(),
-    "Anything Else":   $('extra').value.trim(),
-    "Fee Consent":     "Yes",
-    "Submitted At":    new Date().toLocaleString()
+    "Form":          "Join DAC",
+    "First Name":    $('fname').value.trim(),
+    "Last Name":     $('lname').value.trim(),
+    "Email":         $('email').value.trim(),
+    "Phone":         $('phone').value.trim(),
+    "Year":          $('year').value,
+    "Programme":     $('branch').value.trim(),
+    "Enrollment No": $('erp').value.trim(),
+    "Department":    (document.querySelector('#dpick input:checked') || {}).value || '',
+    "Fee Consent":   "Yes",
+    "Submitted At":  new Date().toLocaleString()
   };
 
   const b = $('next');
@@ -749,15 +506,9 @@ function submit() {
     method: 'POST',
     mode: 'no-cors',
     body: JSON.stringify(data)             // no custom headers -> no CORS preflight
-  }).then(() => {
-    $('p3').classList.remove('on');
-    $('steps').style.display = 'none';
-    $('acts').style.display = 'none';
-    $('done').classList.add('on');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }).catch(() => {
+  }).then(showDone).catch(() => {
     b.disabled = false;
-    paint();
+    b.innerHTML = 'Submit application <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
     alert("That didn't go through. Check your connection and try again.");
   });
 }
@@ -778,8 +529,6 @@ const store = {
 if (!store.get()) setTimeout(() => $('ck').classList.add('on'), 1200);
 $('ckA').onclick = () => { store.set('accepted'); $('ck').classList.remove('on'); };
 $('ckD').onclick = () => { store.set('declined'); $('ck').classList.remove('on'); };
-
-paint();
 </script>
 <link rel="stylesheet" href="./assets/css/chatbot.css"/>
 
